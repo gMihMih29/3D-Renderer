@@ -1,3 +1,6 @@
-add_executable(3d_renderer main.cpp)
+add_executable(${PROJECT_NAME} main.cpp)
 
-target_link_libraries(3d_renderer sfml-graphics)
+# App
+link_directories(App)
+add_subdirectory("App")
+target_link_libraries(${PROJECT_NAME} App)
