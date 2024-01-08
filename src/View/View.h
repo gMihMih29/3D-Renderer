@@ -1,4 +1,13 @@
+#include <SFML/Graphics.hpp>
+
 class View {
 public:
-    View();
+    View() = delete;
+    View(int windowWidth, int windowHeight);
+    bool IsOpen();
+    bool PollEvent(sf::Event& event);
+    void Close();
+
+private:
+    sf::RenderWindow window_;
 };

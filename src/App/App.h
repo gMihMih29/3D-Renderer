@@ -5,8 +5,9 @@ class App {
 public:
     App();
     void run();
+
 private:
     // Kernel k;
-    // View v;
+    View view_;
     // Controller c;
 };
