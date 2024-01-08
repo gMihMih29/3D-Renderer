@@ -1,0 +1,4 @@
+class PixelScreen {
+public:
+    PixelScreen();
+};

@@ -6,6 +6,10 @@
 
 using Eigen::MatrixXd;
 
+App::App() {
+    
+}
+
 void App::run() {
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
     sf::CircleShape shape(100.f);
@@ -23,7 +27,6 @@ void App::run() {
                 window.close();
             }
         }
-
         window.clear();
         window.draw(shape);
         window.display();
