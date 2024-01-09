@@ -1,7 +1,7 @@
 #include "App/App.h"
 
 int main() {
-    App a = App();
-    a.Run();
+    ThreeDRenderer::App app = ThreeDRenderer::App();
+    app.Run();
     return 0;
 }

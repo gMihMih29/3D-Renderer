@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+namespace ThreeDRenderer {
 
 App::App() : view_(kWidth, kHeight) {
 }
@@ -25,3 +26,5 @@ void App::Run() {
         view_.Draw(ps);
     }
 }
+
+}  // namespace ThreeDRenderer

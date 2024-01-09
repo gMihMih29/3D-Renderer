@@ -5,6 +5,8 @@
 #include "../Observer/Observer.h"
 #include "../View/PixelScreen.h"
 
+namespace ThreeDRenderer {
+
 class View : public CObserver<PixelScreen> {
 public:
     View() = delete;
@@ -17,3 +19,5 @@ public:
 private:
     sf::RenderWindow window_;
 };
+
+}  // namespace ThreeDRenderer

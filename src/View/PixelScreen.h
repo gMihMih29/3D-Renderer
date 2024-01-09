@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+namespace ThreeDRenderer {
+
 class PixelScreen {
     using Pixels = sf::VertexArray;
 
@@ -22,3 +24,5 @@ private:
     int height_;
     Pixels screen_;
 };
+
+}  // namespace ThreeDRenderer

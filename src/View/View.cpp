@@ -1,5 +1,7 @@
 #include "View.h"
 
+namespace ThreeDRenderer {
+
 View::View(int window_width, int window_height)
     : CObserver(
           DoNothing, [this](const PixelScreen& ps) { Draw(ps); }, DoNothing),
@@ -25,3 +27,5 @@ void View::Draw(const PixelScreen& ps) {
     window_.draw(ps.GetPixels());
     window_.display();
 }
+
+}  // namespace ThreeDRenderer

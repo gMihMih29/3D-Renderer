@@ -14,8 +14,3 @@ target_link_libraries(${PROJECT_NAME} View)
 add_subdirectory("Kernel")
 link_directories(Kernel)
 target_link_libraries(${PROJECT_NAME} Kernel)
-
-# Observer
-# add_subdirectory("Observer")
-# link_directories(Observer)
-# target_link_libraries(${PROJECT_NAME} Observer)

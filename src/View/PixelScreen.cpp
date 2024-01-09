@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+namespace ThreeDRenderer {
+
 PixelScreen::PixelScreen() : PixelScreen(kWidth, kHeight) {
 }
 
@@ -34,3 +36,5 @@ int PixelScreen::GetWidth() const {
 const PixelScreen::Pixels& PixelScreen::GetPixels() const {
     return screen_;
 }
+
+}  // namespace ThreeDRenderer

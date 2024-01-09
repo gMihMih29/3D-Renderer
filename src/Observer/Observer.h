@@ -189,4 +189,4 @@ private:
     CSubscribers subscribers_;
 };
 
-}  // namespace Renderer
+}  // namespace ThreeDRenderer
