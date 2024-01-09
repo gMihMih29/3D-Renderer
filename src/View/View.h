@@ -1,6 +1,11 @@
+#pragma once
+
 #include <SFML/Graphics.hpp>
 
-class View {
+#include "../Observer/Observer.h"
+#include "../View/PixelScreen.h"
+
+class View : public CObserver<PixelScreen> {
 public:
     View() = delete;
     View(int windowWidth, int windowHeight);

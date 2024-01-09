@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../Kernel/Kernel.h"
 #include "../View/View.h"
 

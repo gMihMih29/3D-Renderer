@@ -1,7 +1,8 @@
 #include "View.h"
 
 View::View(int windowWidth, int windowHeight)
-    : window_(sf::VideoMode(windowWidth, windowHeight), "3D-Renderer", sf::Style::Default ^ sf::Style::Resize) {
+    : CObserver(DoNothing, DoNothing, DoNothing),
+      window_(sf::VideoMode(windowWidth, windowHeight), "3D-Renderer", sf::Style::Default ^ sf::Style::Resize) {
     window_.clear();
     window_.display();
 }
