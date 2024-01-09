@@ -2,7 +2,7 @@
 
 #include <functional>
 
-Kernel::Kernel() : CObservable<PixelScreen>([this](){ return GetScreen(); }) {
+Kernel::Kernel() : CObservable<PixelScreen>([this]() { return GetScreen(); }) {
 }
 
 const PixelScreen& Kernel::GetScreen() {

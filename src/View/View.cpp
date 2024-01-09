@@ -21,4 +21,7 @@ void View::Close() {
 }
 
 void View::Draw(const PixelScreen& ps) {
+    window_.clear();
+    window_.draw(ps.GetPixels());
+    window_.display();
 }
