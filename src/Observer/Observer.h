@@ -4,6 +4,9 @@
 #include <functional>
 #include <list>
 #include <type_traits>
+
+namespace Renderer {
+
 namespace NSObserverDetail {
 
 template <class TData>
@@ -59,19 +62,16 @@ using AutoSendBy =
 
 }  // namespace NSObserverDetail
 
+template <class TData>
+using AutoSendBy = NSObserverDetail::AutoSendBy<TData>;
+
 template <class TData, class TSendBy>
 class CObserver;
 
 template <class TData, class TSendBy>
 class CObservable;
 
-template <class TData>
-class Observer;
-
-template <class TData>
-class Observable;
-
-template <class TData, class TSendBy = NSObserverDetail::AutoSendBy<TData>>
+template <class TData, class TSendBy = AutoSendBy<TData>>
 class CObserver {
     using CData = TData;
     using CSendBy = TSendBy;
@@ -103,27 +103,32 @@ public:
     }
 
     void Unsubscribe() {
-        if (!observable_) {
+        if (!IsSubscribed())
             return;
-        }
-        observable_->Unsubscribe(this);
+        observable_->Detach_(this);
+        observable_ = nullptr;
     }
 
-    void Subscribe(CObservable* observable) {
-        observable_ = observable;
+    bool IsSubscribed() const {
+        return Observable_ != nullptr;
     }
 
     static void DoNothing(CDataSentBy) {
     }
 
 private:
+    void Subscribe_(CObservable* observable) {
+        assert(observable);
+        observable_ = observable;
+    }
+
     CObservable* observable_ = nullptr;
     CAction on_subscribe_;
     CAction on_notify_;
     CAction on_unsubscribe_;
 };
 
-template <class TData, class TSendBy = NSObserverDetail::AutoSendBy<TData>>
+template <class TData, class TSendBy = AutoSendBy<TData>>
 class CObservable {
     using CData = TData;
     using CSendBy = TSendBy;
@@ -158,13 +163,13 @@ public:
         }
     }
 
-    void Subscribe(CObserver* observer) {
-        if (observer == nullptr) {
-            return;
-        }
-        subscribers_.push_back(observer);
-        observer->Subscribe(this);
-        observer->on_subscribe_(data_());
+    void Subscribe(CObserver* obs) {
+        assert(obs);
+        if (obs->IsSubscribed())
+            obs->Unsubscribe();
+        subscribers_.push_back(obs);
+        obs->Subscribe_(this);
+        obs->on_subscribe_(data_());
     }
 
     void UnsubscribeAll() {
@@ -173,17 +178,15 @@ public:
         }
     }
 
-    CDataSentBy Data() const;
-
 private:
-    void Unsubscribe(CObserver* observer) {
-        if (!observer) {
-            return;
-        }
-        subscribers_.remove(observer);
+    void Detach_(CObserver* obs) {
+        assert(obs);
         observer->on_unsubscribe_(data_());
+        subscribers_.remove(observer);
     }
 
     CGetAction data_;
     CSubscribers subscribers_;
 };
+
+}  // namespace Renderer
