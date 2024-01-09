@@ -1,8 +1,9 @@
 #include "View.h"
 
-View::View(int windowWidth, int windowHeight)
-    : CObserver(DoNothing, DoNothing, DoNothing),
-      window_(sf::VideoMode(windowWidth, windowHeight), "3D-Renderer", sf::Style::Default ^ sf::Style::Resize) {
+View::View(int window_width, int window_height)
+    : CObserver(
+          DoNothing, [this](const PixelScreen& ps) { Draw(ps); }, DoNothing),
+      window_(sf::VideoMode(window_width, window_height), "3D-Renderer", sf::Style::Default ^ sf::Style::Resize) {
     window_.clear();
     window_.display();
 }
@@ -17,4 +18,7 @@ bool View::PollEvent(sf::Event& event) {
 
 void View::Close() {
     window_.close();
+}
+
+void View::Draw(const PixelScreen& ps) {
 }
