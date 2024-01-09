@@ -5,7 +5,7 @@
 #include <list>
 #include <type_traits>
 
-namespace Renderer {
+namespace ThreeDRenderer {
 
 namespace NSObserverDetail {
 
