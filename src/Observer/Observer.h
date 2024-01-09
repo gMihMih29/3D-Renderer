@@ -110,7 +110,7 @@ public:
     }
 
     bool IsSubscribed() const {
-        return Observable_ != nullptr;
+        return observable_ != nullptr;
     }
 
     static void DoNothing(CDataSentBy) {
@@ -181,8 +181,8 @@ public:
 private:
     void Detach_(CObserver* obs) {
         assert(obs);
-        observer->on_unsubscribe_(data_());
-        subscribers_.remove(observer);
+        obs->on_unsubscribe_(data_());
+        subscribers_.remove(obs);
     }
 
     CGetAction data_;
