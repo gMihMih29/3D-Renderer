@@ -6,7 +6,7 @@
 class App {
 public:
     App();
-    void run();
+    void Run();
 
 private:
     // Kernel k;

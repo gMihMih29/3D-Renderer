@@ -2,6 +2,6 @@
 
 int main() {
     App a = App();
-    a.run();
+    a.Run();
     return 0;
 }

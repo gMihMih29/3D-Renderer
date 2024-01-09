@@ -7,16 +7,16 @@
 namespace NSObserverDetail {
 
 template <class TData>
-bool constexpr isArithmetic = std::is_arithmetic_v<TData>;
+bool constexpr IsArithmetic = std::is_arithmetic_v<TData>;
 
 template <class TData>
-bool constexpr isPointer = std::is_pointer_v<TData>;
+bool constexpr IsPointer = std::is_pointer_v<TData>;
 
 template <class TData>
-bool constexpr isEnum = std::is_enum_v<TData>;
+bool constexpr IsEnum = std::is_enum_v<TData>;
 
 template <class TData>
-bool constexpr isSimpleClass = isArithmetic<TData> || isPointer<TData> || isEnum<TData>;
+bool constexpr IsSimpleClass = IsArithmetic<TData> || IsPointer<TData> || IsEnum<TData>;
 }  // namespace NSObserverDetail
 
 struct CByValue;
@@ -56,7 +56,7 @@ struct AutoSendByImpl<false> {
 
 template <class TData>
 using AutoSendBy =
-    std::conditional_t<std::is_same_v<TData, void>, void, typename AutoSendByImpl<isSimpleClass<TData>>::CType>;
+    std::conditional_t<std::is_same_v<TData, void>, void, typename AutoSendByImpl<IsSimpleClass<TData>>::CType>;
 
 }  // namespace NSObserverDetail
 
@@ -87,13 +87,13 @@ class CObserver {
 
 public:
     template <class T1, class T2, class T3>
-    CObserver(T1&& onSubscribe, T2&& onNotify, T3&& onUnsubscribe)
-        : onSubscribe_(std::forward<T1>(onSubscribe)),
-          onNotify_(std::forward<T2>(onNotify)),
-          onUnsubscribe_(std::forward<T3>(onUnsubscribe)) {
-        assert(onSubscribe_);
-        assert(onNotify_);
-        assert(onUnsubscribe_);
+    explicit CObserver(T1&& on_subscribe, T2&& on_notify, T3&& on_unsubscribe)
+        : on_subscribe_(std::forward<T1>(on_subscribe)),
+          on_notify_(std::forward<T2>(on_notify)),
+          on_unsubscribe_(std::forward<T3>(on_unsubscribe)) {
+        assert(on_subscribe_);
+        assert(on_notify_);
+        assert(on_unsubscribe_);
     }
     CObserver(const CObserver&) = delete;
     CObserver(CObserver&&) noexcept = delete;
@@ -119,9 +119,9 @@ public:
 
 private:
     CObservable* observable_ = nullptr;
-    CAction onSubscribe_;
-    CAction onNotify_;
-    CAction onUnsubscribe_;
+    CAction on_subscribe_;
+    CAction on_notify_;
+    CAction on_unsubscribe_;
 };
 
 template <class TData, class TSendBy = NSObserverDetail::AutoSendBy<TData>>
@@ -142,7 +142,7 @@ class CObservable {
 
 public:
     template <class TF>
-    CObservable(TF&& data) : data_(std::forward<TF>(data)) {
+    explicit CObservable(TF&& data) : data_(std::forward<TF>(data)) {
         assert(data_);
     }
     CObservable(const CObservable&) = delete;
@@ -155,7 +155,7 @@ public:
 
     void Notify() {
         for (auto obs : subscribers_) {
-            obs->onNotify_(data_());
+            obs->on_notify_(data_());
         }
     }
 
@@ -165,7 +165,7 @@ public:
         }
         subscribers_.push_back(observer);
         observer->Subscribe(this);
-        observer->onSubscribe_(data_());
+        observer->on_subscribe_(data_());
     }
 
     void UnsubscribeAll() {
@@ -182,7 +182,7 @@ private:
             return;
         }
         subscribers_.remove(observer);
-        observer->onUnsubscribe_(data_());
+        observer->on_unsubscribe_(data_());
     }
 
     CGetAction data_;

@@ -5,7 +5,7 @@
 App::App() : view_(800, 600) {
 }
 
-void App::run() {
+void App::Run() {
     while (view_.IsOpen()) {
         sf::Event event;
         while (view_.PollEvent(event)) {
