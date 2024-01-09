@@ -1,4 +1,4 @@
-set(App App.cpp App.h)
+set(App App.cpp)
 add_library(App ${App})
 
 target_link_libraries(App sfml-graphics)

@@ -1,2 +1,2 @@
-set(Kernel Kernel.cpp Kernel.h)
+set(Kernel Kernel.cpp)
 add_library(Kernel ${Kernel})
