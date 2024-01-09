@@ -28,8 +28,7 @@ template <class TData, class TSendBy>
 struct CDataSentByImpl;
 
 template <class TData>
-struct 
-CDataSentByImpl<TData, CByValue> {
+struct CDataSentByImpl<TData, CByValue> {
     using CType = TData;
 };
 
