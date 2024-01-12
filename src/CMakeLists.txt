@@ -14,3 +14,8 @@ target_link_libraries(${PROJECT_NAME} View)
 add_subdirectory("Kernel")
 link_directories(Kernel)
 target_link_libraries(${PROJECT_NAME} Kernel)
+
+# Exceptions
+add_subdirectory("Exceptions")
+link_directories(Exceptions)
+target_link_libraries(${PROJECT_NAME} Exceptions)
