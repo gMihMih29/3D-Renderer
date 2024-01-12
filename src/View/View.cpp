@@ -3,9 +3,7 @@
 namespace ThreeDRenderer {
 
 View::View(int window_width, int window_height)
-    : observer_([this](const PixelScreen& ps) { Draw(ps); }, [this](const PixelScreen& ps) { Draw(ps); },
-                CObserver<PixelScreen>::DoNothing),
-      window_(nullptr) {
+    : window_(nullptr) {
     /////
     PixelScreen ps = PixelScreen(window_width, window_height);
     int k = 0;

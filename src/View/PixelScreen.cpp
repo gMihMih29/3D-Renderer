@@ -4,9 +4,6 @@
 
 namespace ThreeDRenderer {
 
-PixelScreen::PixelScreen() : PixelScreen(kWidth, kHeight) {
-}
-
 PixelScreen::PixelScreen(int width, int height) : width_(width), height_(height), screen_(sf::Points) {
     screen_.resize(width_ * height_);
     for (int i = 0; i < height_; ++i) {

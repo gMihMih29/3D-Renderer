@@ -15,7 +15,9 @@ public:
 private:
     void Draw(const PixelScreen& ps);
 
-    CObserver<PixelScreen> observer_;
+    CObserver<PixelScreen> observer_ =
+        CObserver<PixelScreen>([this](const PixelScreen& ps) { Draw(ps); }, [this](const PixelScreen& ps) { Draw(ps); },
+                               CObserver<PixelScreen>::DoNothing);
     sf::RenderWindow* window_;
 };
 
