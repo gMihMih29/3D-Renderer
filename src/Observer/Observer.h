@@ -118,7 +118,9 @@ public:
 
 private:
     void Subscribe_(CObservable* observable) {
-        assert(observable);
+        if (observable == nullptr) {
+            return;
+        }
         observable_ = observable;
     }
 
@@ -164,7 +166,9 @@ public:
     }
 
     void Subscribe(CObserver* obs) {
-        assert(obs);
+        if (obs == nullptr) {
+            return;
+        }
         if (obs->IsSubscribed())
             obs->Unsubscribe();
         subscribers_.push_back(obs);
@@ -180,7 +184,9 @@ public:
 
 private:
     void Detach_(CObserver* obs) {
-        assert(obs);
+        if (obs == nullptr) {
+            return;
+        }
         obs->on_unsubscribe_(data_());
         subscribers_.remove(obs);
     }
