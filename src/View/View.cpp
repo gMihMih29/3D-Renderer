@@ -3,9 +3,9 @@
 namespace ThreeDRenderer {
 
 View::View(int window_width, int window_height)
-    : CObserver(
-          DoNothing, [this](const PixelScreen& ps) { Draw(ps); }, DoNothing),
-      window_(sf::VideoMode(window_width, window_height), "3D-Renderer", sf::Style::Default ^ sf::Style::Resize) {
+    : observer_([this](const PixelScreen& ps) { Draw(ps); }, [this](const PixelScreen& ps) { Draw(ps); },
+                CObserver<PixelScreen>::DoNothing),
+      window_(nullptr) {
     /////
     PixelScreen ps = PixelScreen(window_width, window_height);
     int k = 0;
@@ -19,22 +19,14 @@ View::View(int window_width, int window_height)
     /////
 }
 
-bool View::IsOpen() {
-    return window_.isOpen();
-}
-
-bool View::PollEvent(sf::Event& event) {
-    return window_.pollEvent(event);
-}
-
-void View::Close() {
-    window_.close();
+CObserver<PixelScreen>* View::ScreenPort() {
+    return &observer_;
 }
 
 void View::Draw(const PixelScreen& ps) {
-    window_.clear();
-    window_.draw(ps.GetPixels());
-    window_.display();
+    window_->clear();
+    window_->draw(ps.GetPixels());
+    window_->display();
 }
 
 }  // namespace ThreeDRenderer

@@ -4,11 +4,15 @@
 #include "../View/PixelScreen.h"
 
 namespace ThreeDRenderer {
-    
-class Kernel : public CObservable<PixelScreen> {
+
+class Kernel {
 public:
     Kernel();
-    const PixelScreen& GetScreen();
+    void SubscribeToCameraUpdates(CObserver<PixelScreen>*);
+    // метод для генерации данных для подсписчиков?
+
+private:
+    CObservable<PixelScreen> observable_;
 };
 
 }  // namespace ThreeDRenderer

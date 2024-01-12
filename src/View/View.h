@@ -7,17 +7,16 @@
 
 namespace ThreeDRenderer {
 
-class View : public CObserver<PixelScreen> {
+class View {
 public:
-    View() = delete;
     View(int window_width, int window_height);
-    bool IsOpen();
-    bool PollEvent(sf::Event& event);
-    void Close();
-    void Draw(const PixelScreen& ps);
+    CObserver<PixelScreen>* ScreenPort();
 
 private:
-    sf::RenderWindow window_;
+    void Draw(const PixelScreen& ps);
+
+    CObserver<PixelScreen> observer_;
+    sf::RenderWindow* window_;
 };
 
 }  // namespace ThreeDRenderer

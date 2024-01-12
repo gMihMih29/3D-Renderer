@@ -4,11 +4,11 @@
 
 namespace ThreeDRenderer {
 
-Kernel::Kernel() : CObservable<PixelScreen>([this]() { return GetScreen(); }) {
+Kernel::Kernel() : observable_() {
 }
 
-const PixelScreen& Kernel::GetScreen() {
-    return PixelScreen();
+void Kernel::SubscribeToCameraUpdates(CObserver<PixelScreen>* observer) {
+    observable_.Subscribe(observer);
 }
 
 }
