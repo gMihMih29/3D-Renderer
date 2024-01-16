@@ -11,6 +11,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
 set(SFML_STATIC_LIBRARIES TRUE)
 
+include_directories(eigen)
+include_directories(SFML)
+
 find_package(SFML COMPONENTS graphics REQUIRED)
 find_package(eigen3 REQUIRED)
 
