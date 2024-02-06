@@ -1,10 +1,8 @@
 #include "PixelScreen.h"
 
-#include <iostream>
-
 namespace ThreeDRenderer {
 
-PixelScreen::PixelScreen(int width, int height) : width_(width), height_(height), screen_(sf::Points) {
+PixelScreen::PixelScreen(int width, int height) : width_(width), height_(height), screen_(sf::PrimitiveType::Points) {
     screen_.resize(width_ * height_);
     for (int i = 0; i < height_; ++i) {
         for (int j = 0; j < width_; ++j) {

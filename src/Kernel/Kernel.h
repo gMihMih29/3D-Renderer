@@ -8,11 +8,9 @@ namespace ThreeDRenderer {
 class Kernel {
 public:
     Kernel();
-    void SubscribeToCameraUpdates(CObserver<PixelScreen>*);
-    // метод для генерации данных для подсписчиков?
-
+    PixelScreen GetScene(int, int);
 private:
-    CObservable<PixelScreen> observable_;
+    
 };
 
 }  // namespace ThreeDRenderer

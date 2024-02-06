@@ -1,5 +1,8 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+#include <string>
+
 #include "../Kernel/Kernel.h"
 #include "../View/PixelScreen.h"
 #include "../View/View.h"
@@ -12,10 +15,15 @@ class App {
 
 public:
     App();
+    App(int width, int height);
+    App(int width, int height, std::string name);
     void Run();
 
 private:
-    // Kernel k;
+    int width_;
+    int height_;
+    Kernel k;
+    sf::RenderWindow window_;
     View view_;
 };
 

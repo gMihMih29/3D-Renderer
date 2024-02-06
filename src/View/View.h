@@ -1,24 +1,18 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-
-#include "../Observer/Observer.h"
 #include "../View/PixelScreen.h"
+#include <SFML/Graphics.hpp>
 
 namespace ThreeDRenderer {
 
 class View {
 public:
-    View(int window_width, int window_height);
-    CObserver<PixelScreen>* ScreenPort();
-
-private:
+    View() = default;
+    explicit View(sf::RenderWindow* window);
     void Draw(const PixelScreen& ps);
 
-    CObserver<PixelScreen> observer_ =
-        CObserver<PixelScreen>([this](const PixelScreen& ps) { Draw(ps); }, [this](const PixelScreen& ps) { Draw(ps); },
-                               CObserver<PixelScreen>::DoNothing);
-    sf::RenderWindow* window_;
+private:
+    sf::RenderWindow* window_ = nullptr;
 };
 
 }  // namespace ThreeDRenderer

@@ -2,26 +2,13 @@
 
 namespace ThreeDRenderer {
 
-View::View(int window_width, int window_height)
-    : window_(nullptr) {
-    /////
-    PixelScreen ps = PixelScreen(window_width, window_height);
-    int k = 0;
-    for (int i = 0; i < ps.GetHeigth(); ++i) {
-        for (int j = 0; j < ps.GetWidth(); ++j) {
-            ps.GetPixel(j, i).color = sf::Color(k % 256, k / 256 % 256, k / 256 / 256 % 256);
-            ++k;
-        }
-    }
-    Draw(ps);
-    /////
-}
-
-CObserver<PixelScreen>* View::ScreenPort() {
-    return &observer_;
+View::View(sf::RenderWindow* window) : window_(window) {
 }
 
 void View::Draw(const PixelScreen& ps) {
+    if (window_ == nullptr) {
+        return;   
+    }
     window_->clear();
     window_->draw(ps.GetPixels());
     window_->display();

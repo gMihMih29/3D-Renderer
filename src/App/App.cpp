@@ -1,21 +1,32 @@
 #include "App.h"
 
 #include <iostream>
-#include <SFML/Graphics.hpp>
+#include <utility>
 
 namespace ThreeDRenderer {
 
-App::App() : view_(kWidth, kHeight) {
+App::App() : App(kWidth, kHeight) {
+}
+
+App::App(int width, int height)
+    : window_(sf::RenderWindow(sf::VideoMode(kWidth, kHeight), "3D Renderer")), view_(&window_) {
+    width_ = width;
+    height_ = height;
+}
+
+App::App(int width, int height, std::string name) : App(width, height) {
 }
 
 void App::Run() {
-    while (view_.IsOpen()) {
+    while (window_.isOpen()) {
         sf::Event event;
-        while (view_.PollEvent(event)) {
+        bool flag = false;
+        while (window_.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
-                view_.Close();
+                window_.close();
             }
         }
+        view_.Draw(k.GetScene(width_, height_));
     }
 }
 
