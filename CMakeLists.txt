@@ -9,6 +9,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
 set(SFML_STATIC_LIBRARIES TRUE)
+find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
 add_executable(${PROJECT_NAME} src/main.cpp)
 
@@ -42,5 +43,5 @@ link_directories(View)
 add_subdirectory(src/Renderer)
 link_directories(Renderer)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics eigen Exceptions App Renderer)
+target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics Eigen3::Eigen Exceptions App Renderer)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)

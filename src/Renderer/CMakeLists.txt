@@ -6,4 +6,4 @@ set(Renderer
     )
 add_library(Renderer ${Renderer})
 
-target_link_libraries(Renderer eigen)
+target_link_libraries(Renderer Eigen3::Eigen)
