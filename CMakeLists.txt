@@ -39,5 +39,8 @@ link_directories(Kernel)
 add_subdirectory(src/View)
 link_directories(View)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics eigen Exceptions App)
+add_subdirectory(src/Renderer)
+link_directories(Renderer)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics eigen Exceptions App Renderer)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
