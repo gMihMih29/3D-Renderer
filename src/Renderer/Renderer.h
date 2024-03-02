@@ -7,6 +7,6 @@
 namespace ThreeDRenderer {
 class Renderer {
 public:
-    static PixelScreen render(World w, Camera c);
+    static PixelScreen Render(World w, Camera c);
 };
 }  // namespace ThreeDRenderer
