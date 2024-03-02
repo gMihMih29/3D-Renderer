@@ -1,16 +1,18 @@
 #pragma once
 
 #include <Eigen/Dense>
+#include <cmath>
 
 namespace ThreeDRenderer {
 class Camera {
     using CoordinatesVector = Eigen::Vector3d;
     using DirectionVector = Eigen::Vector3d;
+    using DirectionMatrix = Eigen::Matrix3d;
 
 public:
     Camera() = default;
     Camera(int width, int height);
-    Camera(int width, int height, const CoordinatesVector& pos, const DirectionVector direction);
+    Camera(int width, int height, const CoordinatesVector& pos, const DirectionMatrix& directions);
 
     void MoveForward(double distance);
     void MoveBackwards(double distance);
@@ -33,7 +35,7 @@ public:
 
 private:
     CoordinatesVector position_ = CoordinatesVector(0, 0, 0);
-    DirectionVector direction_ = DirectionVector(1, 0, 0);
+    DirectionMatrix directionMatrix_{1, 0, 0, 0, 1, 0, 0, 0, -1};
     int width_ = 800;
     int height_ = 600;
 };
