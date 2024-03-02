@@ -4,7 +4,7 @@
 #include <string>
 
 #include "../Kernel/Kernel.h"
-#include "../View/PixelScreen.h"
+#include "../Renderer/PixelScreen.h"
 #include "../View/View.h"
 
 namespace ThreeDRenderer {
