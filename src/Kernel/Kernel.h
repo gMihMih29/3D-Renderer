@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Observer/Observer.h"
-#include "../View/PixelScreen.h"
+#include "../Renderer/PixelScreen.h"
 
 namespace ThreeDRenderer {
 

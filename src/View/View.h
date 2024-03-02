@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../View/PixelScreen.h"
+#include "../Renderer/PixelScreen.h"
 #include <SFML/Graphics.hpp>
 
 namespace ThreeDRenderer {
