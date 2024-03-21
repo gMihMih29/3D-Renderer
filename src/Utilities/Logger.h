@@ -11,7 +11,7 @@ class Logger {
     const std::string kINFO = "INFO";
 public:
     static Logger console;
-    static Utilities::Logger logger;
+    static Logger logger;
 
     Logger();
     Logger(bool useTimeStamp);
