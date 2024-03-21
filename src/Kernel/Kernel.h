@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../Observer/Observer.h"
 #include "../Renderer/PixelScreen.h"
 #include "../Renderer/Renderer.h"
 #include "../Renderer/TriangularObject.h"
