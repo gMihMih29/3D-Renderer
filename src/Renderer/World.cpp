@@ -1,6 +1,9 @@
 #include "World.h"
 
 namespace ThreeDRenderer {
+World::World(int cameraWidth, int cameraHeight) : cam_(cameraWidth, cameraHeight) {
+}
+
 void World::AddObject(World::Object obj) {
     objects_.push_back(obj);
 }
@@ -40,6 +43,7 @@ void World::CamRotateRight() {
 const std::vector<World::Object>& World::GetObjects() const {
     return objects_;
 }
+
 const Camera& World::GetCamera() const {
     return cam_;
 }

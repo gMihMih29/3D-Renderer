@@ -10,8 +10,10 @@ class World {
     using Object = TriangularObject;
     const double kMOVEMENT_SPEED = 0.25;
     const double kROTATION_SPEED_DEG = 10;
+    
 public:
     World() = default;
+    World(int cameraWidth, int cameraHeight);
 
     void AddObject(Object obj);
 
