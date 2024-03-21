@@ -20,11 +20,7 @@ public:
     App(int width, int height, std::string name);
     void Run();
 
-    static Utilities::Logger console;
-    static Utilities::Logger logger;
-
 private:
-    static std::string GetCurrentDay_();
 
     int width_;
     int height_;

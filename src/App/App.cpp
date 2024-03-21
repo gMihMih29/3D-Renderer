@@ -5,9 +5,6 @@
 
 namespace ThreeDRenderer {
 
-Utilities::Logger App::console = Utilities::Logger(true);
-Utilities::Logger App::logger = Utilities::Logger("../logs/" + GetCurrentDay_() + ".log", true);
-
 App::App() : App(kWidth, kHeight) {
 }
 
@@ -32,24 +29,5 @@ void App::Run() {
         view_.Draw(k.GetScene(width_, height_));
     }
 }
-
-std::string App::GetCurrentDay_() {
-    std::string res;
-    std::time_t t = std::time(0);   // get time now
-    std::tm* now = std::localtime(&t);
-    res += std::to_string(now->tm_year + 1900);
-    res += '-';
-    if (now->tm_mon < 10) {
-        res += '0';
-    }
-    res += std::to_string(now->tm_mon);
-    res += '-';
-    if (now->tm_mday < 10) {
-        res += '0';
-    }
-    res += std::to_string(now->tm_mday);
-    return res;
-}
-
 
 }  // namespace ThreeDRenderer
