@@ -2,42 +2,42 @@
 
 namespace ThreeDRenderer {
 
-Kernel::Kernel() : Kernel(kCAM_WIDTH, kCAM_HEIGHT) {
+Kernel::Kernel() : Kernel(kCamWidth, kCamHeight) {
 }
 
 Kernel::Kernel(int camWidth, int camHeight) : cam_(camWidth, camHeight), world_() {
 }
 
 void Kernel::CamMoveForward() {
-    cam_.MoveForward(kMOVEMENT_SPEED);
+    cam_.MoveForward(kMovementSpeed);
 }
 
 void Kernel::CamMoveBackwads() {
-    cam_.MoveBackwards(kMOVEMENT_SPEED);
+    cam_.MoveBackwards(kMovementSpeed);
 }
 
 void Kernel::CamMoveLeft() {
-    cam_.MoveLeft(kMOVEMENT_SPEED);
+    cam_.MoveLeft(kMovementSpeed);
 }
 
 void Kernel::CamMoveRight() {
-    cam_.MoveRight(kMOVEMENT_SPEED);
+    cam_.MoveRight(kMovementSpeed);
 }
 
 void Kernel::CamRotateUp() {
-    cam_.RotateUpDeg(kROTATION_SPEED_DEG);
+    cam_.RotateUpDeg(kRotationSpeedDeg);
 }
 
 void Kernel::CamRotateDown() {
-    cam_.RotateDownDeg(kROTATION_SPEED_DEG);
+    cam_.RotateDownDeg(kRotationSpeedDeg);
 }
 
 void Kernel::CamRotateLeft() {
-    cam_.RotateLeftDeg(kROTATION_SPEED_DEG);
+    cam_.RotateLeftDeg(kRotationSpeedDeg);
 }
 
 void Kernel::CamRotateRight() {
-    cam_.RotateRightDeg(kROTATION_SPEED_DEG);
+    cam_.RotateRightDeg(kRotationSpeedDeg);
 }
 
 void Kernel::AddObject(TriangularObject obj) {
@@ -45,7 +45,7 @@ void Kernel::AddObject(TriangularObject obj) {
 }
 
 PixelScreen Kernel::GetScene() {
-    PixelScreen ps = PixelScreen(kCAM_WIDTH, kCAM_HEIGHT);
+    PixelScreen ps = PixelScreen(kCamWidth, kCamHeight);
     int k = 0;
     for (int i = 0; i < ps.GetHeigth(); ++i) {
         for (int j = 0; j < ps.GetWidth(); ++j) {

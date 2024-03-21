@@ -8,10 +8,10 @@
 namespace ThreeDRenderer {
 
 class Kernel {
-    const int kCAM_WIDTH = 800;
-    const int kCAM_HEIGHT = 600;
-    const double kMOVEMENT_SPEED = 0.25;
-    const double kROTATION_SPEED_DEG = 10;
+    static const int kCamWidth = 800;
+    static const int kCamHeight = 600;
+    static constexpr double  kMovementSpeed = 0.25;
+    static constexpr double kRotationSpeedDeg = 10;
 
 public:
     Kernel();
