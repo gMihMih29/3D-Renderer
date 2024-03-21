@@ -4,8 +4,6 @@
 #include <string>
 
 #include "../Kernel/Kernel.h"
-#include "../Renderer/PixelScreen.h"
-#include "../Utilities/Logger.h"
 #include "../View/View.h"
 
 namespace ThreeDRenderer {
@@ -21,10 +19,12 @@ public:
     void Run();
 
 private:
+    void ChooseOption_(const sf::Event& event);
+    void AddNewObject_();
 
     int width_;
     int height_;
-    Kernel k;
+    Kernel kernel_;
     sf::RenderWindow window_;
     View view_;
 };
