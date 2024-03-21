@@ -7,6 +7,7 @@ namespace ThreeDRenderer {
 class Camera {
     using CoordinatesVector = Eigen::Vector3d;
     using DirectionVector = Eigen::Vector3d;
+    using CameraSpaceTransfromMatrix = Eigen::Matrix4d;
     using DirectionMatrix = Eigen::Matrix3d;
 
 public:
@@ -30,9 +31,7 @@ public:
 
     const CoordinatesVector& GetPosition() const;
     DirectionVector GetDirectionOfCamera() const;
-    DirectionVector GetDirectionOfXAxis() const;
-    DirectionVector GetDirectionOfYAxis() const;
-    DirectionVector GetDirectionOfZAxis() const;
+    CameraSpaceTransfromMatrix GetTransformToCameraSpaceMatrix() const;
     const DirectionMatrix& GetDirectionMatrix() const;
     int GetWidth() const;
     int GetHeight() const;

@@ -23,7 +23,7 @@ void Camera::MoveLeft(double distance) {
 }
 
 void Camera::MoveRight(double distance) {
-    position_ += distance * GetDirectionOfXAxis();
+    position_ += distance * directionMatrix_.col(0);
 }
 
 void Camera::RotateDownRad(double angle) {
@@ -70,19 +70,16 @@ const Camera::CoordinatesVector& Camera::GetPosition() const {
 }
 
 Camera::DirectionVector Camera::GetDirectionOfCamera() const {
-    return -GetDirectionOfZAxis();
+    return -directionMatrix_.col(2);
 }
 
-Camera::DirectionVector Camera::GetDirectionOfXAxis() const {
-    return directionMatrix_.col(0);
-}
-
-Camera::DirectionVector Camera::GetDirectionOfYAxis() const {
-    return directionMatrix_.col(1);
-}
-
-Camera::DirectionVector Camera::GetDirectionOfZAxis() const {
-    return directionMatrix_.col(2);
+Camera::CameraSpaceTransfromMatrix Camera::GetTransformToCameraSpaceMatrix() const {
+    CameraSpaceTransfromMatrix res{
+        {directionMatrix_(0, 0), directionMatrix_(0, 1), directionMatrix_(0, 2), position_(0)},
+        {directionMatrix_(1, 0), directionMatrix_(1, 1), directionMatrix_(1, 2), position_(1)},
+        {directionMatrix_(2, 0), directionMatrix_(2, 1), directionMatrix_(2, 2), position_(2)},
+        {0, 0, 0, 1}};
+    return res;
 }
 
 const Camera::DirectionMatrix& Camera::GetDirectionMatrix() const {
