@@ -43,5 +43,8 @@ link_directories(View)
 add_subdirectory(src/Renderer)
 link_directories(Renderer)
 
+add_subdirectory(src/Utilities)
+link_directories(Utilities)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics Eigen3::Eigen Exceptions App Renderer)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
