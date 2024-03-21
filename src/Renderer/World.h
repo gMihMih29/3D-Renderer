@@ -8,9 +8,10 @@
 namespace ThreeDRenderer {
 class World {
     using Object = TriangularObject;
-
+    const double kMOVEMENT_SPEED = 0.25;
+    const double kROTATION_SPEED_DEG = 10;
 public:
-    World();
+    World() = default;
 
     void AddObject(Object obj);
 
@@ -23,7 +24,7 @@ public:
     void CamRotateLeft();
     void CamRotateRight();
 
-    const std::vector<Object> GetObjects() const;
+    const std::vector<Object>& GetObjects() const;
     const Camera& GetCamera() const;
 
 private:
