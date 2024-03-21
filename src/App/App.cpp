@@ -59,7 +59,7 @@ void App::HandleEvent_(const sf::Event& event) {
             ShowNewFrame_();
         }
         if (event.key.code == sf::Keyboard::Key::D) {
-            kernel_.CamMoveBackwads();
+            kernel_.CamMoveRight();
             ShowNewFrame_();
         }
         if (event.key.code == sf::Keyboard::Key::Up) {
@@ -91,7 +91,7 @@ void App::AddNewObject_() {
 void App::ShowNewFrame_() {
     Utilities::Timer t;
     view_.Draw(kernel_.GetScene());
-    Utilities::Logger::console.Info("New frame was rendered in " + std::to_string(t.GetTime()) + " millisecond.");
+    Utilities::Logger::consoleTimeSpan.Info("New frame was rendered in " + std::to_string(t.GetTime()) + " millisecond.");
 }
 
 }  // namespace ThreeDRenderer
