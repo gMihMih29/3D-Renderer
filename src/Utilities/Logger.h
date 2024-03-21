@@ -10,6 +10,9 @@ class Logger {
     const std::string kERROR = "ERROR";
     const std::string kINFO = "INFO";
 public:
+    static Logger console;
+    static Utilities::Logger logger;
+
     Logger();
     Logger(bool useTimeStamp);
     Logger(std::string path, bool useTimeStamp = false);
@@ -32,7 +35,8 @@ private:
     template <class T>
     void LogWithType_(const T& message, const std::string& type);
 
-    std::string GetCurrentTimeLog_() const;
+    static std::string GetCurrentTimeLog_();
+    static std::string GetCurrentDay_();
 
     bool writeToFile_;
     bool useTimeStamp_;

@@ -1,6 +1,9 @@
 #include "Logger.h"
 
 namespace Utilities {
+Logger Logger::console = Utilities::Logger(true);
+Logger Logger::logger = Utilities::Logger("../logs/" + Logger::GetCurrentDay_() + ".log", true);
+
 Logger::Logger() : writeToFile_(false), useTimeStamp_(false) {
 }
 
@@ -15,7 +18,7 @@ Logger::~Logger() {
     fout_.close();
 }
 
-std::string Logger::GetCurrentTimeLog_() const {
+std::string Logger::GetCurrentTimeLog_() {
     std::string res;
     std::time_t t = std::time(0);   // get time now
     std::tm* now = std::localtime(&t);
@@ -44,6 +47,24 @@ std::string Logger::GetCurrentTimeLog_() const {
     }
     res += std::to_string(now->tm_sec);
     res += "] ";
+    return res;
+}
+
+std::string Logger::GetCurrentDay_() {
+    std::string res;
+    std::time_t t = std::time(0);   // get time now
+    std::tm* now = std::localtime(&t);
+    res += std::to_string(now->tm_year + 1900);
+    res += '-';
+    if (now->tm_mon < 10) {
+        res += '0';
+    }
+    res += std::to_string(now->tm_mon);
+    res += '-';
+    if (now->tm_mday < 10) {
+        res += '0';
+    }
+    res += std::to_string(now->tm_mday);
     return res;
 }
 
