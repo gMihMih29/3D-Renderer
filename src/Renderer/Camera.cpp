@@ -11,7 +11,7 @@ Camera::Camera(int width, int height, const CoordinatesVector& pos, const Direct
 }
 
 void Camera::MoveForward(double distance) {
-    position_ += distance * directionMatrix_.col(2);
+    position_ += distance * GetDirectionOfCamera();
 }
 
 void Camera::MoveBackwards(double distance) {
@@ -23,39 +23,78 @@ void Camera::MoveLeft(double distance) {
 }
 
 void Camera::MoveRight(double distance) {
-    position_ += distance * directionMatrix_.col(0);
+    position_ += distance * GetDirectionOfXAxis();
 }
 
-void Camera::RotateUpRad(double angle) {
-    // TODO
+void Camera::RotateDownRad(double angle) {
+    angle = -angle;
+    double s = std::sin(angle);
+    double c = std::cos(angle);
+    DirectionMatrix rx{{1, 0, 0}, {0, c, -s}, {0, s, c}};
+    directionMatrix_ = rx * directionMatrix_;
 }
 
-void Camera::RotateRightRad(double angle) {
-    // TODO
-}
-
-void Camera::RotateDownDeg(double angle) {
-    RotateDownRad(DegToRad(angle));
+void Camera::RotateLeftRad(double angle) {
+    double s = std::sin(angle);
+    double c = std::cos(angle);
+    DirectionMatrix ry{{c, 0, s}, {0, 1, 0}, {-s, 0, c}};
+    directionMatrix_ = ry * directionMatrix_;
 }
 
 void Camera::RotateUpDeg(double angle) {
     RotateUpRad(DegToRad(angle));
 }
 
+void Camera::RotateUpRad(double angle) {
+    RotateDownRad(-angle);
+}
+
+void Camera::RotateDownDeg(double angle) {
+    RotateDownRad(DegToRad(angle));
+}
+
 void Camera::RotateLeftDeg(double angle) {
     RotateLeftRad(DegToRad(angle));
+}
+
+void Camera::RotateRightRad(double angle) {
+    RotateLeftRad(-angle);
 }
 
 void Camera::RotateRightDeg(double angle) {
     RotateRightRad(DegToRad(angle));
 }
 
-void Camera::RotateDownRad(double angle) {
-    RotateUpRad(-angle);
+const Camera::CoordinatesVector& Camera::GetPosition() const {
+    return position_;
 }
 
-void Camera::RotateRightRad(double angle) {
-    RotateRightRad(-angle);
+Camera::DirectionVector Camera::GetDirectionOfCamera() const {
+    return -GetDirectionOfZAxis();
+}
+
+Camera::DirectionVector Camera::GetDirectionOfXAxis() const {
+    return directionMatrix_.col(0);
+}
+
+Camera::DirectionVector Camera::GetDirectionOfYAxis() const {
+    return directionMatrix_.col(1);
+}
+
+Camera::DirectionVector Camera::GetDirectionOfZAxis() const {
+    return directionMatrix_.col(2);
+}
+
+const Camera::DirectionMatrix& Camera::GetDirectionMatrix() const {
+    return directionMatrix_;
+}
+
+int Camera::GetWidth() const {
+    return width_;
+}
+
+int Camera::GetHeight() const {
+    return height_;
 }
 
 }  // namespace ThreeDRenderer

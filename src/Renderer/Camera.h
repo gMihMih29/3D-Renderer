@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Eigen/Dense>
 #include <cmath>
+#include <Eigen/Dense>
 
 namespace ThreeDRenderer {
 class Camera {
@@ -29,13 +29,17 @@ public:
     void RotateRightDeg(double angle);
 
     const CoordinatesVector& GetPosition() const;
-    const DirectionVector& GetDirection() const;
-    size_t GetWidth() const;
-    size_t GetHeight() const;
+    DirectionVector GetDirectionOfCamera() const;
+    DirectionVector GetDirectionOfXAxis() const;
+    DirectionVector GetDirectionOfYAxis() const;
+    DirectionVector GetDirectionOfZAxis() const;
+    const DirectionMatrix& GetDirectionMatrix() const;
+    int GetWidth() const;
+    int GetHeight() const;
 
 private:
     CoordinatesVector position_ = CoordinatesVector(0, 0, 0);
-    DirectionMatrix directionMatrix_{1, 0, 0, 0, 1, 0, 0, 0, -1};
+    DirectionMatrix directionMatrix_{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
     int width_ = 800;
     int height_ = 600;
 };
