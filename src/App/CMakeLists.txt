@@ -9,3 +9,6 @@ target_link_libraries(App View)
 
 link_directories("../../SFML/include")
 target_link_libraries(App sfml-graphics)
+
+link_directories("../Utilities")
+target_link_libraries(App Utilities)

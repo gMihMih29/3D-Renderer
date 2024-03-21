@@ -5,6 +5,7 @@
 
 #include "../Kernel/Kernel.h"
 #include "../Renderer/PixelScreen.h"
+#include "../Utilities/Logger.h"
 #include "../View/View.h"
 
 namespace ThreeDRenderer {
@@ -19,7 +20,12 @@ public:
     App(int width, int height, std::string name);
     void Run();
 
+    static Utilities::Logger console;
+    static Utilities::Logger logger;
+
 private:
+    static std::string GetCurrentDay_();
+
     int width_;
     int height_;
     Kernel k;
