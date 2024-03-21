@@ -16,11 +16,13 @@ public:
     App();
     App(int width, int height);
     App(int width, int height, std::string name);
+    
     void Run();
 
 private:
-    void ChooseOption_(const sf::Event& event);
+    void HandleEvent_(const sf::Event& event);
     void AddNewObject_();
+    void ShowNewFrame_();
 
     int width_;
     int height_;
