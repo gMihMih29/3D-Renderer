@@ -38,13 +38,13 @@ void App::Run() {
 void App::HandleEvent_(const sf::Event& event) {
     if (event.type == sf::Event::KeyPressed) {
         Utilities::Logger::console.Info("Key " + std::to_string(event.key.code) + " was pressed!");
-        if (event.key.code == sf::Keyboard::Key::P) {
-            AddNewObject_();
-            return;
-        }
         if (event.key.code == sf::Keyboard::Key::Escape) {
             window_.close();
             return;
+        }
+        if (event.key.code == sf::Keyboard::Key::P) {
+            AddNewObject_();
+            ShowNewFrame_();
         }
         if (event.key.code == sf::Keyboard::Key::W) {
             kernel_.CamMoveForward();
