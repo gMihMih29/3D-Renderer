@@ -1,8 +1,9 @@
 #include "Logger.h"
 
 namespace Utilities {
-Logger Logger::console = Utilities::Logger(true);
-Logger Logger::logger = Utilities::Logger("../logs/" + Logger::GetCurrentDay_() + ".log", true);
+Logger Logger::console = Utilities::Logger();
+Logger Logger::consoleTimeSpan = Utilities::Logger(true);
+Logger Logger::loggerFile = Utilities::Logger("../logs/" + Logger::GetCurrentDay_() + ".log", true);
 
 Logger::Logger() : writeToFile_(false), useTimeStamp_(false) {
 }
