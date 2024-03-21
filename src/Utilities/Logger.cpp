@@ -35,6 +35,9 @@ std::string Logger::GetCurrentTimeLog_() {
     }
     res += std::to_string(now->tm_mday);
     res += ' ';
+    if (now->tm_hour < 10) {
+        res += '0';
+    }
     res += std::to_string(now->tm_hour);
     res += ':';
     if (now->tm_min < 10) {
