@@ -9,3 +9,4 @@ set(Renderer
 add_library(Renderer ${Renderer})
 target_link_libraries(Renderer sfml-graphics)
 target_link_libraries(Renderer Eigen3::Eigen)
+target_link_libraries(Renderer Utilities)
