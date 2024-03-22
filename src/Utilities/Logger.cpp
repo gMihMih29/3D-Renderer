@@ -1,9 +1,9 @@
 #include "Logger.h"
 
 namespace Utilities {
-Logger Logger::console = Utilities::Logger();
-Logger Logger::consoleTimeSpan = Utilities::Logger(true);
-Logger Logger::loggerFile = Utilities::Logger("../logs/" + Logger::GetCurrentDay_() + ".log", true);
+const Logger Logger::console = Utilities::Logger();
+const Logger Logger::consoleTimeSpan = Utilities::Logger(true);
+const Logger Logger::loggerFile = Utilities::Logger("../logs/" + Logger::GetCurrentDay_() + ".log", true);
 
 Logger::Logger() : writeToFile_(false), useTimeStamp_(false) {
 }
@@ -12,11 +12,7 @@ Logger::Logger(bool useTimeStamp) : writeToFile_(false), useTimeStamp_(useTimeSt
 }
 
 Logger::Logger(std::string path, bool useTimeStamp)
-    : writeToFile_(true), useTimeStamp_(useTimeStamp), path_(path), fout_(std::ofstream(path, std::ios_base::app))  {
-}
-
-Logger::~Logger() {
-    fout_.close();
+    : writeToFile_(true), useTimeStamp_(useTimeStamp), path_(path) {
 }
 
 std::string Logger::GetCurrentTimeLog_() {
@@ -72,28 +68,30 @@ std::string Logger::GetCurrentDay_() {
     return res;
 }
 
-void Logger::Log(const char* message) {
+void Logger::Log(const char* message) const {
     LogWithType_(message, kEMPTY);
 }
 
-void Logger::Error(const char* message) {
+void Logger::Error(const char* message) const {
     LogWithType_(message, kERROR);
 }
 
-void Logger::Info(const char* message) {
+void Logger::Info(const char* message) const {
     LogWithType_(message, kINFO);
 }
 
-void Logger::LogWithType_(const char* message, const std::string& type) {
+void Logger::LogWithType_(const char* message, const std::string& type) const {
     if (writeToFile_) {
+        auto fout = std::ofstream(path_, std::ios_base::app);
         if (!type.empty()) {
-            fout_ << "[" << type << "] ";
+            fout << "[" << type << "] ";
         }
         if (useTimeStamp_) {
-            fout_ << GetCurrentTimeLog_();
+            fout << GetCurrentTimeLog_();
         }
-        fout_ << message << std::endl;
-        fout_.flush();
+        fout << message << std::endl;
+        fout.flush();
+        fout.close();
     } else {
         if (!type.empty()) {
             std::cout << "[" << type << "] ";

@@ -10,31 +10,30 @@ class Logger {
     const std::string kERROR = "ERROR";
     const std::string kINFO = "INFO";
 public:
-    static Logger console;
-    static Logger consoleTimeSpan;
-    static Logger loggerFile;
+    static const Logger console;
+    static const Logger consoleTimeSpan;
+    static const Logger loggerFile;
 
     Logger();
     Logger(bool useTimeStamp);
     Logger(std::string path, bool useTimeStamp = false);
-    ~Logger();
 
-    void Log(const char* message);
+    void Log(const char* message) const;
     template <class T>
-    void Log(const T& message);
+    void Log(const T& message) const;
 
-    void Error(const char* message);
+    void Error(const char* message) const;
     template <class T>
-    void Error(const T& message);
+    void Error(const T& message) const;
 
-    void Info(const char* message);
+    void Info(const char* message) const;
     template <class T>
-    void Info(const T& message);
+    void Info(const T& message) const;
 
 private:
-    void LogWithType_(const char* message, const std::string& type);
+    void LogWithType_(const char* message, const std::string& type) const;
     template <class T>
-    void LogWithType_(const T& message, const std::string& type);
+    void LogWithType_(const T& message, const std::string& type) const;
 
     static std::string GetCurrentTimeLog_();
     static std::string GetCurrentDay_();
@@ -42,26 +41,26 @@ private:
     bool writeToFile_;
     bool useTimeStamp_;
     std::string path_;
-    std::ofstream fout_;
+    // std::ofstream fout_;
 };
 
 template <class T>
-void Logger::Log(const T& message) {
+void Logger::Log(const T& message) const {
     LogWithType_(message, kEMPTY);
 }
 
 template <class T>
-void Logger::Error(const T& message) {
+void Logger::Error(const T& message) const {
     LogWithType_(message, kERROR);
 }
 
 template <class T>
-void Logger::Info(const T& message) {
+void Logger::Info(const T& message) const {
     LogWithType_(message, kINFO);
 }
 
 template <class T>
-void Logger::LogWithType_(const T& message, const std::string& type) {
+void Logger::LogWithType_(const T& message, const std::string& type) const {
     if (writeToFile_) {
         auto fout = std::ofstream(path_);
         if (!type.empty()) {
