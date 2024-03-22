@@ -27,7 +27,6 @@ void Camera::MoveRight(double distance) {
 }
 
 void Camera::RotateDownRad(double angle) {
-    angle = -angle;
     double s = std::sin(angle);
     double c = std::cos(angle);
     DirectionMatrix rx{{1, 0, 0}, {0, c, -s}, {0, s, c}};
