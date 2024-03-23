@@ -75,7 +75,7 @@ void App::HandleEvent_(const sf::Event& event) {
             ShowNewFrame_();
         }
         if (event.key.code == sf::Keyboard::Key::Right) {
-            kernel_.CamRotateDown();
+            kernel_.CamRotateRight();
             ShowNewFrame_();
         }
     }
