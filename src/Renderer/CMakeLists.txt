@@ -1,10 +1,11 @@
 set(Renderer
-    Renderer.cpp
-    World.cpp
     Camera.cpp
-    TriangularObject.cpp
-    PixelScreen.cpp
     MathFuncs.cpp
+    PixelScreen.cpp
+    Renderer.cpp
+    TriangularObject.cpp
+    Triangle.cpp
+    World.cpp
     )
 add_library(Renderer ${Renderer})
 target_link_libraries(Renderer sfml-graphics)
