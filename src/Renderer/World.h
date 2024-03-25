@@ -12,7 +12,7 @@ class World {
 public:
     World() = default;
 
-    void AddObject(Object obj);
+    void AddObject(Object&& obj);
     const std::vector<Object>& GetObjects() const;
 
 private:

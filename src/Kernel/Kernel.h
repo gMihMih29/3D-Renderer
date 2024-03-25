@@ -25,7 +25,7 @@ public:
     void CamRotateDown();
     void CamRotateLeft();
     void CamRotateRight();
-    void AddObject(TriangularObject obj);
+    void AddObject(TriangularObject&& obj);
 
     PixelScreen GetScene();
 

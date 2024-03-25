@@ -1,5 +1,7 @@
 #include "Kernel.h"
 
+#include <utility>
+
 namespace ThreeDRenderer {
 
 Kernel::Kernel() : Kernel(kCamWidth, kCamHeight) {
@@ -40,8 +42,8 @@ void Kernel::CamRotateRight() {
     cam_.RotateRightDeg(kRotationSpeedDeg);
 }
 
-void Kernel::AddObject(TriangularObject obj) {
-    world_.AddObject(obj);
+void Kernel::AddObject(TriangularObject&& obj) {
+    world_.AddObject(std::move(obj));
 }
 
 PixelScreen Kernel::GetScene() {
