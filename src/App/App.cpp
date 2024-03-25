@@ -94,7 +94,7 @@ void App::AddNewObject_() {
     try {
         std::string input;
 
-        Utilities::Logger::kConsole.Log("Enter path to .obj file with new object:");
+        Utilities::Logger::kConsole.Info("Enter path to .obj file with new object:");
         std::getline(std::cin, input);
         if (input.substr(0, 4) == "exit") {
             Utilities::Logger::kConsole.Info("The program continues to work.");
@@ -103,10 +103,10 @@ void App::AddNewObject_() {
         ObjectParser parser;
         TriangularObject obj = parser.ParseObject(input);
 
-        Utilities::Logger::kConsole.Log(
+        Utilities::Logger::kConsole.Info(
             "Enter color of new object: (format: <R> <G> <B>, where R, G, B are numbers, each number is integer and "
             ">=0 and <255)");
-        Utilities::Logger::kConsole.Log("Example: 128 0 255");
+        Utilities::Logger::kConsole.Info("Example: 128 0 255");
         std::getline(std::cin, input);
         if (input.substr(0, 4) == "exit") {
             Utilities::Logger::kConsole.Info("The program continues to work.");
@@ -114,9 +114,9 @@ void App::AddNewObject_() {
         }
         obj.SetColor(parser.ParseColor(input));
 
-        Utilities::Logger::kConsole.Log(
+        Utilities::Logger::kConsole.Info(
             "Enter position of new object: (format: <x> <y> <z>, where x, y, z are numbers)");
-        Utilities::Logger::kConsole.Log("Example: 1.5 -0.5 0");
+        Utilities::Logger::kConsole.Info("Example: 1.5 -0.5 0");
         std::getline(std::cin, input);
         if (input.substr(0, 4) == "exit") {
             Utilities::Logger::kConsole.Info("The program continues to work.");
