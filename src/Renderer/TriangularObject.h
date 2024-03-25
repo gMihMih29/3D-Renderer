@@ -24,6 +24,7 @@ public:
                      const std::vector<ConnectionVector>& connections);
 
     void SetPosition(const CoordinatesVector& pos);
+    void SetColor(sf::Color color);
     CoordinatesVector GetPosition() const;
     const ColorVector& GetColor() const;
     CoordinatesMatrix GetVertexesLocal() const;

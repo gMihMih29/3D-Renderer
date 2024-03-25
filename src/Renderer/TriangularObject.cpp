@@ -72,6 +72,10 @@ void TriangularObject::SetPosition(const CoordinatesVector& pos) {
     position_(3) = 0;
 }
 
+void TriangularObject::SetColor(sf::Color color) {
+    color_ = color;
+}
+
 TriangularObject::CoordinatesVector TriangularObject::GetPosition() const {
     return CoordinatesVector(position_(0), position_(1), position_(2));
 }
