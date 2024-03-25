@@ -1,6 +1,7 @@
 #include "react.h"
 
 #include <iostream>
+namespace ThreeDRendererExceptions {
 
 void react() {
     try {
@@ -8,4 +9,6 @@ void react() {
     } catch (...) {
         std::cout << "Soon there will be better try-catch";
     }
+}
+
 }
