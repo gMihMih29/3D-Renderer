@@ -3,6 +3,7 @@
 #include <Eigen/Dense>
 
 namespace ThreeDRenderer {
+
 class Triangle {
     using PositionVector = Eigen::Vector3d;
     using PositionVector4D = Eigen::Vector4d;
@@ -22,4 +23,5 @@ private:
     PositionVector4D point3_;
     NormalVector normal_;
 };
+
 }  // namespace ThreeDRenderer

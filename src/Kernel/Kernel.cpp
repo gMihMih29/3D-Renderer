@@ -7,7 +7,7 @@ namespace ThreeDRenderer {
 Kernel::Kernel() : Kernel(kCamWidth, kCamHeight) {
 }
 
-Kernel::Kernel(int camWidth, int camHeight) : cam_(camWidth, camHeight), world_() {
+Kernel::Kernel(int cam_width, int cam_height) : cam_(cam_width, cam_height), world_() {
 }
 
 void Kernel::CamMoveForward() {

@@ -8,6 +8,7 @@
 #include "Triangle.h"
 
 namespace ThreeDRenderer {
+
 class TriangularObject {
 public:
     using ColorVector = sf::Color;
@@ -37,4 +38,5 @@ private:
     ColorVector color_ = ColorVector(0, 0, 0);
     std::vector<Surface> surfaces_;
 };
+
 }  // namespace ThreeDRenderer

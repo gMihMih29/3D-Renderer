@@ -1,4 +1,5 @@
 namespace ThreeDRendererExceptions {
-void react();
+
+void React();
 
 }

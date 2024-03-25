@@ -3,6 +3,7 @@
 #include <cassert>
 
 namespace ThreeDRenderer {
+
 Triangle::Triangle(PositionVector p1, PositionVector p2, PositionVector p3, NormalVector direction) {
     point1_ << p1(0), p1(1), p1(2), 1;
     point2_ << p2(0), p2(1), p2(2), 1;

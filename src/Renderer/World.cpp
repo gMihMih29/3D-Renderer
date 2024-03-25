@@ -1,6 +1,7 @@
 #include "World.h"
 
 namespace ThreeDRenderer {
+
 void World::AddObject(World::Object&& obj) {
     objects_.push_back(std::move(obj));
 }

@@ -1,16 +1,18 @@
 #pragma once
 
+#include <cstring>
 #include <ctime>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <cstring>
 
 namespace Utilities {
+
 class Logger {
     const std::string kEMPTY = "";
     const std::string kERROR = "ERROR";
     const std::string kINFO = "INFO";
+
 public:
     static const Logger kConsole;
     static const Logger kConsoleTimeSpan;
@@ -85,4 +87,5 @@ void Logger::LogWithType_(const T& message, const std::string& type) const {
         std::cout.flush();
     }
 }
+
 };  // namespace Utilities

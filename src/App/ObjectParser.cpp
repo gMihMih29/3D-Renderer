@@ -25,10 +25,10 @@ TriangularObject ObjectParser::ParseObject(const std::string& path) const {
     std::vector<TriangularObject::ConnectionVector> connections;
     std::vector<TriangularObject::NormalVector> normals;
     std::vector<TriangularObject::Surface> surfaces;
-    int everyFaceElementHasNormalVector = 0;
-    int lineNumber = 0;
+    int every_face_elemen_has_normal_vector = 0;
+    int line_number = 0;
     while (std::getline(file, line)) {
-        ++lineNumber;
+        ++line_number;
         std::string_view cmd = line;
         if (cmd.find('#') != std::string_view::npos) {
             cmd = cmd.substr(0, cmd.find('#'));
@@ -37,11 +37,10 @@ TriangularObject ObjectParser::ParseObject(const std::string& path) const {
             continue;
         }
         if (cmd[0] == 'v' && cmd[1] == ' ') {
-            double x, y, z;
             std::vector<std::string_view> params = Utilities::StringViewSplit(cmd.substr(2), ' ');
             if (params.size() < 3) {
                 throw std::runtime_error("Incorrect format of file! Not enough parameters. Line in file: " +
-                                         std::to_string(lineNumber));
+                                         std::to_string(line_number));
             }
             for (int i = 0; i < 3; ++i) {
                 for (int j = 0; j < params[i].size(); ++j) {
@@ -50,19 +49,18 @@ TriangularObject ObjectParser::ParseObject(const std::string& path) const {
                         continue;
                     }
                     throw std::runtime_error("Incorrect format of file! Not a number. Line in file: " +
-                                             std::to_string(lineNumber));
+                                             std::to_string(line_number));
                 }
             }
-            x = std::atof(params[0].data());
-            y = std::atof(params[1].data());
-            z = std::atof(params[2].data());
+            double x = std::atof(params[0].data());
+            double y = std::atof(params[1].data());
+            double z = std::atof(params[2].data());
             vertexes.emplace_back(x, y, z);
         } else if (cmd[0] == 'v' && cmd[1] == 'n' && cmd[2] == ' ') {
-            double x, y, z;
             std::vector<std::string_view> params = Utilities::StringViewSplit(cmd.substr(3), ' ');
             if (params.size() != 3) {
                 throw std::runtime_error("Incorrect format of file! Not enough parameters. Line in file: " +
-                                         std::to_string(lineNumber));
+                                         std::to_string(line_number));
             }
             for (int i = 0; i < 3; ++i) {
                 for (int j = 0; j < params[i].size(); ++j) {
@@ -71,92 +69,95 @@ TriangularObject ObjectParser::ParseObject(const std::string& path) const {
                         continue;
                     }
                     throw std::runtime_error("Incorrect format of file! Not a number. Line in file: " +
-                                             std::to_string(lineNumber));
+                                             std::to_string(line_number));
                 }
             }
-            x = std::atof(params[0].data());
-            y = std::atof(params[1].data());
-            z = std::atof(params[2].data());
+            double x = std::atof(params[0].data());
+            double y = std::atof(params[1].data());
+            double z = std::atof(params[2].data());
             normals.emplace_back(x, y, z);
         } else if (cmd[0] == 'f' && cmd[1] == ' ') {
             if (vertexes.size() == 0) {
                 throw std::runtime_error("Incorrect format of file! No vertexes were found. Line in file:" +
-                                         std::to_string(lineNumber));
+                                         std::to_string(line_number));
             }
             std::vector<std::string_view> params = Utilities::StringViewSplit(cmd.substr(2), ' ');
             if (params.size() < 3) {
                 throw std::runtime_error("Incorrect format of file! Not enough parameters. Line in file:" +
-                                         std::to_string(lineNumber));
+                                         std::to_string(line_number));
             }
-            TriangularObject::ConnectionVector resConnection = TriangularObject::ConnectionVector();
+            TriangularObject::ConnectionVector result_connection = TriangularObject::ConnectionVector();
             TriangularObject::NormalVector norm = TriangularObject::NormalVector(0, 0, 0);
             for (int i = 0; i < params.size(); ++i) {
                 std::vector<std::string_view> val = Utilities::StringViewSplit(params[i], '/');
-                int vertexNum, secondVertex, thirdVertex;
-                vertexNum = std::atoi(val[0].data());
-                --vertexNum;
-                if (vertexNum / vertexes.size() != 0) {
+                int vertex_index = 0;
+                vertex_index = std::atoi(val[0].data());
+                --vertex_index;
+                if (vertex_index / vertexes.size() != 0) {
                     throw std::runtime_error("Incorrect format of file! Index of vertex out of range. Line in file: " +
-                                             std::to_string(lineNumber));
+                                             std::to_string(line_number));
                 }
-                if (vertexNum < 0) {
-                    vertexNum += vertexes.size();
+                if (vertex_index < 0) {
+                    vertex_index += vertexes.size();
                 }
-                resConnection.push_back(vertexNum);
+                result_connection.push_back(vertex_index);
                 if (val.size() == 3) {
-                    if (everyFaceElementHasNormalVector == -1) {
+                    if (every_face_elemen_has_normal_vector == -1) {
                         throw std::runtime_error(
                             "Incorrect format of file! Illegal statement. You must be consistent in the way you "
                             "reference the vertex data. Line in file: " +
-                            std::to_string(lineNumber));
+                            std::to_string(line_number));
                     }
-                    everyFaceElementHasNormalVector = 1;
-                    int normalNumber = std::atoi(val[2].data());
-                    --normalNumber;
-                    if (normalNumber / normals.size() != 0) {
+                    every_face_elemen_has_normal_vector = 1;
+                    int normal_vector_index = std::atoi(val[2].data());
+                    --normal_vector_index;
+                    if (normal_vector_index / normals.size() != 0) {
                         throw std::runtime_error(
                             "Incorrect format of file! Index of normals out of range. Line in file: " +
-                            std::to_string(lineNumber));
+                            std::to_string(line_number));
                     }
-                    if (normalNumber < 0) {
-                        normalNumber += normals.size();
+                    if (normal_vector_index < 0) {
+                        normal_vector_index += normals.size();
                     }
-                    norm += normals[normalNumber];
-                    Utilities::Logger::kConsole.Info("Normal vector for surface on line" + std::to_string(lineNumber) + " :");
+                    norm += normals[normal_vector_index];
+                    Utilities::Logger::kConsole.Info("Normal vector for surface on line" + std::to_string(line_number) +
+                                                     " :");
                     Utilities::Logger::kConsole.Log(norm);
                 } else {
-                    if (everyFaceElementHasNormalVector == 1) {
+                    if (every_face_elemen_has_normal_vector == 1) {
                         throw std::runtime_error(
                             "Incorrect format of file! Illegal statement. You must be consistent in the way you "
                             "reference the vertex data. Line in file: " +
-                            std::to_string(lineNumber));
+                            std::to_string(line_number));
                     }
-                    everyFaceElementHasNormalVector = -1;
+                    every_face_elemen_has_normal_vector = -1;
                 }
             }
-            if (everyFaceElementHasNormalVector == 1) {
+            if (every_face_elemen_has_normal_vector == 1) {
                 Utilities::Logger::kConsole.Info("Normal vector for surface:");
                 Utilities::Logger::kConsole.Log(norm);
                 assert(!norm.isZero() && "Normal vector must be non zero.");
-                for (int i = 1; i + 1 < resConnection.size(); ++i) {
-                    surfaces.emplace_back(vertexes[resConnection[0]], vertexes[resConnection[1]],
-                                          vertexes[resConnection[2]], norm);
+                for (int i = 1; i + 1 < result_connection.size(); ++i) {
+                    surfaces.emplace_back(vertexes[result_connection[0]], vertexes[result_connection[1]],
+                                          vertexes[result_connection[2]], norm);
                 }
-            } else if (everyFaceElementHasNormalVector == -1) {
-                connections.push_back(resConnection);
+            } else if (every_face_elemen_has_normal_vector == -1) {
+                connections.push_back(result_connection);
             }
         }
     }
-    if (everyFaceElementHasNormalVector == 0) {
+    if (every_face_elemen_has_normal_vector == 0) {
         throw std::runtime_error("Incorrect format of file! There must be face elements for object");
     }
-    if (everyFaceElementHasNormalVector == 1) {
+    if (every_face_elemen_has_normal_vector == 1) {
         return TriangularObject({0, 0, 0}, {0, 0, 0}, std::move(surfaces));
     }
     return TriangularObject({0, 0, 0}, {0, 0, 0}, vertexes, connections);
 }
 
-sf::Color ObjectParser::ParseColor(const std::string& input) const{
+sf::Color ObjectParser::ParseColor(const std::string& input) const {
+    const int kMinColorValue = 0;
+    const int kMaxColorValue = 255;
     std::vector<std::string_view> params = Utilities::StringViewSplit(input, ' ');
     if (params.size() != 3) {
         throw std::runtime_error("Incorrect format of color! There must be three numbers.");
@@ -174,14 +175,17 @@ sf::Color ObjectParser::ParseColor(const std::string& input) const{
             throw std::runtime_error("Incorrect format of color! Parameter number " + std::to_string(i + 1));
         }
     }
-    int r, g, b;
-    r = std::atoi(params[0].data());
-    g = std::atoi(params[1].data());
-    b = std::atoi(params[2].data());
-    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
+    int red = 0;
+    int green = 0;
+    int blue = 0;
+    red = std::atoi(params[0].data());
+    green = std::atoi(params[1].data());
+    blue = std::atoi(params[2].data());
+    if (red < kMinColorValue || red > kMaxColorValue || green < kMinColorValue || green > kMaxColorValue ||
+        blue < kMinColorValue || blue > kMaxColorValue) {
         throw std::runtime_error("Incorrect format of color!");
     }
-    return sf::Color(r, g, b);
+    return sf::Color(red, green, blue);
 }
 
 TriangularObject::CoordinatesVector ObjectParser::ParsePosition(const std::string& input) const {
@@ -207,7 +211,9 @@ TriangularObject::CoordinatesVector ObjectParser::ParsePosition(const std::strin
             throw std::runtime_error("Incorrect format of position! Parameter number " + std::to_string(i + 1));
         }
     }
-    double x, y, z;
+    double x = 0;
+    double y = 0;
+    double z = 0;
     x = std::atof(params[0].data());
     y = std::atof(params[1].data());
     z = std::atof(params[2].data());

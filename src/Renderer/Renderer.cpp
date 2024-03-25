@@ -1,9 +1,10 @@
 #include "Renderer.h"
+
 #include "../Utilities/Logger.h"
 
 namespace ThreeDRenderer {
+
 PixelScreen Renderer::Render(World w, Camera c) {
-    // Utilities::Logger::console.Log(c.GetTransformToCameraSpaceMatrix());
     PixelScreen ps = PixelScreen(c.GetWidth(), c.GetHeight());
     int k = 0;
     for (int i = 0; i < ps.GetHeigth(); ++i) {
@@ -14,4 +15,5 @@ PixelScreen Renderer::Render(World w, Camera c) {
     }
     return ps;
 }
+
 }  // namespace ThreeDRenderer

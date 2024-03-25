@@ -1,9 +1,10 @@
-#include "react.h"
+#include "React.h"
 
 #include <iostream>
+
 namespace ThreeDRendererExceptions {
 
-void react() {
+void React() {
     try {
         throw;
     } catch (...) {
@@ -11,4 +12,4 @@ void react() {
     }
 }
 
-}
+}  // namespace ThreeDRendererExceptions

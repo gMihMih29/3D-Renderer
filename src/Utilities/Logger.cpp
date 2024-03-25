@@ -1,6 +1,7 @@
 #include "Logger.h"
 
 namespace Utilities {
+    
 const Logger Logger::kConsole = Utilities::Logger();
 const Logger Logger::kConsoleTimeSpan = Utilities::Logger(true);
 const Logger Logger::kLoggerFile = Utilities::Logger("../logs/" + Logger::GetCurrentDay_() + ".log", true);
@@ -107,4 +108,5 @@ void Logger::LogWithType_(const char* message, const std::string& type) const {
         std::cout.flush();
     }
 }
+
 }  // namespace Utilities

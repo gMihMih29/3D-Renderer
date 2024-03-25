@@ -1,5 +1,5 @@
 #include "App/App.h"
-#include "Exceptions/react.h"
+#include "Exceptions/React.h"
 
 int main() {
     try {
@@ -7,7 +7,7 @@ int main() {
         app.Run();
 
     } catch (...) {
-        react();
+        ThreeDRendererExceptions::React();
     }
     return 0;
 }

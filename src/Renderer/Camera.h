@@ -4,11 +4,14 @@
 #include <Eigen/Dense>
 
 namespace ThreeDRenderer {
+
 class Camera {
     using CoordinatesVector = Eigen::Vector3d;
     using DirectionVector = Eigen::Vector3d;
     using CameraSpaceTransfromMatrix = Eigen::Matrix4d;
     using DirectionMatrix = Eigen::Matrix3d;
+    const int kWidth = 800;
+    const int kHeight = 600;
 
 public:
     Camera() = default;
@@ -39,7 +42,8 @@ public:
 private:
     CoordinatesVector position_ = CoordinatesVector(0, 0, 0);
     DirectionMatrix directionMatrix_{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
-    int width_ = 800;
-    int height_ = 600;
+    int width_ = kWidth;
+    int height_ = kHeight;
 };
+
 }  // namespace ThreeDRenderer

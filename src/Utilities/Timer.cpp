@@ -1,6 +1,7 @@
 #include "Timer.h"
 
 namespace Utilities {
+
 Timer::Timer() {
     Reset();
 }
@@ -13,4 +14,5 @@ int64_t Timer::GetTime() {
 void Timer::Reset() {
     start_ = std::chrono::high_resolution_clock::now();
 }
+
 }  // namespace Utilities

@@ -20,10 +20,10 @@ TriangularObject::TriangularObject(CoordinatesVector pos, ColorVector color,
     assert(connections.size() != 0 && "There must be some connections for object");
     position_ = CoordinatesVector4D(pos(0), pos(1), pos(2), 0);
     color_ = color;
-    size_t cntVertexes = vertexes.size();
-    std::vector<NormalVector> normals(cntVertexes, NormalVector(0, 0, 0));
-    for (int i = 0; i < cntVertexes; ++i) {
-        std::vector<bool> used(cntVertexes);
+    size_t count_vertexes = vertexes.size();
+    std::vector<NormalVector> normals(count_vertexes, NormalVector(0, 0, 0));
+    for (int i = 0; i < count_vertexes; ++i) {
+        std::vector<bool> used(count_vertexes);
         for (int j = 0; j < connections.size(); ++j) {
             assert(connections[j].size() >= 3 && "Surfaces must contain at least 3 vertexes");
             for (int k = 0; k < connections[j].size(); ++k) {
@@ -46,21 +46,21 @@ TriangularObject::TriangularObject(CoordinatesVector pos, ColorVector color,
             }
         }
     }
-    for (int i = 0; i < cntVertexes; ++i) {
+    for (int i = 0; i < count_vertexes; ++i) {
         assert(!normals[i].isZero() && "Normal vector must be non zero");
         normals[i] = -normals[i];
         // normals[i].normalize();
     }
     for (int i = 0; i < connections.size(); ++i) {
-        NormalVector surfaceNorm;
+        NormalVector surface_normal_vector;
         for (int j = 0; j < connections[i].size(); ++j) {
-            surfaceNorm += normals[connections[i][j]];
+            surface_normal_vector += normals[connections[i][j]];
         }
-        assert(!surfaceNorm.isZero() && "Normal vector must be non zero");
-        surfaceNorm.normalize();
+        assert(!surface_normal_vector.isZero() && "Normal vector must be non zero");
+        surface_normal_vector.normalize();
         for (int j = 1; j + 1 < connections[i].size(); ++j) {
             surfaces_.emplace_back(vertexes[connections[i][0]], vertexes[connections[i][j]],
-                                   vertexes[connections[i][j + 1]], surfaceNorm);
+                                   vertexes[connections[i][j + 1]], surface_normal_vector);
         }
     }
 }

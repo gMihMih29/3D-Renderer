@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../Renderer/PixelScreen.h"
 #include <SFML/Graphics.hpp>
+
+#include "../Renderer/PixelScreen.h"
 
 namespace ThreeDRenderer {
 

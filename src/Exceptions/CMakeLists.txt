@@ -1,3 +1,3 @@
 set(Exceptions
-    react.cpp)
+    React.cpp)
 add_library(Exceptions ${Exceptions})

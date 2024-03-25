@@ -4,6 +4,7 @@
 #include <numbers>
 
 namespace ThreeDRenderer {
+
 double DegToRad(double angle);
 
 }  // namespace ThreeDRenderer

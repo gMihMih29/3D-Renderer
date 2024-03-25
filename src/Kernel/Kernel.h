@@ -15,7 +15,7 @@ class Kernel {
 
 public:
     Kernel();
-    Kernel(int camWidth, int camHeight);
+    Kernel(int cam_width, int cam_height);
 
     void CamMoveForward();
     void CamMoveBackwads();

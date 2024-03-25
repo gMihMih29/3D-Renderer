@@ -6,6 +6,7 @@
 #include "TriangularObject.h"
 
 namespace ThreeDRenderer {
+
 class World {
     using Object = TriangularObject;
 
@@ -18,4 +19,5 @@ public:
 private:
     std::vector<Object> objects_;
 };
+
 }  // namespace ThreeDRenderer
