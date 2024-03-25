@@ -12,13 +12,13 @@ class Logger {
     const std::string kERROR = "ERROR";
     const std::string kINFO = "INFO";
 public:
-    static const Logger console;
-    static const Logger consoleTimeSpan;
-    static const Logger loggerFile;
+    static const Logger kConsole;
+    static const Logger kConsoleTimeSpan;
+    static const Logger kLoggerFile;
 
     Logger();
-    Logger(bool useTimeStamp);
-    Logger(std::string path, bool useTimeStamp = false);
+    explicit Logger(bool use_time_span);
+    explicit Logger(std::string path, bool use_time_span = false);
 
     void Log(const char* message) const;
     template <class T>
@@ -40,8 +40,8 @@ private:
     static std::string GetCurrentTimeLog_();
     static std::string GetCurrentDay_();
 
-    bool writeToFile_;
-    bool useTimeStamp_;
+    bool write_to_file_;
+    bool use_time_stamp_;
     std::string path_;
     // std::ofstream fout_;
 };
@@ -63,12 +63,12 @@ void Logger::Info(const T& message) const {
 
 template <class T>
 void Logger::LogWithType_(const T& message, const std::string& type) const {
-    if (writeToFile_) {
+    if (write_to_file_) {
         auto fout = std::ofstream(path_);
         if (!type.empty()) {
             fout << "[" << type << "] ";
         }
-        if (useTimeStamp_) {
+        if (use_time_stamp_) {
             fout << GetCurrentTimeLog_();
         }
         fout << message << std::endl;
@@ -78,7 +78,7 @@ void Logger::LogWithType_(const T& message, const std::string& type) const {
         if (!type.empty()) {
             std::cout << "[" << type << "] ";
         }
-        if (useTimeStamp_) {
+        if (use_time_stamp_) {
             std::cout << GetCurrentTimeLog_();
         }
         std::cout << message << std::endl;
