@@ -1,9 +1,14 @@
 #include "App.h"
 
+#include <cstdlib>
 #include <iostream>
+#include <stdexcept>
+#include <string>
+#include <string_view>
 #include <utility>
 
 #include "../Utilities/Logger.h"
+#include "../Utilities/StringViewSplit.h"
 #include "../Utilities/Timer.h"
 #include "ObjectParser.h"
 
@@ -25,7 +30,7 @@ void App::Run() {
     {
         Utilities::Timer t;
         view_.Draw(kernel_.GetScene());
-        Utilities::Logger::console.Info("New frame was rendered in " + std::to_string(t.GetTime()) + " millisecond.");
+        Utilities::Logger::kConsole.Info("New frame was rendered in " + std::to_string(t.GetTime()) + " millisecond.");
     }
     while (window_.isOpen()) {
         sf::Event event;
@@ -38,7 +43,7 @@ void App::Run() {
 
 void App::HandleEvent_(const sf::Event& event) {
     if (event.type == sf::Event::KeyPressed) {
-        Utilities::Logger::console.Info("Key " + std::to_string(event.key.code) + " was pressed!");
+        Utilities::Logger::kConsole.Info("Key " + std::to_string(event.key.code) + " was pressed!");
         if (event.key.code == sf::Keyboard::Key::Escape) {
             window_.close();
             return;
@@ -87,40 +92,50 @@ void App::HandleEvent_(const sf::Event& event) {
 
 void App::AddNewObject_() {
     try {
-        Utilities::Logger::console.Log("Enter path to .obj file with new object:");
-        std::string path;
-        std::cin >> path;
-        ObjectParser parser;
-        Utilities::Timer t;
-        TriangularObject obj = parser.Read(path);
-        Utilities::Logger::consoleTimeSpan.Info("Object was added in " + std::to_string(t.GetTime()) +
-                                                " milliseconds.");
-        obj.SetPosition({1, 1, 1});
-        // Utilities::Logger::console.Info("obj.GetPosition()");
-        // Utilities::Logger::console.Log(obj.GetPosition());
-        // Utilities::Logger::console.Info("obj.GetColor()");
-        // Utilities::Logger::console.Log(obj.GetColor());
-        // Utilities::Logger::console.Info("obj.GetVertexesLocal()");
-        // Utilities::Logger::console.Log(obj.GetVertexesLocal());
-        // Utilities::Logger::console.Info("obj.GetVertexesGlobal()");
-        // Utilities::Logger::console.Log(obj.GetVertexesGlobal());
+        std::string input;
 
-        // Utilities::Logger::console.Info("obj.GetSurfaces()");
-        // for (int i = 0; i < obj.GetSurfaces().size(); ++i) {
-        //     Utilities::Logger::console.Info("Surface number " + std::to_string(i));
-        //     Utilities::Logger::console.Log(obj.GetSurfaces()[i].GetPositionMatrix());
-        //     Utilities::Logger::console.Log(obj.GetSurfaces()[i].GetNormalVector());
-        // }
-    } catch (std::exception& e) {
-        Utilities::Logger::consoleTimeSpan.Error(e.what());
+        Utilities::Logger::kConsole.Log("Enter path to .obj file with new object:");
+        std::getline(std::cin, input);
+        if (input.substr(0, 4) == "exit") {
+            Utilities::Logger::kConsole.Info("The program continues to work.");
+            return;
+        }
+        ObjectParser parser;
+        TriangularObject obj = parser.ParseObject(input);
+
+        Utilities::Logger::kConsole.Log(
+            "Enter color of new object: (format: <R> <G> <B>, where R, G, B are numbers, each number is integer and "
+            ">=0 and <255)");
+        Utilities::Logger::kConsole.Log("Example: 128 0 255");
+        std::getline(std::cin, input);
+        if (input.substr(0, 4) == "exit") {
+            Utilities::Logger::kConsole.Info("The program continues to work.");
+            return;
+        }
+        obj.SetColor(parser.ParseColor(input));
+
+        Utilities::Logger::kConsole.Log(
+            "Enter position of new object: (format: <x> <y> <z>, where x, y, z are numbers)");
+        Utilities::Logger::kConsole.Log("Example: 1.5 -0.5 0");
+        std::getline(std::cin, input);
+        if (input.substr(0, 4) == "exit") {
+            Utilities::Logger::kConsole.Info("The program continues to work.");
+            return;
+        }
+        obj.SetPosition(parser.ParsePosition(input));
+
+        kernel_.AddObject(std::move(obj));
+        Utilities::Logger::kConsole.Info("New object was added successfully!");
+    } catch (std::runtime_error& e) {
+        Utilities::Logger::kConsoleTimeSpan.Error(e.what());
     }
 }
 
 void App::ShowNewFrame_() {
     Utilities::Timer t;
     view_.Draw(kernel_.GetScene());
-    Utilities::Logger::consoleTimeSpan.Info("New frame was rendered in " + std::to_string(t.GetTime()) +
-                                            " millisecond.");
+    Utilities::Logger::kConsoleTimeSpan.Info("New frame was rendered in " + std::to_string(t.GetTime()) +
+                                             " millisecond.");
 }
 
 }  // namespace ThreeDRenderer

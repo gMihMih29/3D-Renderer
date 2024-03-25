@@ -8,10 +8,11 @@ namespace ThreeDRenderer {
 
 class ObjectParser {
 public:
-    TriangularObject Read(const std::string& path) const;
+    TriangularObject ParseObject(const std::string& path) const;
+    sf::Color ParseColor(const std::string& input) const;
+    TriangularObject::CoordinatesVector ParsePosition(const std::string& input) const;
 
 private:
-    std::vector<std::string_view> Split_(std::string_view str, char separator) const;
 };
 
 }  // namespace ThreeDRenderer
