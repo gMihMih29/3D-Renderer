@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-#include "MathFuncs.h"
+#include "../Funcs/MathFuncs.h"
 
 namespace ThreeDRenderer {
 
@@ -92,6 +92,14 @@ int Camera::GetWidth() const {
 
 int Camera::GetHeight() const {
     return height_;
+}
+
+double Camera::GetNearPlaneDistance() const {
+    return near_plane_distance_;
+}
+
+double Camera::GetHorizontalFieldOfViewRad() const {
+    return horizontal_field_of_view_angle_rad_;
 }
 
 }  // namespace ThreeDRenderer

@@ -17,6 +17,7 @@ public:
     using CoordinatesVector = Eigen::Vector3d;
     using CoordinatesVector4D = Eigen::Vector4d;
     using NormalVector = Eigen::Vector3d;
+    using NormalVectorMatrix = Eigen::Matrix3Xd;
     using Surface = Triangle;
 
 public:
@@ -31,6 +32,7 @@ public:
     CoordinatesMatrix GetVertexesLocal() const;
     CoordinatesMatrix GetVertexesGlobal() const;
     std::vector<NormalVector> GetNormalVectors() const;
+    NormalVectorMatrix GetNormalVectorMatrix() const;
     const std::vector<Surface>& GetSurfaces() const;
 
 private:

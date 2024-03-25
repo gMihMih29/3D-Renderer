@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Camera.h"
-#include "TriangularObject.h"
+#include "../Primitives/TriangularObject.h"
 
 namespace ThreeDRenderer {
 

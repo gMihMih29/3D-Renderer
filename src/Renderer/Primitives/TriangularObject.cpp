@@ -3,8 +3,6 @@
 #include <cassert>
 #include <cmath>
 
-#include "../Utilities/Logger.h"
-
 namespace ThreeDRenderer {
 
 TriangularObject::TriangularObject(CoordinatesVector pos, ColorVector color, std::vector<Surface>&& surfaces) {
@@ -110,6 +108,15 @@ std::vector<TriangularObject::NormalVector> TriangularObject::GetNormalVectors()
     std::vector<NormalVector> res(surfaces_.size());
     for (int i = 0; i < res.size(); ++i) {
         res[i] = surfaces_[i].GetNormalVector();
+    }
+    return res;
+}
+
+TriangularObject::NormalVectorMatrix TriangularObject::GetNormalVectorMatrix() const {
+    NormalVectorMatrix res;
+    res.resize(3, surfaces_.size());
+    for (int i = 0; i < surfaces_.size(); ++i) {
+        res.col(i) = surfaces_[i].GetNormalVector();
     }
     return res;
 }

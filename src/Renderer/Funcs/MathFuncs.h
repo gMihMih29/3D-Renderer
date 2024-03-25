@@ -1,10 +1,12 @@
 #pragma once
 #define _USE_MATH_DEFINES
-#include <cmath>
+#include <math.h>
 #include <numbers>
 
 namespace ThreeDRenderer {
 
-double DegToRad(double angle);
+inline double DegToRad(double angle) {
+    return angle * M_PI / 180;
+}
 
 }  // namespace ThreeDRenderer

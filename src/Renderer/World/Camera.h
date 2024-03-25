@@ -3,6 +3,8 @@
 #include <cmath>
 #include <Eigen/Dense>
 
+#include "../Funcs/MathFuncs.h"
+
 namespace ThreeDRenderer {
 
 class Camera {
@@ -12,6 +14,8 @@ class Camera {
     using DirectionMatrix = Eigen::Matrix3d;
     const int kWidth = 800;
     const int kHeight = 600;
+    const double kNearPlaneDistance = 1;
+    const double kHorizontalFieldOfViewAngleRad = DegToRad(120);
 
 public:
     Camera() = default;
@@ -38,12 +42,16 @@ public:
     const DirectionMatrix& GetDirectionMatrix() const;
     int GetWidth() const;
     int GetHeight() const;
+    double GetNearPlaneDistance() const;
+    double GetHorizontalFieldOfViewRad() const;
 
 private:
     CoordinatesVector position_ = CoordinatesVector(0, 0, 0);
     DirectionMatrix directionMatrix_{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
     int width_ = kWidth;
     int height_ = kHeight;
+    double near_plane_distance_ = kNearPlaneDistance;
+    double horizontal_field_of_view_angle_rad_ = kHorizontalFieldOfViewAngleRad;
 };
 
 }  // namespace ThreeDRenderer
