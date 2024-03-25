@@ -88,8 +88,8 @@ TriangularObject ObjectParser::ParseObject(const std::string& path) const {
                 throw std::runtime_error("Incorrect format of file! Not enough parameters. Line in file:" +
                                          std::to_string(lineNumber));
             }
-            TriangularObject::ConnectionVector resConnection;
-            TriangularObject::NormalVector norm;
+            TriangularObject::ConnectionVector resConnection = TriangularObject::ConnectionVector();
+            TriangularObject::NormalVector norm = TriangularObject::NormalVector(0, 0, 0);
             for (int i = 0; i < params.size(); ++i) {
                 std::vector<std::string_view> val = Utilities::StringViewSplit(params[i], '/');
                 int vertexNum, secondVertex, thirdVertex;
@@ -122,6 +122,8 @@ TriangularObject ObjectParser::ParseObject(const std::string& path) const {
                         normalNumber += normals.size();
                     }
                     norm += normals[normalNumber];
+                    Utilities::Logger::kConsole.Info("Normal vector for surface on line" + std::to_string(lineNumber) + " :");
+                    Utilities::Logger::kConsole.Log(norm);
                 } else {
                     if (everyFaceElementHasNormalVector == 1) {
                         throw std::runtime_error(
@@ -133,6 +135,8 @@ TriangularObject ObjectParser::ParseObject(const std::string& path) const {
                 }
             }
             if (everyFaceElementHasNormalVector == 1) {
+                Utilities::Logger::kConsole.Info("Normal vector for surface:");
+                Utilities::Logger::kConsole.Log(norm);
                 assert(!norm.isZero() && "Normal vector must be non zero.");
                 for (int i = 1; i + 1 < resConnection.size(); ++i) {
                     surfaces.emplace_back(vertexes[resConnection[0]], vertexes[resConnection[1]],
@@ -183,7 +187,7 @@ sf::Color ObjectParser::ParseColor(const std::string& input) const{
 TriangularObject::CoordinatesVector ObjectParser::ParsePosition(const std::string& input) const {
     std::vector<std::string_view> params = Utilities::StringViewSplit(input, ' ');
     if (params.size() != 3) {
-        throw std::runtime_error("Incorrect format of color! There must be three numbers.");
+        throw std::runtime_error("Incorrect format of position! There must be three numbers.");
     }
     for (int i = 0; i < 3; ++i) {
         bool sign = false;

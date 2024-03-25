@@ -21,7 +21,7 @@ TriangularObject::TriangularObject(CoordinatesVector pos, ColorVector color,
     position_ = CoordinatesVector4D(pos(0), pos(1), pos(2), 0);
     color_ = color;
     size_t cntVertexes = vertexes.size();
-    std::vector<NormalVector> normals(cntVertexes);
+    std::vector<NormalVector> normals(cntVertexes, NormalVector(0, 0, 0));
     for (int i = 0; i < cntVertexes; ++i) {
         std::vector<bool> used(cntVertexes);
         for (int j = 0; j < connections.size(); ++j) {
