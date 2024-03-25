@@ -10,7 +10,7 @@ private:
 public:
     Timer();
 
-    long long GetTime();
+    int64_t GetTime();
 
     void Reset();
 
