@@ -120,9 +120,6 @@ TriangularObject ObjectParser::ParseObject(const std::string& path) const {
                         normal_vector_index += normals.size();
                     }
                     norm += normals[normal_vector_index];
-                    Utilities::Logger::kConsole.Info("Normal vector for surface on line" + std::to_string(line_number) +
-                                                     " :");
-                    Utilities::Logger::kConsole.Log(norm);
                 } else {
                     if (every_face_elemen_has_normal_vector == 1) {
                         throw std::runtime_error(
@@ -134,8 +131,6 @@ TriangularObject ObjectParser::ParseObject(const std::string& path) const {
                 }
             }
             if (every_face_elemen_has_normal_vector == 1) {
-                Utilities::Logger::kConsole.Info("Normal vector for surface:");
-                Utilities::Logger::kConsole.Log(norm);
                 assert(!norm.isZero() && "Normal vector must be non zero.");
                 for (int i = 1; i + 1 < result_connection.size(); ++i) {
                     surfaces.emplace_back(vertexes[result_connection[0]], vertexes[result_connection[1]],

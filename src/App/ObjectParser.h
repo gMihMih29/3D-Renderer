@@ -4,7 +4,7 @@
 #include <string_view>
 #include <vector>
 
-#include "../Renderer/TriangularObject.h"
+#include "../Renderer/Primitives/TriangularObject.h"
 
 namespace ThreeDRenderer {
 

@@ -1,9 +1,10 @@
 #pragma once
 
 #include "../Renderer/PixelScreen.h"
+#include "../Renderer/Primitives/TriangularObject.h"
 #include "../Renderer/Renderer.h"
-#include "../Renderer/TriangularObject.h"
-#include "../Renderer/World.h"
+#include "../Renderer/World/Camera.h"
+#include "../Renderer/World/World.h"
 
 namespace ThreeDRenderer {
 

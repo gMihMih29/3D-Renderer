@@ -47,7 +47,8 @@ void Kernel::AddObject(TriangularObject&& obj) {
 }
 
 PixelScreen Kernel::GetScene() {
-    return Renderer::Render(world_, cam_);
+    Renderer renderer;
+    return renderer.Render(world_, cam_);
 }
 
 }  // namespace ThreeDRenderer
