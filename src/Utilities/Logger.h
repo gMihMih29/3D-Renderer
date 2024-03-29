@@ -9,9 +9,9 @@
 namespace Utilities {
 
 class Logger {
-    const std::string kEMPTY = "";
-    const std::string kERROR = "ERROR";
-    const std::string kINFO = "INFO";
+    static constexpr const char* kEmpty = "";
+    static constexpr const char* kError = "ERROR";
+    static constexpr const char* kInfo = "INFO";
 
 public:
     static const Logger kConsole;
@@ -50,17 +50,17 @@ private:
 
 template <class T>
 void Logger::Log(const T& message) const {
-    LogWithType_(message, kEMPTY);
+    LogWithType_(message, kEmpty);
 }
 
 template <class T>
 void Logger::Error(const T& message) const {
-    LogWithType_(message, kERROR);
+    LogWithType_(message, kError);
 }
 
 template <class T>
 void Logger::Info(const T& message) const {
-    LogWithType_(message, kINFO);
+    LogWithType_(message, kInfo);
 }
 
 template <class T>

@@ -5,17 +5,15 @@
 namespace Utilities {
 
 class Timer {
-private:
-    std::chrono::_V2::system_clock::time_point start_;
-
 public:
     Timer();
 
-    int64_t GetTime();
-
+    int64_t GetMilliseconds() const;
     void Reset();
 
-    ~Timer() = default;
+private:
+    std::chrono::_V2::system_clock::time_point start_;
+
 };
 
 }  // namespace Utilities

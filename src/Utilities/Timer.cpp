@@ -6,7 +6,7 @@ Timer::Timer() {
     Reset();
 }
 
-int64_t Timer::GetTime() {
+int64_t Timer::GetMilliseconds() const {
     auto elapsed = std::chrono::high_resolution_clock::now() - start_;
     return std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
 }

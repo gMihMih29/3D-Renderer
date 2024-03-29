@@ -57,7 +57,7 @@ std::string Logger::GetCurrentDay_() {
     const int start_year = 1900;
     const int limit_for_one_char_number = 10;
     std::string res;
-    std::time_t t = std::time(0);   // get time now
+    std::time_t t = std::time(0);
     std::tm* now = std::localtime(&t);
     res += std::to_string(now->tm_year + start_year);
     res += '-';
@@ -74,20 +74,20 @@ std::string Logger::GetCurrentDay_() {
 }
 
 void Logger::Log(const char* message) const {
-    LogWithType_(message, kEMPTY);
+    LogWithType_(message, kEmpty);
 }
 
 void Logger::Error(const char* message) const {
-    LogWithType_(message, kERROR);
+    LogWithType_(message, kError);
 }
 
 void Logger::Info(const char* message) const {
-    LogWithType_(message, kINFO);
+    LogWithType_(message, kInfo);
 }
 
 void Logger::LogWithType_(const char* message, const std::string& type) const {
     if (write_to_file_) {
-        auto fout = std::ofstream(path_, std::ios_base::app);
+        std::ofstream fout(path_, std::ios_base::app);
         if (!type.empty()) {
             fout << "[" << type << "] ";
         }
