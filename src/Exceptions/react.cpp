@@ -8,7 +8,7 @@ void React() {
     try {
         throw;
     } catch (...) {
-        std::cout << "Soon there will be better try-catch";
+        std::cout << "Soon there will be better try-catch\n";
     }
 }
 

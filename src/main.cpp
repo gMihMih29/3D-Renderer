@@ -5,7 +5,6 @@ int main() {
     try {
         ThreeDRenderer::App app;
         app.Run();
-
     } catch (...) {
         ThreeDRendererExceptions::React();
     }

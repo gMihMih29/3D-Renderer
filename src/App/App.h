@@ -11,6 +11,7 @@ namespace ThreeDRenderer {
 class App {
     static const int kWidth = 800;
     static const int kHeight = 600;
+    static constexpr const char* kAppName = "3D Renderer";
 
 public:
     App();
@@ -24,8 +25,6 @@ private:
     void AddNewObject_();
     void ShowNewFrame_();
 
-    int width_;
-    int height_;
     Kernel kernel_;
     sf::RenderWindow window_;
     View view_;
