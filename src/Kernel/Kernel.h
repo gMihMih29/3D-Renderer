@@ -1,8 +1,6 @@
 #pragma once
 
 #include "../Renderer/PixelScreen.h"
-#include "../Renderer/Primitives/TriangularObject.h"
-#include "../Renderer/Renderer.h"
 #include "../Renderer/World/Camera.h"
 #include "../Renderer/World/World.h"
 
@@ -12,7 +10,7 @@ class Kernel {
     static const int kCamWidth = 800;
     static const int kCamHeight = 600;
     static constexpr double kMovementSpeed = 0.25;
-    static constexpr double kRotationSpeedDeg = 10;
+    static constexpr double kRotationSpeedDeg = 1;
 
 public:
     Kernel();
@@ -28,11 +26,12 @@ public:
     void CamRotateRight();
     void AddObject(TriangularObject&& obj);
 
-    PixelScreen GetScene();
+    const PixelScreen& MakeScene();
 
 private:
     Camera cam_;
     World world_;
+    PixelScreen screen_buffer_;
 };
 
 }  // namespace ThreeDRenderer

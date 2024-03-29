@@ -2,12 +2,15 @@
 
 #include <utility>
 
+#include "../Renderer/Primitives/TriangularObject.h"
+#include "../Renderer/Renderer.h"
+
 namespace ThreeDRenderer {
 
 Kernel::Kernel() : Kernel(kCamWidth, kCamHeight) {
 }
 
-Kernel::Kernel(int cam_width, int cam_height) : cam_(cam_width, cam_height), world_() {
+Kernel::Kernel(int cam_width, int cam_height) : cam_(), world_(), screen_buffer_(cam_width, cam_height) {
 }
 
 void Kernel::CamMoveForward() {
@@ -46,9 +49,10 @@ void Kernel::AddObject(TriangularObject&& obj) {
     world_.AddObject(std::move(obj));
 }
 
-PixelScreen Kernel::GetScene() {
+const PixelScreen& Kernel::MakeScene() {
     Renderer renderer;
-    return renderer.Render(world_, cam_);
+    renderer.Render(world_, cam_, screen_buffer_);
+    return screen_buffer_;
 }
 
 }  // namespace ThreeDRenderer
