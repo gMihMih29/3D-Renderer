@@ -13,10 +13,10 @@ class PixelScreen {
 public:
     PixelScreen() = default;
     PixelScreen(int width, int height);
-    sf::Vertex& GetPixel(int x, int y);
-    const sf::Vertex& GetPixel(int x, int y) const;
+    sf::Vertex& Pixel(int row, int column);
+    const sf::Vertex& Pixel(int row, int column) const;
     int GetWidth() const;
-    int GetHeigth() const;
+    int GetHeight() const;
     const PixelScreen::Pixels& GetPixels() const;
 
 private:
