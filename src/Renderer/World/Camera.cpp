@@ -4,15 +4,12 @@
 
 namespace ThreeDRenderer {
 
-Camera::Camera(int width, int height) : width_(width), height_(height) {
-}
-
-Camera::Camera(int width, int height, const CoordinatesVector& pos, const DirectionMatrix& directions)
-    : width_(width), height_(height), position_(pos), directionMatrix_(directions) {
+Camera::Camera(const Vector4& pos, const Matrix4& directions) : position_(pos), directionMatrix_(directions) {
 }
 
 void Camera::MoveForward(double distance) {
-    position_ += distance * GetDirectionOfCamera();
+    distance = -distance;
+    position_ += distance * GetForwardDirectionOfCamera();
 }
 
 void Camera::MoveBackwards(double distance) {
@@ -24,21 +21,18 @@ void Camera::MoveLeft(double distance) {
 }
 
 void Camera::MoveRight(double distance) {
-    position_ += distance * directionMatrix_.col(0);
+    position_ += distance * GetRightDirectionOfCamera();
 }
 
 void Camera::RotateDownRad(double angle) {
     double s = std::sin(angle);
     double c = std::cos(angle);
-    DirectionMatrix rx{{1, 0, 0}, {0, c, -s}, {0, s, c}};
+    Eigen::Matrix4d rx{{1, 0, 0, 0}, {0, c, -s, 0}, {0, s, c, 0}, {0, 0, 0, 1}};
     directionMatrix_ = rx * directionMatrix_;
 }
 
 void Camera::RotateLeftRad(double angle) {
-    double s = std::sin(angle);
-    double c = std::cos(angle);
-    DirectionMatrix ry{{c, 0, s}, {0, 1, 0}, {-s, 0, c}};
-    directionMatrix_ = ry * directionMatrix_;
+    RotateRightRad(-angle);
 }
 
 void Camera::RotateUpDeg(double angle) {
@@ -58,40 +52,38 @@ void Camera::RotateLeftDeg(double angle) {
 }
 
 void Camera::RotateRightRad(double angle) {
-    RotateLeftRad(-angle);
+    double s = std::sin(angle);
+    double c = std::cos(angle);
+    Eigen::Matrix4d ry{{c, 0, s, 0}, {0, 1, 0, 0}, {-s, 0, c, 0}, {0, 0, 0, 1}};
+    directionMatrix_ = ry * directionMatrix_;
 }
 
 void Camera::RotateRightDeg(double angle) {
     RotateRightRad(DegToRad(angle));
 }
 
-const Camera::CoordinatesVector& Camera::GetPosition() const {
+const Camera::Vector4& Camera::GetPosition() const {
     return position_;
 }
 
-Camera::DirectionVector Camera::GetDirectionOfCamera() const {
-    return -directionMatrix_.col(2);
+Camera::Vector4 Camera::GetForwardDirectionOfCamera() const {
+    return directionMatrix_.inverse() * Vector4(0, 0, -1, 0);
 }
 
-Camera::CameraSpaceTransfromMatrix Camera::GetTransformToCameraSpaceMatrix() const {
-    CameraSpaceTransfromMatrix res{
-        {directionMatrix_(0, 0), directionMatrix_(0, 1), directionMatrix_(0, 2), position_(0)},
-        {directionMatrix_(1, 0), directionMatrix_(1, 1), directionMatrix_(1, 2), position_(1)},
-        {directionMatrix_(2, 0), directionMatrix_(2, 1), directionMatrix_(2, 2), position_(2)},
-        {0, 0, 0, 1}};
+Camera::Vector4 Camera::GetRightDirectionOfCamera() const {
+    return directionMatrix_.inverse() * Vector4(-1, 0, 0, 0);
+}
+
+Camera::HomogeniousTransformation Camera::GetTransformToCameraSpaceMatrix() const {
+    HomogeniousTransformation res{{directionMatrix_(0, 0), directionMatrix_(0, 1), directionMatrix_(0, 2), 0},
+                                  {directionMatrix_(1, 0), directionMatrix_(1, 1), directionMatrix_(1, 2), 0},
+                                  {directionMatrix_(2, 0), directionMatrix_(2, 1), directionMatrix_(2, 2), 0},
+                                  {0, 0, 0, 1}};
     return res;
 }
 
-const Camera::DirectionMatrix& Camera::GetDirectionMatrix() const {
+const Camera::Matrix4& Camera::GetDirectionMatrix() const {
     return directionMatrix_;
-}
-
-int Camera::GetWidth() const {
-    return width_;
-}
-
-int Camera::GetHeight() const {
-    return height_;
 }
 
 double Camera::GetNearPlaneDistance() const {
