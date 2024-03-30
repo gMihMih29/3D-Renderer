@@ -49,6 +49,14 @@ void Kernel::AddObject(TriangularObject&& obj) {
     world_.AddObject(std::move(obj));
 }
 
+void Kernel::SetAmbientLight(AmbientLight&& light) {
+    world_.SetAmbientLight(light);
+}
+
+void Kernel::AddDirectionalLight(DirectionalLight&& light) {
+    world_.AddDirectionalLight(light);
+}
+
 const PixelScreen& Kernel::MakeScene() {
     Renderer renderer;
     renderer.Render(world_, cam_, screen_buffer_);

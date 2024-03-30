@@ -3,6 +3,8 @@
 #include "../Renderer/PixelScreen.h"
 #include "../Renderer/World/Camera.h"
 #include "../Renderer/World/World.h"
+#include "../Renderer/Light/AmbientLight.h"
+#include "../Renderer/Light/DirectionalLight.h"
 
 namespace ThreeDRenderer {
 
@@ -25,6 +27,8 @@ public:
     void CamRotateLeft();
     void CamRotateRight();
     void AddObject(TriangularObject&& obj);
+    void SetAmbientLight(AmbientLight&& light);
+    void AddDirectionalLight(DirectionalLight&& light);
 
     const PixelScreen& MakeScene();
 
