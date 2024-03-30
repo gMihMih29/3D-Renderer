@@ -8,6 +8,7 @@
 namespace ThreeDRenderer {
 
 class Camera {
+    using Vector3 = Eigen::Vector3d;
     using Vector4 = Eigen::Vector4d;
     using Matrix4 = Eigen::Matrix4d;
     using HomogeniousTransformation = Eigen::Matrix4d;
@@ -16,7 +17,7 @@ class Camera {
 
 public:
     Camera() = default;
-    Camera(const Vector4& pos, const Matrix4& directions);
+    Camera(const Vector3& pos, const Matrix4& directions);
 
     void MoveForward(double distance);
     void MoveBackwards(double distance);

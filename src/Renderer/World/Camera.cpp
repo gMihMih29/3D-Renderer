@@ -4,7 +4,8 @@
 
 namespace ThreeDRenderer {
 
-Camera::Camera(const Vector4& pos, const Matrix4& directions) : position_(pos), directionMatrix_(directions) {
+Camera::Camera(const Vector3& pos, const Matrix4& directions)
+    : position_(pos(0), pos(1), pos(2), 0), directionMatrix_(directions) {
 }
 
 void Camera::MoveForward(double distance) {
