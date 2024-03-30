@@ -1,10 +1,10 @@
 #pragma once
 
+#include "../Renderer/Light/AmbientLight.h"
+#include "../Renderer/Light/DirectionalLight.h"
 #include "../Renderer/PixelScreen.h"
 #include "../Renderer/World/Camera.h"
 #include "../Renderer/World/World.h"
-#include "../Renderer/Light/AmbientLight.h"
-#include "../Renderer/Light/DirectionalLight.h"
 
 namespace ThreeDRenderer {
 
@@ -18,14 +18,15 @@ public:
     Kernel();
     Kernel(int cam_width, int cam_height);
 
-    void CamMoveForward();
-    void CamMoveBackwads();
-    void CamMoveLeft();
-    void CamMoveRight();
-    void CamRotateUp();
-    void CamRotateDown();
-    void CamRotateLeft();
-    void CamRotateRight();
+    void MoveCameraForward();
+    void MoveCameraBackwads();
+    void MoveCameraLeft();
+    void MoveCameraRight();
+    void RotateCameraUp();
+    void RotateCameraDown();
+    void RotateCameraLeft();
+    void RotateCameraRight();
+    
     void AddObject(TriangularObject&& obj);
     void SetAmbientLight(AmbientLight&& light);
     void AddDirectionalLight(DirectionalLight&& light);

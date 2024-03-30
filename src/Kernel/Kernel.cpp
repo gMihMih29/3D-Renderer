@@ -13,35 +13,35 @@ Kernel::Kernel() : Kernel(kCamWidth, kCamHeight) {
 Kernel::Kernel(int cam_width, int cam_height) : cam_(), world_(), screen_buffer_(cam_width, cam_height) {
 }
 
-void Kernel::CamMoveForward() {
+void Kernel::MoveCameraForward() {
     cam_.MoveForward(kMovementSpeed);
 }
 
-void Kernel::CamMoveBackwads() {
+void Kernel::MoveCameraBackwads() {
     cam_.MoveBackwards(kMovementSpeed);
 }
 
-void Kernel::CamMoveLeft() {
+void Kernel::MoveCameraLeft() {
     cam_.MoveLeft(kMovementSpeed);
 }
 
-void Kernel::CamMoveRight() {
+void Kernel::MoveCameraRight() {
     cam_.MoveRight(kMovementSpeed);
 }
 
-void Kernel::CamRotateUp() {
+void Kernel::RotateCameraUp() {
     cam_.RotateUpDeg(kRotationSpeedDeg);
 }
 
-void Kernel::CamRotateDown() {
+void Kernel::RotateCameraDown() {
     cam_.RotateDownDeg(kRotationSpeedDeg);
 }
 
-void Kernel::CamRotateLeft() {
+void Kernel::RotateCameraLeft() {
     cam_.RotateLeftDeg(kRotationSpeedDeg);
 }
 
-void Kernel::CamRotateRight() {
+void Kernel::RotateCameraRight() {
     cam_.RotateRightDeg(kRotationSpeedDeg);
 }
 

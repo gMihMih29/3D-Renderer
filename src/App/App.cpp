@@ -55,35 +55,35 @@ void App::HandleKeyEvent_(const sf::Keyboard::Key& key) {
             ShowNewFrame_();
             break;
         case sf::Keyboard::Key::W:
-            kernel_.CamMoveForward();
+            kernel_.MoveCameraForward();
             ShowNewFrame_();
             break;
         case sf::Keyboard::Key::A:
-            kernel_.CamMoveLeft();
+            kernel_.MoveCameraLeft();
             ShowNewFrame_();
             break;
         case sf::Keyboard::Key::S:
-            kernel_.CamMoveBackwads();
+            kernel_.MoveCameraBackwads();
             ShowNewFrame_();
             break;
         case sf::Keyboard::Key::D:
-            kernel_.CamMoveRight();
+            kernel_.MoveCameraRight();
             ShowNewFrame_();
             break;
         case sf::Keyboard::Key::Up:
-            kernel_.CamRotateUp();
+            kernel_.RotateCameraUp();
             ShowNewFrame_();
             break;
         case sf::Keyboard::Key::Left:
-            kernel_.CamRotateLeft();
+            kernel_.RotateCameraLeft();
             ShowNewFrame_();
             break;
         case sf::Keyboard::Key::Down:
-            kernel_.CamRotateDown();
+            kernel_.RotateCameraDown();
             ShowNewFrame_();
             break;
         case sf::Keyboard::Key::Right:
-            kernel_.CamRotateRight();
+            kernel_.RotateCameraRight();
             ShowNewFrame_();
             break;
         default:
