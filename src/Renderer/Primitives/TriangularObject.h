@@ -5,8 +5,8 @@
 #include <utility>
 #include <vector>
 
-#include "Triangle.h"
 #include "../Light/Color.h"
+#include "Triangle.h"
 
 namespace ThreeDRenderer {
 
@@ -25,13 +25,15 @@ public:
 
     void SetPosition(const Vector3& pos);
     void SetColor(sf::Color color);
-    Vector3 GetPosition() const;
+
+    const Vector4& GetPosition() const;
     const Color& GetColor() const;
+    const std::vector<Triangle>& GetSurfaces() const;
+
     Matrix4xN MakeVertexesLocal() const;
     Matrix4xN MakeVertexesGlobal() const;
-    std::vector<Vector4> MakeNormalVectors() const;
     Matrix4xN MakeNormalVectorMatrix() const;
-    const std::vector<Triangle>& GetSurfaces() const;
+    std::vector<Vector4> MakeNormalVectors() const;
 
 private:
     Vector4 position_ = Vector4(0, 0, 0, 0);

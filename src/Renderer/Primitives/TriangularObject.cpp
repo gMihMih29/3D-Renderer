@@ -11,7 +11,7 @@ TriangularObject::TriangularObject(Vector3 pos, sf::Color color, std::vector<Tri
 
 TriangularObject::TriangularObject(Vector3 pos, sf::Color color, const std::vector<Vector3>& vertexes,
                                    const std::vector<ConnectionVector>& connections)
-    : position_(pos(0), pos(1), pos(2), 0), color_(color){
+    : position_(pos(0), pos(1), pos(2), 0), color_(color) {
     assert(vertexes.size() != 0 && "There must be some vertexes for object");
     assert(connections.size() != 0 && "There must be some connections for object");
     size_t count_vertexes = vertexes.size();
@@ -69,8 +69,8 @@ void TriangularObject::SetColor(sf::Color color) {
     color_ = Color(color);
 }
 
-TriangularObject::Vector3 TriangularObject::GetPosition() const {
-    return Vector3(position_(0), position_(1), position_(2));
+const TriangularObject::Vector4& TriangularObject::GetPosition() const {
+    return position_;
 }
 
 const Color& TriangularObject::GetColor() const {

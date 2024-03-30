@@ -13,8 +13,9 @@ public:
     Triangle(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 direction);
 
     const Vector4& GetPoint(int index) const;
-    Matrix4x3 MakePositionMatrix() const;
     const Vector4& GetNormalVector() const;
+    
+    Matrix4x3 MakePositionMatrix() const;
 
 private:
     Vector4 point0_;

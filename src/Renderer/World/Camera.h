@@ -33,13 +33,13 @@ public:
     void RotateRightRad(double angle);
     void RotateRightDeg(double angle);
 
+    double GetNearPlaneDistance() const;
+    double GetHorizontalFieldOfViewRad() const;
     const Vector4& GetPosition() const;
     Vector4 GetForwardDirectionOfCamera() const;
     Vector4 GetRightDirectionOfCamera() const;
-    HomogeniousTransformation GetTransformToCameraSpaceMatrix() const;
     const Matrix4& GetDirectionMatrix() const;
-    double GetNearPlaneDistance() const;
-    double GetHorizontalFieldOfViewRad() const;
+    HomogeniousTransformation GetTransformToCameraSpaceMatrix() const;
 
 private:
     Vector4 position_{0, 0, 0, 0};
