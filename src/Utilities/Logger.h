@@ -45,7 +45,6 @@ private:
     bool write_to_file_;
     bool use_time_stamp_;
     std::string path_;
-    // std::ofstream fout_;
 };
 
 template <class T>
@@ -66,7 +65,10 @@ void Logger::Info(const T& message) const {
 template <class T>
 void Logger::LogWithType_(const T& message, const std::string& type) const {
     if (write_to_file_) {
-        auto fout = std::ofstream(path_);
+        std::ofstream fout(path_, std::ios_base::app);
+        if (!fout.is_open()) {
+            return;
+        }
         if (!type.empty()) {
             fout << "[" << type << "] ";
         }
@@ -74,7 +76,6 @@ void Logger::LogWithType_(const T& message, const std::string& type) const {
             fout << GetCurrentTimeLog_();
         }
         fout << message << std::endl;
-        fout.flush();
         fout.close();
     } else {
         if (!type.empty()) {

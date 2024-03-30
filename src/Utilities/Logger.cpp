@@ -88,6 +88,9 @@ void Logger::Info(const char* message) const {
 void Logger::LogWithType_(const char* message, const std::string& type) const {
     if (write_to_file_) {
         std::ofstream fout(path_, std::ios_base::app);
+        if (!fout.is_open()) {
+            return;
+        }
         if (!type.empty()) {
             fout << "[" << type << "] ";
         }
@@ -95,7 +98,6 @@ void Logger::LogWithType_(const char* message, const std::string& type) const {
             fout << GetCurrentTimeLog_();
         }
         fout << message << std::endl;
-        fout.flush();
         fout.close();
     } else {
         if (!type.empty()) {
