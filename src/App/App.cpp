@@ -39,52 +39,56 @@ void App::HandleEvent_(const sf::Event& event) {
         ShowNewFrame_();
     }
     if (event.type == sf::Event::KeyPressed) {
-        switch (event.key.code) {
-            case sf::Keyboard::Key::Escape:
-                window_.close();
-                return;
-            case sf::Keyboard::Key::P:
-                AddNewObject_();
-                ShowNewFrame_();
-                break;
-            case sf::Keyboard::Key::W:
-                kernel_.CamMoveForward();
-                ShowNewFrame_();
-                break;
-            case sf::Keyboard::Key::A:
-                kernel_.CamMoveLeft();
-                ShowNewFrame_();
-                break;
-            case sf::Keyboard::Key::S:
-                kernel_.CamMoveBackwads();
-                ShowNewFrame_();
-                break;
-            case sf::Keyboard::Key::D:
-                kernel_.CamMoveRight();
-                ShowNewFrame_();
-                break;
-            case sf::Keyboard::Key::Up:
-                kernel_.CamRotateUp();
-                ShowNewFrame_();
-                break;
-            case sf::Keyboard::Key::Left:
-                kernel_.CamRotateLeft();
-                ShowNewFrame_();
-                break;
-            case sf::Keyboard::Key::Down:
-                kernel_.CamRotateDown();
-                ShowNewFrame_();
-                break;
-            case sf::Keyboard::Key::Right:
-                kernel_.CamRotateRight();
-                ShowNewFrame_();
-                break;
-            default:
-                break;
-        }
+        HandleKeyEvent_(event.key.code);
     }
     if (event.type == sf::Event::Closed) {
         window_.close();
+    }
+}
+
+void App::HandleKeyEvent_(const sf::Keyboard::Key& key) {
+    switch (key) {
+        case sf::Keyboard::Key::Escape:
+            window_.close();
+            return;
+        case sf::Keyboard::Key::P:
+            AddNewObject_();
+            ShowNewFrame_();
+            break;
+        case sf::Keyboard::Key::W:
+            kernel_.CamMoveForward();
+            ShowNewFrame_();
+            break;
+        case sf::Keyboard::Key::A:
+            kernel_.CamMoveLeft();
+            ShowNewFrame_();
+            break;
+        case sf::Keyboard::Key::S:
+            kernel_.CamMoveBackwads();
+            ShowNewFrame_();
+            break;
+        case sf::Keyboard::Key::D:
+            kernel_.CamMoveRight();
+            ShowNewFrame_();
+            break;
+        case sf::Keyboard::Key::Up:
+            kernel_.CamRotateUp();
+            ShowNewFrame_();
+            break;
+        case sf::Keyboard::Key::Left:
+            kernel_.CamRotateLeft();
+            ShowNewFrame_();
+            break;
+        case sf::Keyboard::Key::Down:
+            kernel_.CamRotateDown();
+            ShowNewFrame_();
+            break;
+        case sf::Keyboard::Key::Right:
+            kernel_.CamRotateRight();
+            ShowNewFrame_();
+            break;
+        default:
+            break;
     }
 }
 

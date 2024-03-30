@@ -22,6 +22,7 @@ public:
 
 private:
     void HandleEvent_(const sf::Event& event);
+    void HandleKeyEvent_(const sf::Keyboard::Key& key);
     void AddNewObject_();
     void ShowNewFrame_();
 
