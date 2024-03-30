@@ -3,14 +3,14 @@
 #include <vector>
 
 #include "Camera.h"
-#include "../Primitives/TriangularObject.h"
+#include "../Primitives/TriangulatedObject.h"
 #include "../Light/AmbientLight.h"
 #include "../Light/DirectionalLight.h"
 
 namespace ThreeDRenderer {
 
 class World {
-    using Object = TriangularObject;
+    using Object = TriangulatedObject;
 
 public:
     World() = default;

@@ -15,15 +15,15 @@
 
 namespace ThreeDRenderer {
 
-TriangularObject ObjectParser::ParseObject(const std::string& path) const {
+TriangulatedObject ObjectParser::ParseObject(const std::string& path) const {
     std::ifstream file(path);
     if (!file.is_open()) {
         throw std::runtime_error("Troubles with opening file!");
     }
     std::string line;
-    std::vector<TriangularObject::Vector3> vertexes;
-    std::vector<TriangularObject::ConnectionVector> connections;
-    std::vector<TriangularObject::Vector3> normals;
+    std::vector<TriangulatedObject::Vector3> vertexes;
+    std::vector<TriangulatedObject::ConnectionVector> connections;
+    std::vector<TriangulatedObject::Vector3> normals;
     std::vector<Triangle> surfaces;
     int every_face_elemen_has_normal_vector = 0;
     int line_number = 0;
@@ -86,8 +86,8 @@ TriangularObject ObjectParser::ParseObject(const std::string& path) const {
                 throw std::runtime_error("Incorrect format of file! Not enough parameters. Line in file:" +
                                          std::to_string(line_number));
             }
-            TriangularObject::ConnectionVector result_connection;
-            TriangularObject::Vector3 norm(0, 0, 0);
+            TriangulatedObject::ConnectionVector result_connection;
+            TriangulatedObject::Vector3 norm(0, 0, 0);
             for (int i = 0; i < params.size(); ++i) {
                 std::vector<std::string_view> val = Utilities::StringViewSplit(params[i], '/');
                 int vertex_index = 0;
@@ -145,9 +145,9 @@ TriangularObject ObjectParser::ParseObject(const std::string& path) const {
         throw std::runtime_error("Incorrect format of file! There must be face elements for object");
     }
     if (every_face_elemen_has_normal_vector == 1) {
-        return TriangularObject({0, 0, 0}, {0, 0, 0}, std::move(surfaces));
+        return TriangulatedObject({0, 0, 0}, {0, 0, 0}, std::move(surfaces));
     }
-    return TriangularObject({0, 0, 0}, {0, 0, 0}, vertexes, connections);
+    return TriangulatedObject({0, 0, 0}, {0, 0, 0}, vertexes, connections);
 }
 
 sf::Color ObjectParser::ParseColor(const std::string& input) const {
@@ -183,7 +183,7 @@ sf::Color ObjectParser::ParseColor(const std::string& input) const {
     return sf::Color(red, green, blue);
 }
 
-TriangularObject::Vector3 ObjectParser::ParsePosition(const std::string& input) const {
+TriangulatedObject::Vector3 ObjectParser::ParsePosition(const std::string& input) const {
     std::vector<std::string_view> params = Utilities::StringViewSplit(input, ' ');
     if (params.size() != 3) {
         throw std::runtime_error("Incorrect format of position! There must be three numbers.");
@@ -212,7 +212,7 @@ TriangularObject::Vector3 ObjectParser::ParsePosition(const std::string& input) 
     x = std::atof(params[0].data());
     y = std::atof(params[1].data());
     z = std::atof(params[2].data());
-    return TriangularObject::Vector3(x, y, z);
+    return TriangulatedObject::Vector3(x, y, z);
 }
 
 }  // namespace ThreeDRenderer

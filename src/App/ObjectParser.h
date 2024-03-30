@@ -4,15 +4,15 @@
 #include <string_view>
 #include <vector>
 
-#include "../Renderer/Primitives/TriangularObject.h"
+#include "../Renderer/Primitives/TriangulatedObject.h"
 
 namespace ThreeDRenderer {
 
 class ObjectParser {
 public:
-    TriangularObject ParseObject(const std::string& path) const;
+    TriangulatedObject ParseObject(const std::string& path) const;
     sf::Color ParseColor(const std::string& input) const;
-    TriangularObject::Vector3 ParsePosition(const std::string& input) const;
+    TriangulatedObject::Vector3 ParsePosition(const std::string& input) const;
 
 private:
 };

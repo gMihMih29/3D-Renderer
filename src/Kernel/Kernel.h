@@ -27,7 +27,7 @@ public:
     void RotateCameraLeft();
     void RotateCameraRight();
     
-    void AddObject(TriangularObject&& obj);
+    void AddObject(TriangulatedObject&& obj);
     void SetAmbientLight(AmbientLight&& light);
     void AddDirectionalLight(DirectionalLight&& light);
 

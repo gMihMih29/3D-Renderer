@@ -10,7 +10,7 @@
 
 namespace ThreeDRenderer {
 
-class TriangularObject {
+class TriangulatedObject {
 public:
     using ConnectionVector = std::vector<int>;
     using Matrix4xN = Eigen::Matrix4Xd;
@@ -19,8 +19,8 @@ public:
     using Matrix3xN = Eigen::Matrix3Xd;
 
 public:
-    TriangularObject(Vector3 pos, sf::Color color, std::vector<Triangle>&& surfaces);
-    TriangularObject(Vector3 pos, sf::Color color, const std::vector<Vector3>& vertexes,
+    TriangulatedObject(Vector3 pos, sf::Color color, std::vector<Triangle>&& surfaces);
+    TriangulatedObject(Vector3 pos, sf::Color color, const std::vector<Vector3>& vertexes,
                      const std::vector<ConnectionVector>& connections);
 
     void SetPosition(const Vector3& pos);

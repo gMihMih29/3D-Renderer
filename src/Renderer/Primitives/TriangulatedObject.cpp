@@ -1,15 +1,15 @@
-#include "TriangularObject.h"
+#include "TriangulatedObject.h"
 
 #include <cassert>
 #include <cmath>
 
 namespace ThreeDRenderer {
 
-TriangularObject::TriangularObject(Vector3 pos, sf::Color color, std::vector<Triangle>&& surfaces)
+TriangulatedObject::TriangulatedObject(Vector3 pos, sf::Color color, std::vector<Triangle>&& surfaces)
     : position_(pos(0), pos(1), pos(2), 0), color_(color), surfaces_(surfaces) {
 }
 
-TriangularObject::TriangularObject(Vector3 pos, sf::Color color, const std::vector<Vector3>& vertexes,
+TriangulatedObject::TriangulatedObject(Vector3 pos, sf::Color color, const std::vector<Vector3>& vertexes,
                                    const std::vector<ConnectionVector>& connections)
     : position_(pos(0), pos(1), pos(2), 0), color_(color) {
     assert(vertexes.size() != 0 && "There must be some vertexes for object");
@@ -58,26 +58,26 @@ TriangularObject::TriangularObject(Vector3 pos, sf::Color color, const std::vect
     }
 }
 
-void TriangularObject::SetPosition(const Vector3& pos) {
+void TriangulatedObject::SetPosition(const Vector3& pos) {
     position_(0) = pos(0);
     position_(1) = pos(1);
     position_(2) = pos(2);
     position_(3) = 0;
 }
 
-void TriangularObject::SetColor(sf::Color color) {
+void TriangulatedObject::SetColor(sf::Color color) {
     color_ = Color(color);
 }
 
-const TriangularObject::Vector4& TriangularObject::GetPosition() const {
+const TriangulatedObject::Vector4& TriangulatedObject::GetPosition() const {
     return position_;
 }
 
-const Color& TriangularObject::GetColor() const {
+const Color& TriangulatedObject::GetColor() const {
     return color_;
 }
 
-TriangularObject::Matrix4xN TriangularObject::MakeVertexesLocal() const {
+TriangulatedObject::Matrix4xN TriangulatedObject::MakeVertexesLocal() const {
     Matrix4xN res;
     res.resize(4, 3 * surfaces_.size());
     for (int i = 0; i < surfaces_.size(); ++i) {
@@ -88,7 +88,7 @@ TriangularObject::Matrix4xN TriangularObject::MakeVertexesLocal() const {
     return res;
 }
 
-TriangularObject::Matrix4xN TriangularObject::MakeVertexesGlobal() const {
+TriangulatedObject::Matrix4xN TriangulatedObject::MakeVertexesGlobal() const {
     Matrix4xN res;
     res.resize(4, 3 * surfaces_.size());
     for (int i = 0; i < surfaces_.size(); ++i) {
@@ -99,7 +99,7 @@ TriangularObject::Matrix4xN TriangularObject::MakeVertexesGlobal() const {
     return res;
 }
 
-std::vector<TriangularObject::Vector4> TriangularObject::MakeNormalVectors() const {
+std::vector<TriangulatedObject::Vector4> TriangulatedObject::MakeNormalVectors() const {
     std::vector<Vector4> res(surfaces_.size());
     for (int i = 0; i < res.size(); ++i) {
         res[i] = surfaces_[i].GetNormalVector();
@@ -107,7 +107,7 @@ std::vector<TriangularObject::Vector4> TriangularObject::MakeNormalVectors() con
     return res;
 }
 
-TriangularObject::Matrix4xN TriangularObject::MakeNormalVectorMatrix() const {
+TriangulatedObject::Matrix4xN TriangulatedObject::MakeNormalVectorMatrix() const {
     Matrix4xN res;
     res.resize(4, surfaces_.size());
     for (int i = 0; i < surfaces_.size(); ++i) {
@@ -116,7 +116,7 @@ TriangularObject::Matrix4xN TriangularObject::MakeNormalVectorMatrix() const {
     return res;
 }
 
-const std::vector<Triangle>& TriangularObject::GetSurfaces() const {
+const std::vector<Triangle>& TriangulatedObject::GetSurfaces() const {
     return surfaces_;
 }
 

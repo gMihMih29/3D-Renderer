@@ -1,5 +1,5 @@
 set(Primitives
-    TriangularObject.cpp
+    TriangulatedObject.cpp
     Triangle.cpp
     )
 add_library(Primitives ${Primitives})

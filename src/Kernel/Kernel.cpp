@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "../Renderer/Primitives/TriangularObject.h"
+#include "../Renderer/Primitives/TriangulatedObject.h"
 #include "../Renderer/Renderer.h"
 
 namespace ThreeDRenderer {
@@ -11,6 +11,8 @@ Kernel::Kernel() : Kernel(kCamWidth, kCamHeight) {
 }
 
 Kernel::Kernel(int cam_width, int cam_height) : cam_(), world_(), screen_buffer_(cam_width, cam_height) {
+    SetAmbientLight(AmbientLight({128, 128, 128}));
+
 }
 
 void Kernel::MoveCameraForward() {
@@ -45,7 +47,7 @@ void Kernel::RotateCameraRight() {
     cam_.RotateRightDeg(kRotationSpeedDeg);
 }
 
-void Kernel::AddObject(TriangularObject&& obj) {
+void Kernel::AddObject(TriangulatedObject&& obj) {
     world_.AddObject(std::move(obj));
 }
 

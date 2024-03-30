@@ -102,7 +102,7 @@ void App::AddNewObject_() {
             return;
         }
         ObjectParser parser;
-        TriangularObject obj = parser.ParseObject(input);
+        TriangulatedObject obj = parser.ParseObject(input);
 
         Logger::kConsole.Info(
             "Enter color of new object: (format: <R> <G> <B>, where R, G, B are numbers, each number is integer and "

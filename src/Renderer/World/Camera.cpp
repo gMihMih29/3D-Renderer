@@ -4,8 +4,17 @@
 
 namespace ThreeDRenderer {
 
-Camera::Camera(const Vector3& pos, const Matrix4& directions)
-    : position_(pos(0), pos(1), pos(2), 0), directionMatrix_(directions) {
+Camera::Camera(double near_plane_distance, double horizontal_field_of_view_angle_deg)
+    : near_plane_distance_(near_plane_distance),
+      horizontal_field_of_view_angle_rad_(DegToRad(horizontal_field_of_view_angle_deg)) {
+}
+
+Camera::Camera(double near_plane_distance, double horizontal_field_of_view_angle_deg, const Vector3& pos,
+               const Matrix4& directions)
+    : position_(pos(0), pos(1), pos(2), 0),
+      directionMatrix_(directions),
+      near_plane_distance_(near_plane_distance),
+      horizontal_field_of_view_angle_rad_(DegToRad(horizontal_field_of_view_angle_deg)) {
 }
 
 void Camera::MoveForward(double distance) {

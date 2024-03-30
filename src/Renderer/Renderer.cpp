@@ -36,8 +36,8 @@ void Renderer::Render(const World& w, const Camera& c, PixelScreen& buffer) cons
     auto ambient_light = w.GetAmbientLight();
 
     auto objects = w.GetObjects();
-    std::vector<TriangularObject::Matrix4xN> coordinates_of_objects(objects.size());
-    std::vector<TriangularObject::Matrix4xN> normals(objects.size());
+    std::vector<TriangulatedObject::Matrix4xN> coordinates_of_objects(objects.size());
+    std::vector<TriangulatedObject::Matrix4xN> normals(objects.size());
     std::vector<std::vector<bool>> is_surface_visible(objects.size());
     Eigen::Matrix4Xd directional_lights_vectors;
     directional_lights_vectors.resize(4, directional_lights.size());
@@ -127,7 +127,7 @@ void Renderer::Render(const World& w, const Camera& c, PixelScreen& buffer) cons
     }
 }
 
-bool Renderer::IsSurfaceVisible_(const TriangularObject::Matrix4xN& coordinates_of_object, Eigen::Vector4d normal,
+bool Renderer::IsSurfaceVisible_(const TriangulatedObject::Matrix4xN& coordinates_of_object, Eigen::Vector4d normal,
                                  Eigen::Vector4d camera_direction, int surface_index) const {
     const double eps = 1e-9;
     if (std::abs(normal.dot(camera_direction) - 1) < eps) {

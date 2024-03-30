@@ -17,7 +17,9 @@ class Camera {
 
 public:
     Camera() = default;
-    Camera(const Vector3& pos, const Matrix4& directions);
+    Camera(double near_plane_distance, double horizontal_field_of_view_angle_deg);
+    Camera(double near_plane_distance, double horizontal_field_of_view_angle_deg, const Vector3& pos,
+           const Matrix4& directions);
 
     void MoveForward(double distance);
     void MoveBackwards(double distance);
