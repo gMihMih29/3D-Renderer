@@ -8,7 +8,11 @@ namespace ThreeDRenderer {
 
 class Renderer {
 public:
-    PixelScreen Render(World w, Camera c) const;
+    void Render(const World& w, const Camera& c, PixelScreen& buffer) const;
+
+private:
+    bool IsSurfaceVisible_(const TriangularObject::Matrix4xN& coordinates_of_object,
+                               Eigen::Vector4d normal, Eigen::Vector4d camera_direction, int surface_index) const;
 };
 
 }  // namespace ThreeDRenderer
