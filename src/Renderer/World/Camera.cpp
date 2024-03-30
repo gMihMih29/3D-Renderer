@@ -76,9 +76,11 @@ Camera::Vector4 Camera::GetRightDirectionOfCamera() const {
 }
 
 Camera::HomogeniousTransformation Camera::GetTransformToCameraSpaceMatrix() const {
-    HomogeniousTransformation res{{directionMatrix_(0, 0), directionMatrix_(0, 1), directionMatrix_(0, 2), 0},
-                                  {directionMatrix_(1, 0), directionMatrix_(1, 1), directionMatrix_(1, 2), 0},
-                                  {directionMatrix_(2, 0), directionMatrix_(2, 1), directionMatrix_(2, 2), 0},
+    auto shift = GetPosition();
+    shift = directionMatrix_ * shift;
+    HomogeniousTransformation res{{directionMatrix_(0, 0), directionMatrix_(0, 1), directionMatrix_(0, 2), shift(0)},
+                                  {directionMatrix_(1, 0), directionMatrix_(1, 1), directionMatrix_(1, 2), shift(1)},
+                                  {directionMatrix_(2, 0), directionMatrix_(2, 1), directionMatrix_(2, 2), shift(2)},
                                   {0, 0, 0, 1}};
     return res;
 }

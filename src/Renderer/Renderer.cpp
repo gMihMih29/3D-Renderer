@@ -48,10 +48,6 @@ void Renderer::Render(const World& w, const Camera& c, PixelScreen& buffer) cons
     directional_lights_vectors = c.GetDirectionMatrix() * directional_lights_vectors;
     for (int i = 0; i < objects.size(); ++i) {
         coordinates_of_objects[i] = objects[i].MakeVertexesGlobal();
-        for (int j = 0; j < coordinates_of_objects[i].cols(); ++j) {
-            auto pos = c.GetPosition();
-            coordinates_of_objects[i].col(j) += pos;
-        }
         normals[i] = objects[i].MakeNormalVectorMatrix();
         is_surface_visible[i].resize(normals[i].cols(), true);
     }
