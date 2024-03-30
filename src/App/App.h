@@ -17,8 +17,8 @@ class App {
 
 public:
     App();
-    App(int width, int height);
-    App(int width, int height, std::string name);
+    App(int height, int width);
+    App(int height, int width, std::string name);
 
     void Run();
 

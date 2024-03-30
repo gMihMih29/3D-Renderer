@@ -11,8 +11,8 @@ class PixelScreen {
     static const int kHeight = 600;
 
 public:
-    PixelScreen() = default;
-    PixelScreen(int width, int height);
+    PixelScreen();
+    PixelScreen(int height, int width);
     
     sf::Vertex& Pixel(int row, int column);
     const sf::Vertex& Pixel(int row, int column) const;

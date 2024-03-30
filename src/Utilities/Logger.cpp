@@ -20,7 +20,7 @@ std::string Logger::GetCurrentTimeLog_() {
     const int start_year = 1900;
     const int limit_for_one_char_number = 10;
     std::string res;
-    std::time_t t = std::time(0);   // get time now
+    std::time_t t = std::time(0);
     std::tm* now = std::localtime(&t);
     res += '[';
     res += std::to_string(now->tm_year + start_year);

@@ -13,14 +13,14 @@
 
 namespace ThreeDRenderer {
 
-App::App() : App(kWidth, kHeight) {
+App::App() : App(kHeight, kWidth) {
 }
 
-App::App(int width, int height) : App(width, height, kAppName) {
+App::App(int height, int width) : App(height, width, kAppName) {
 }
 
-App::App(int width, int height, std::string name)
-    : kernel_(width, height), window_(sf::RenderWindow(sf::VideoMode(width, height), kAppName)), view_(&window_) {
+App::App(int height, int width, std::string name)
+    : kernel_(height, width), window_(sf::RenderWindow(sf::VideoMode(width, height), kAppName)), view_(&window_) {
 }
 
 void App::Run() {

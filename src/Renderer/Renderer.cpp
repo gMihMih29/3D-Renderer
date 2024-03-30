@@ -7,7 +7,10 @@
 
 namespace ThreeDRenderer {
 
-void Renderer::Render(const World& w, const Camera& c, PixelScreen& buffer) const {
+Renderer::Renderer(int screen_height, int screen_width) : z_buffer_(screen_height, screen_width) {
+}
+
+void Renderer::Render(const World& w, const Camera& c, PixelScreen& buffer) {
     const double eps = 1e-9;
     int width = buffer.GetWidth();
     int height = buffer.GetHeight();
@@ -67,10 +70,9 @@ void Renderer::Render(const World& w, const Camera& c, PixelScreen& buffer) cons
         }
     }
 
-    Eigen::MatrixXd z_buffer(height, width);
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-            z_buffer(i, j) = HUGE_VAL;
+            z_buffer_(i, j) = HUGE_VAL;
             buffer.Pixel(i, j).color = ambient_light.GetColor().ConvertToHexColor();
             double ray_x = 2 * static_cast<double>(j) / width - 1;
             double ray_y = -2 * static_cast<double>(i) / height + 1;
@@ -94,7 +96,7 @@ void Renderer::Render(const World& w, const Camera& c, PixelScreen& buffer) cons
 
                     auto P = ray_start + t * ray_direction;
 
-                    if (P(2) > z_buffer(i, j)) {
+                    if (P(2) > z_buffer_(i, j)) {
                         continue;
                     }
 
@@ -119,7 +121,7 @@ void Renderer::Render(const World& w, const Camera& c, PixelScreen& buffer) cons
                         }
                         result_color += product * directional_lights[dir_light_ind].GetColor() * object_color;
                     }
-                    z_buffer(i, j) = P(2);
+                    z_buffer_(i, j) = P(2);
                     buffer.Pixel(i, j).color = result_color.ConvertToHexColor();
                 }
             }

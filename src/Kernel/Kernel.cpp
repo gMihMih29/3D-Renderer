@@ -7,12 +7,12 @@
 
 namespace ThreeDRenderer {
 
-Kernel::Kernel() : Kernel(kCamWidth, kCamHeight) {
+Kernel::Kernel() : Kernel(kScreenHeight, kScreenWidth) {
 }
 
-Kernel::Kernel(int cam_width, int cam_height) : cam_(), world_(), screen_buffer_(cam_width, cam_height) {
+Kernel::Kernel(int screen_height, int screen_width)
+    : cam_(), world_(), screen_buffer_(screen_height, screen_width), renderer_(screen_height, screen_width) {
     SetAmbientLight(AmbientLight({128, 128, 128}));
-
 }
 
 void Kernel::MoveCameraForward() {
@@ -60,8 +60,7 @@ void Kernel::AddDirectionalLight(DirectionalLight&& light) {
 }
 
 const PixelScreen& Kernel::MakeScene() {
-    Renderer renderer;
-    renderer.Render(world_, cam_, screen_buffer_);
+    renderer_.Render(world_, cam_, screen_buffer_);
     return screen_buffer_;
 }
 

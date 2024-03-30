@@ -3,14 +3,15 @@
 #include "../Renderer/Light/AmbientLight.h"
 #include "../Renderer/Light/DirectionalLight.h"
 #include "../Renderer/PixelScreen.h"
+#include "../Renderer/Renderer.h"
 #include "../Renderer/World/Camera.h"
 #include "../Renderer/World/World.h"
 
 namespace ThreeDRenderer {
 
 class Kernel {
-    static const int kCamWidth = 800;
-    static const int kCamHeight = 600;
+    static const int kScreenWidth = 800;
+    static const int kScreenHeight = 600;
     static constexpr double kMovementSpeed = 0.25;
     static constexpr double kRotationSpeedDeg = 1;
 
@@ -26,7 +27,7 @@ public:
     void RotateCameraDown();
     void RotateCameraLeft();
     void RotateCameraRight();
-    
+
     void AddObject(TriangulatedObject&& obj);
     void SetAmbientLight(AmbientLight&& light);
     void AddDirectionalLight(DirectionalLight&& light);
@@ -37,6 +38,7 @@ private:
     Camera cam_;
     World world_;
     PixelScreen screen_buffer_;
+    Renderer renderer_;
 };
 
 }  // namespace ThreeDRenderer
