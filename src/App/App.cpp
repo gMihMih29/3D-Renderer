@@ -20,7 +20,7 @@ App::App(int width, int height) : App(width, height, kAppName) {
 }
 
 App::App(int width, int height, std::string name)
-    : kernel_(width, height), window_(sf::RenderWindow(sf::VideoMode(width, height), "3D Renderer")), view_(&window_) {
+    : kernel_(width, height), window_(sf::RenderWindow(sf::VideoMode(width, height), kAppName)), view_(&window_) {
 }
 
 void App::Run() {
@@ -115,8 +115,7 @@ void App::AddNewObject_() {
         }
         obj.SetColor(parser.ParseColor(input));
 
-        Logger::kConsole.Info(
-            "Enter position of new object: (format: <x> <y> <z>, where x, y, z are numbers)");
+        Logger::kConsole.Info("Enter position of new object: (format: <x> <y> <z>, where x, y, z are numbers)");
         Logger::kConsole.Info("Example: 1.5 -0.5 0");
         std::getline(std::cin, input);
         if (input.substr(0, 4) == "exit") {
@@ -135,8 +134,7 @@ void App::AddNewObject_() {
 void App::ShowNewFrame_() {
     Utilities::Timer t;
     view_.Draw(kernel_.MakeScene());
-    Logger::kConsoleTimeSpan.Info("New frame was rendered in " + std::to_string(t.GetMilliseconds()) +
-                                             " millisecond.");
+    Logger::kConsoleTimeSpan.Info("New frame was rendered in " + std::to_string(t.GetMilliseconds()) + " millisecond.");
 }
 
 }  // namespace ThreeDRenderer
