@@ -7,7 +7,6 @@
 #include <string_view>
 #include <utility>
 
-#include "../Utilities/Logger.h"
 #include "../Utilities/StringViewSplit.h"
 #include "../Utilities/Timer.h"
 #include "ObjectParser.h"
@@ -96,47 +95,47 @@ void App::AddNewObject_() {
     try {
         std::string input;
 
-        Utilities::Logger::kConsole.Info("Enter path to .obj file with new object:");
+        Logger::kConsole.Info("Enter path to .obj file with new object:");
         std::getline(std::cin, input);
         if (input.substr(0, 4) == "exit") {
-            Utilities::Logger::kConsole.Info("The program continues to work.");
+            Logger::kConsole.Info("The program continues to work.");
             return;
         }
         ObjectParser parser;
         TriangularObject obj = parser.ParseObject(input);
 
-        Utilities::Logger::kConsole.Info(
+        Logger::kConsole.Info(
             "Enter color of new object: (format: <R> <G> <B>, where R, G, B are numbers, each number is integer and "
             ">=0 and <255)");
-        Utilities::Logger::kConsole.Info("Example: 128 0 255");
+        Logger::kConsole.Info("Example: 128 0 255");
         std::getline(std::cin, input);
         if (input.substr(0, 4) == "exit") {
-            Utilities::Logger::kConsole.Info("The program continues to work.");
+            Logger::kConsole.Info("The program continues to work.");
             return;
         }
         obj.SetColor(parser.ParseColor(input));
 
-        Utilities::Logger::kConsole.Info(
+        Logger::kConsole.Info(
             "Enter position of new object: (format: <x> <y> <z>, where x, y, z are numbers)");
-        Utilities::Logger::kConsole.Info("Example: 1.5 -0.5 0");
+        Logger::kConsole.Info("Example: 1.5 -0.5 0");
         std::getline(std::cin, input);
         if (input.substr(0, 4) == "exit") {
-            Utilities::Logger::kConsole.Info("The program continues to work.");
+            Logger::kConsole.Info("The program continues to work.");
             return;
         }
         obj.SetPosition(parser.ParsePosition(input));
 
         kernel_.AddObject(std::move(obj));
-        Utilities::Logger::kConsole.Info("New object was added successfully!");
+        Logger::kConsole.Info("New object was added successfully!");
     } catch (std::runtime_error& e) {
-        Utilities::Logger::kConsoleTimeSpan.Error(e.what());
+        Logger::kConsoleTimeSpan.Error(e.what());
     }
 }
 
 void App::ShowNewFrame_() {
     Utilities::Timer t;
     view_.Draw(kernel_.MakeScene());
-    Utilities::Logger::kConsoleTimeSpan.Info("New frame was rendered in " + std::to_string(t.GetMilliseconds()) +
+    Logger::kConsoleTimeSpan.Info("New frame was rendered in " + std::to_string(t.GetMilliseconds()) +
                                              " millisecond.");
 }
 

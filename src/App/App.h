@@ -4,6 +4,7 @@
 #include <string>
 
 #include "../Kernel/Kernel.h"
+#include "../Utilities/Logger.h"
 #include "../View/View.h"
 
 namespace ThreeDRenderer {
@@ -12,12 +13,13 @@ class App {
     static const int kWidth = 800;
     static const int kHeight = 600;
     static constexpr const char* kAppName = "3D Renderer";
+    using Logger = Utilities::Logger;
 
 public:
     App();
     App(int width, int height);
     App(int width, int height, std::string name);
-    
+
     void Run();
 
 private:
