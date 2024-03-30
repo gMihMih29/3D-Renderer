@@ -12,7 +12,7 @@ class ObjectParser {
 public:
     TriangularObject ParseObject(const std::string& path) const;
     sf::Color ParseColor(const std::string& input) const;
-    TriangularObject::CoordinatesVector ParsePosition(const std::string& input) const;
+    TriangularObject::Vector3 ParsePosition(const std::string& input) const;
 
 private:
 };

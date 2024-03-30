@@ -21,10 +21,10 @@ TriangularObject ObjectParser::ParseObject(const std::string& path) const {
         throw std::runtime_error("Troubles with opening file!");
     }
     std::string line;
-    std::vector<TriangularObject::CoordinatesVector> vertexes;
+    std::vector<TriangularObject::Vector3> vertexes;
     std::vector<TriangularObject::ConnectionVector> connections;
-    std::vector<TriangularObject::NormalVector> normals;
-    std::vector<TriangularObject::Surface> surfaces;
+    std::vector<TriangularObject::Vector3> normals;
+    std::vector<Triangle> surfaces;
     int every_face_elemen_has_normal_vector = 0;
     int line_number = 0;
     while (std::getline(file, line)) {
@@ -86,8 +86,8 @@ TriangularObject ObjectParser::ParseObject(const std::string& path) const {
                 throw std::runtime_error("Incorrect format of file! Not enough parameters. Line in file:" +
                                          std::to_string(line_number));
             }
-            TriangularObject::ConnectionVector result_connection = TriangularObject::ConnectionVector();
-            TriangularObject::NormalVector norm = TriangularObject::NormalVector(0, 0, 0);
+            TriangularObject::ConnectionVector result_connection;
+            TriangularObject::Vector3 norm(0, 0, 0);
             for (int i = 0; i < params.size(); ++i) {
                 std::vector<std::string_view> val = Utilities::StringViewSplit(params[i], '/');
                 int vertex_index = 0;
@@ -183,7 +183,7 @@ sf::Color ObjectParser::ParseColor(const std::string& input) const {
     return sf::Color(red, green, blue);
 }
 
-TriangularObject::CoordinatesVector ObjectParser::ParsePosition(const std::string& input) const {
+TriangularObject::Vector3 ObjectParser::ParsePosition(const std::string& input) const {
     std::vector<std::string_view> params = Utilities::StringViewSplit(input, ' ');
     if (params.size() != 3) {
         throw std::runtime_error("Incorrect format of position! There must be three numbers.");
@@ -212,7 +212,7 @@ TriangularObject::CoordinatesVector ObjectParser::ParsePosition(const std::strin
     x = std::atof(params[0].data());
     y = std::atof(params[1].data());
     z = std::atof(params[2].data());
-    return TriangularObject::CoordinatesVector(x, y, z);
+    return TriangularObject::Vector3(x, y, z);
 }
 
 }  // namespace ThreeDRenderer
