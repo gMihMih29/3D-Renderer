@@ -19,6 +19,7 @@ public:
         color_vector_(0) += other.color_vector_(0);
         color_vector_(1) += other.color_vector_(1);
         color_vector_(2) += other.color_vector_(2);
+        Normalize_();
         return *this;
     }
 
@@ -26,6 +27,7 @@ public:
         color_vector_(0) *= other.color_vector_(0);
         color_vector_(1) *= other.color_vector_(1);
         color_vector_(2) *= other.color_vector_(2);
+        Normalize_();
         return *this;
     }
 
@@ -33,6 +35,7 @@ public:
         color_vector_(0) *= coef;
         color_vector_(1) *= coef;
         color_vector_(2) *= coef;
+        Normalize_();
         return *this;
     }
 
@@ -52,6 +55,8 @@ public:
     }
 
 private:
-    Vector3 color_vector_;
+    void Normalize_();
+
+    Vector3 color_vector_{0, 0, 0};
 };
 }  // namespace ThreeDRenderer

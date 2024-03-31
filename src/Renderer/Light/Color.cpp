@@ -1,9 +1,8 @@
 #include "Color.h"
 
+#include <algorithm>
 #include <Eigen/Dense>
 #include <SFML/Graphics.hpp>
-
-#include "../Funcs/MathFuncs.h"
 
 namespace ThreeDRenderer {
 
@@ -16,8 +15,8 @@ Color::Color(sf::Color color) {
     color_vector_(2) = blue;
 }
 
-Color::Color(Vector3 color) {
-    color_vector_ = color;
+Color::Color(Vector3 color) : color_vector_(color) {
+    Normalize_();
 }
 
 const Color::Vector3& Color::GetColorVector() const {
@@ -29,6 +28,12 @@ sf::Color Color::ConvertToHexColor() const {
     uint8_t green = static_cast<uint8_t>(color_vector_(1) * 255);
     uint8_t blue = static_cast<uint8_t>(color_vector_(2) * 255);
     return sf::Color(red, green, blue);
+}
+
+void Color::Normalize_() {
+    color_vector_(0) = std::min(1., color_vector_(0));
+    color_vector_(1) = std::min(1., color_vector_(1));
+    color_vector_(2) = std::min(1., color_vector_(2));
 }
 
 }  // namespace ThreeDRenderer
