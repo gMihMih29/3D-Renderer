@@ -1,5 +1,7 @@
 #include "React.h"
 
+#include "../Utilities/Logger.h"
+
 #include <iostream>
 
 namespace ThreeDRendererExceptions {
@@ -8,7 +10,7 @@ void React() {
     try {
         throw;
     } catch (...) {
-        std::cout << "Soon there will be better try-catch\n";
+        Utilities::Logger::kConsoleTimeSpan.Error("Program had do stop due to reasons unrelated to invalid user input.");
     }
 }
 

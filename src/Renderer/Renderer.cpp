@@ -50,14 +50,11 @@ void Renderer::Render(const World& w, const Camera& c, PixelScreen& buffer) {
     }
     directional_lights_vectors = c.GetDirectionMatrix() * directional_lights_vectors;
     for (int i = 0; i < objects.size(); ++i) {
-        coordinates_of_objects[i] = objects[i].MakeVertexesGlobal();
-        normals[i] = objects[i].MakeNormalVectorMatrix();
+        coordinates_of_objects[i] = m_infinite_frustrum * c.GetTransformToCameraSpaceMatrix() * objects[i].MakeVertexesGlobal();
+        normals[i] = c.GetDirectionMatrix() * objects[i].MakeNormalVectorMatrix();
         is_surface_visible[i].resize(normals[i].cols(), true);
     }
     for (int i = 0; i < objects.size(); ++i) {
-        coordinates_of_objects[i] =
-            m_infinite_frustrum * c.GetTransformToCameraSpaceMatrix() * coordinates_of_objects[i];
-        normals[i] = c.GetDirectionMatrix() * normals[i];
         for (int j = 0; j < coordinates_of_objects[i].cols(); ++j) {
             coordinates_of_objects[i].col(j) /= coordinates_of_objects[i].col(j)(3);
         }
@@ -131,14 +128,14 @@ void Renderer::Render(const World& w, const Camera& c, PixelScreen& buffer) {
 
 bool Renderer::IsSurfaceVisible_(const TriangulatedObject::Matrix4xN& coordinates_of_object, Eigen::Vector4d normal,
                                  Eigen::Vector4d camera_direction, int surface_index) const {
-    const double eps = 1e-9;
-    if (std::abs(normal.dot(camera_direction) - 1) < eps) {
+    const double eps = 1e-2;
+    if (normal.dot(camera_direction) > 0.8) {
         return false;
     }
     auto p0 = coordinates_of_object.col(3 * surface_index);
     auto p1 = coordinates_of_object.col(3 * surface_index + 1);
     auto p2 = coordinates_of_object.col(3 * surface_index + 2);
-    if (1 < p0(2) || 1 < p1(2) || 1 < p2(2)) {
+    if (1 < p0(2) || 1 < p1(2) || 1 < p2(2) || p0(2) < -1 || p1(2) < -1 || p2(2) < -1) {
         return false;
     }
     int cnt = 0;

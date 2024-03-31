@@ -101,6 +101,9 @@ void App::AddNewObject_() {
             Logger::kConsole.Info("The program continues to work.");
             return;
         }
+        if (input.substr(input.size() - 4) != ".obj") {
+            throw std::runtime_error("File must have .obj extention!");
+        }
         ObjectParser parser;
         TriangulatedObject obj = parser.ParseObject(input);
 
@@ -115,7 +118,7 @@ void App::AddNewObject_() {
         }
         obj.SetColor(parser.ParseColor(input));
 
-        Logger::kConsole.Info("Enter position of new object: (format: <x> <y> <z>, where x, y, z are numbers)");
+        Logger::kConsole.Info("Enter position of new object: (format: <x> <y> <z>, where x, y, z are real numbers)");
         Logger::kConsole.Info("Example: 1.5 -0.5 0");
         std::getline(std::cin, input);
         if (input.substr(0, 4) == "exit") {
