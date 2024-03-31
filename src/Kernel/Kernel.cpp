@@ -12,7 +12,10 @@ Kernel::Kernel() : Kernel(kScreenHeight, kScreenWidth) {
 
 Kernel::Kernel(int screen_height, int screen_width)
     : cam_(), world_(), screen_buffer_(screen_height, screen_width), renderer_(screen_height, screen_width) {
-    SetAmbientLight(AmbientLight({128, 128, 128}));
+    SetAmbientLight(AmbientLight({64, 64, 64}));
+    AddDirectionalLight(DirectionalLight({0, 0, -1}, {255, 0, 0}));
+    AddDirectionalLight(DirectionalLight({1, 0, 0}, {0, 0, 255}));
+    AddDirectionalLight(DirectionalLight({1, -1, 1}, {0, 255, 0}));
 }
 
 void Kernel::MoveCameraForward() {
