@@ -34,6 +34,9 @@ void Color::Normalize_() {
     color_vector_(0) = std::min(1., color_vector_(0));
     color_vector_(1) = std::min(1., color_vector_(1));
     color_vector_(2) = std::min(1., color_vector_(2));
+    color_vector_(0) = std::max(0., color_vector_(0));
+    color_vector_(1) = std::max(0., color_vector_(1));
+    color_vector_(2) = std::max(0., color_vector_(2));
 }
 
 }  // namespace ThreeDRenderer
