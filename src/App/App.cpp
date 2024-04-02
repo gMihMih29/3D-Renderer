@@ -20,7 +20,9 @@ App::App(int height, int width) : App(height, width, kAppName) {
 }
 
 App::App(int height, int width, std::string name)
-    : kernel_(height, width), window_(sf::RenderWindow(sf::VideoMode(width, height), kAppName)), view_(&window_) {
+    : kernel_(height, width),
+      window_(sf::RenderWindow(sf::VideoMode(width, height), kAppName, sf::Style::Titlebar | sf::Style::Close)),
+      view_(&window_) {
 }
 
 void App::Run() {
