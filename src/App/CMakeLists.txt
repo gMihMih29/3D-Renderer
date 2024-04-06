@@ -4,6 +4,9 @@ set(App
     )
 add_library(App ${App})
 
+link_directories("../ObjFileReader")
+target_link_libraries(App ObjFileReader)
+
 link_directories("../Kernel")
 target_link_libraries(App Kernel)
 

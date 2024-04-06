@@ -3,21 +3,26 @@
 
 #include "../Renderer/Primitives/TriangulatedObject.h"
 #include "FaceElement.h"
+#include "Response.h"
 
 namespace ThreeDRenderer {
 class TriangulatedObjectBuilder {
     using Vector3 = Eigen::Vector3d;
+    using Response = Response<TriangulatedObject>;
 
 public:
-    void AddVertex(const Vector3& vertex);
-    void AddNormal(const Vector3& normal);
+    void AddVertex(Vector3&& vertex);
+    void AddNormal(Vector3&& normal);
     void AddFaceElement(FaceElement&& face);
-    TriangulatedObject Build();
+    Response Build() const;
 
     int GetVertexesQuatity() const;
     int GetNormalsQuatity() const;
 
 private:
+    Vector3 FindNormalForFaceElemBruteForce_(int index_of_face_elem) const;
+    Vector3 FindNormalForPoint_(int index) const;
+
     std::vector<Vector3> vertexes_;
     std::vector<Vector3> normals_;
     std::vector<FaceElement> faces_;

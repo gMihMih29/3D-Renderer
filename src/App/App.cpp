@@ -7,6 +7,7 @@
 #include <string_view>
 #include <utility>
 
+#include "../ObjFileReader/ObjFileReader.h"
 #include "../Utilities/StringViewSplit.h"
 #include "../Utilities/Timer.h"
 #include "ObjectParser.h"
@@ -92,46 +93,46 @@ void App::HandleKeyEvent_(const sf::Keyboard::Key& key) {
 }
 
 void App::AddNewObject_() {
-    try {
-        std::string input;
+    std::string input;
 
-        Logger::kConsole.Info("Enter path to .obj file with new object:");
-        std::getline(std::cin, input);
-        if (input.substr(0, 4) == "exit") {
-            Logger::kConsole.Info("The program continues to work.");
-            return;
-        }
-        if (input.substr(input.size() - 4) != ".obj") {
-            throw std::runtime_error("File must have .obj extention!");
-        }
-        ObjectParser parser;
-        TriangulatedObject obj = parser.ParseObject(input);
-
-        Logger::kConsole.Info(
-            "Enter color of new object: (format: <R> <G> <B>, where R, G, B are numbers, each number is integer and "
-            ">=0 and <255)");
-        Logger::kConsole.Info("Example: 128 0 255");
-        std::getline(std::cin, input);
-        if (input.substr(0, 4) == "exit") {
-            Logger::kConsole.Info("The program continues to work.");
-            return;
-        }
-        obj.SetColor(parser.ParseColor(input));
-
-        Logger::kConsole.Info("Enter position of new object: (format: <x> <y> <z>, where x, y, z are real numbers)");
-        Logger::kConsole.Info("Example: 1.5 -0.5 0");
-        std::getline(std::cin, input);
-        if (input.substr(0, 4) == "exit") {
-            Logger::kConsole.Info("The program continues to work.");
-            return;
-        }
-        obj.SetPosition(parser.ParsePosition(input));
-
-        kernel_.AddObject(std::move(obj));
-        Logger::kConsole.Info("New object was added successfully!");
-    } catch (std::runtime_error& e) {
-        Logger::kConsoleTimeSpan.Error(e.what());
+    Logger::kConsole.Info("Enter path to .obj file with new object:");
+    std::getline(std::cin, input);
+    if (input.substr(0, 4) == "exit") {
+        Logger::kConsole.Info("The program continues to work.");
+        return;
     }
+    if (input.substr(input.size() - 4) != ".obj") {
+        Logger::kConsoleTimeSpan.Error("File must have .obj extention!");
+    }
+    ObjectParser parser;
+    auto response = ObjFileReader::ReadFile(input);
+    if (!response.IsSuccess()) {
+        Logger::kConsoleTimeSpan.Error(response.GetMessage());
+        return;
+    }
+
+    Logger::kConsole.Info(
+        "Enter color of new object: (format: <R> <G> <B>, where R, G, B are numbers, each number is integer and "
+        ">=0 and <255)");
+    Logger::kConsole.Info("Example: 128 0 255");
+    std::getline(std::cin, input);
+    if (input.substr(0, 4) == "exit") {
+        Logger::kConsole.Info("The program continues to work.");
+        return;
+    }
+    response.GetResultObject().SetColor(parser.ParseColor(input));
+
+    Logger::kConsole.Info("Enter position of new object: (format: <x> <y> <z>, where x, y, z are real numbers)");
+    Logger::kConsole.Info("Example: 1.5 -0.5 0");
+    std::getline(std::cin, input);
+    if (input.substr(0, 4) == "exit") {
+        Logger::kConsole.Info("The program continues to work.");
+        return;
+    }
+    response.GetResultObject().SetPosition(parser.ParsePosition(input));
+
+    kernel_.AddObject(std::move(response.GetResultObject()));
+    Logger::kConsole.Info("New object was added successfully!");
 }
 
 void App::ShowNewFrame_() {

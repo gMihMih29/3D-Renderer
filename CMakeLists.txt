@@ -52,5 +52,5 @@ link_directories(ObjFileReader)
 add_subdirectory(src/UserDialog)
 link_directories(UserDialog)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics Eigen3::Eigen Exceptions App Renderer)
+target_link_libraries(${PROJECT_NAME} PRIVATE Exceptions App Renderer)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)

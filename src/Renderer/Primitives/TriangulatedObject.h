@@ -19,9 +19,11 @@ public:
     using Matrix3xN = Eigen::Matrix3Xd;
 
 public:
-    TriangulatedObject(Vector3 pos, sf::Color color, std::vector<Triangle>&& surfaces);
-    TriangulatedObject(Vector3 pos, sf::Color color, const std::vector<Vector3>& vertexes,
-                     const std::vector<ConnectionVector>& connections);
+    TriangulatedObject() = default;
+    TriangulatedObject(std::vector<Triangle>&& surfaces, Vector3 pos = Vector3(0, 0, 0),
+                       sf::Color color = sf::Color(0, 0, 0));
+    // TriangulatedObject(Vector3 pos, sf::Color color, const std::vector<Vector3>& vertexes,
+    //                    const std::vector<ConnectionVector>& connections);
 
     void SetPosition(const Vector3& pos);
     void SetColor(sf::Color color);
@@ -35,9 +37,11 @@ public:
     Matrix4xN MakeNormalVectorMatrix() const;
     std::vector<Vector4> MakeNormalVectors() const;
 
+    bool IsEmpty() const;
+
 private:
     Vector4 position_ = Vector4(0, 0, 0, 0);
-    Color color_;
+    Color color_ = Color(sf::Color(0, 0, 0));
     std::vector<Triangle> surfaces_;
 };
 
