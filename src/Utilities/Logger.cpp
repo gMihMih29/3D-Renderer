@@ -62,6 +62,7 @@ void Logger::LogToConsole(const Logger* logger, const char* message, const char*
 void Logger::LogToFile(const Logger* logger, const char* message, const char* type) {
     assert(logger && "Logger ptr must be non null.");
     assert(logger->path_ && "Path to file must be non null.");
+    assert(strcmp(logger->path_(), "") != 0 && "Path must lead to some file.");
     std::ofstream fout(logger->path_(), std::ios_base::app);
     if (!fout.is_open()) {
         return;

@@ -20,12 +20,12 @@ private:
                                    const Eigen::Vector4d point2, const Eigen::Vector4d point_to_test) const;
 
     void CalculateSurfacesColors_(const std::vector<TriangulatedObject>& objects,
-                                  std::vector<TriangulatedObject::Matrix4xN> normals,
+                                  const std::vector<TriangulatedObject::Matrix4xN>& normals,
                                   const std::vector<std::vector<bool>>& is_surface_visible,
                                   const AmbientLight& ambient_light,
                                   const std::vector<DirectionalLight>& directional_lights,
-                                  Eigen::Matrix4Xd directional_lights_vectors,
-                                  std::vector<std::vector<Color>>& surfaces_colors_);
+                                  const Eigen::Matrix4Xd& directional_lights_vectors,
+                                  std::vector<std::vector<Color>>& surfaces_colors);
 
     sf::Color CalculateColorOfPixel_(int row, int column, int width, int height,
                                      const std::vector<TriangulatedObject::Matrix4xN>& coordinates_of_object,

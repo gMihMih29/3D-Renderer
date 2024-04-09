@@ -14,7 +14,7 @@ protected:
 
 class ConsoleTimeSpanLoggerInstance {
 protected:
-    static Logger& Instance() {
+    static const Logger& Instance() {
         static Logger logger(true);
         return logger;
     }
@@ -22,15 +22,15 @@ protected:
 
 class FileLoggerInstance {
 public:
-    FileLoggerInstance(const std::string& path) {
-        Instance(path);
+    FileLoggerInstance(const std::string& path) : logger_(path, true) {
     }
 
 protected:
-    static Logger& Instance(const std::string& path = "") {
-        static Logger logger(path, true);
-        return logger;
+    const Logger& Instance() const {
+        return logger_;
     }
+private:
+    Logger logger_;
 };
 
 }  // namespace Utilities

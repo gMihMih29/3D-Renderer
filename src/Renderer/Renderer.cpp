@@ -125,11 +125,11 @@ bool Renderer::SimpleBoundingVolumeTest_(const Eigen::Vector4d point0, const Eig
 }
 
 void Renderer::CalculateSurfacesColors_(const std::vector<TriangulatedObject>& objects,
-                                        std::vector<TriangulatedObject::Matrix4xN> normals,
+                                        const std::vector<TriangulatedObject::Matrix4xN>& normals,
                                         const std::vector<std::vector<bool>>& is_surface_visible,
                                         const AmbientLight& ambient_light,
                                         const std::vector<DirectionalLight>& directional_lights,
-                                        Eigen::Matrix4Xd directional_lights_vectors,
+                                        const Eigen::Matrix4Xd& directional_lights_vectors,
                                         std::vector<std::vector<Color>>& surfaces_colors) {
     const double eps = 1e-9;
     for (int i = 0; i < objects.size(); ++i) {
@@ -158,6 +158,7 @@ sf::Color Renderer::CalculateColorOfPixel_(int row, int column, int width, int h
                                            const AmbientLight& ambient_light,
                                            const std::vector<std::vector<Color>>& surfaces_color,
                                            const std::vector<std::vector<bool>>& is_surface_visible) {
+
     const double eps = 1e-9;
     Color result_color = ambient_light.GetColor();
     z_buffer_(row, column) = HUGE_VAL;
