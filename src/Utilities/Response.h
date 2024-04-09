@@ -4,6 +4,7 @@
 #include <utility>
 
 namespace Utilities {
+
 enum ResultCode {
     Ok,
     Error,
@@ -47,4 +48,5 @@ private:
     std::string message_;
     T result_object_;
 };
-}  // namespace ThreeDRenderer
+
+}  // namespace Utilities
