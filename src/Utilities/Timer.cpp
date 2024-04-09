@@ -2,8 +2,7 @@
 
 namespace Utilities {
 
-Timer::Timer() {
-    Reset();
+Timer::Timer() : start_(std::chrono::high_resolution_clock::now()) {
 }
 
 int64_t Timer::GetMilliseconds() const {

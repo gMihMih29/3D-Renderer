@@ -6,6 +6,7 @@
 #include "Color.h"
 
 namespace ThreeDRenderer {
+
 class DirectionalLight {
     using Vector3 = Eigen::Vector3d;
     using Vector4 = Eigen::Vector4d;
@@ -20,4 +21,5 @@ private:
     Vector4 direction_;
     Color color_;
 };
+
 }  // namespace ThreeDRenderer

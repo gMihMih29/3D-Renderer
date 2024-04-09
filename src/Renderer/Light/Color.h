@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 namespace ThreeDRenderer {
+
 class Color {
     using Vector3 = Eigen::Vector3d;
 
@@ -59,4 +60,5 @@ private:
 
     Vector3 color_vector_{0, 0, 0};
 };
+
 }  // namespace ThreeDRenderer

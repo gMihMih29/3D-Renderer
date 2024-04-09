@@ -5,6 +5,7 @@
 #include "../Funcs/MathFuncs.h"
 
 namespace ThreeDRenderer {
+
 DirectionalLight::DirectionalLight(Vector3 dir, sf::Color color)
     : direction_(dir(0), dir(1), dir(2), 0), color_(color) {
     assert(!direction_.isZero() && "Direction of light must be non zero!");

@@ -4,7 +4,7 @@
 #include <string>
 
 #include "../Kernel/Kernel.h"
-#include "../Utilities/Logger.h"
+#include "../Utilities/GLogger.h"
 #include "../View/View.h"
 
 namespace ThreeDRenderer {
@@ -13,7 +13,7 @@ class App {
     static const int kWidth = 800;
     static const int kHeight = 600;
     static constexpr const char* kAppName = "3D Renderer";
-    using Logger = Utilities::Logger;
+    static const Utilities::GLogger<Utilities::ConsoleTimeSpanLoggerInstance> logger;
 
 public:
     App();

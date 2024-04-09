@@ -1,16 +1,17 @@
 #include "React.h"
 
-#include "../Utilities/Logger.h"
+#include "../Utilities/GLogger.h"
 
 #include <iostream>
 
 namespace ThreeDRendererExceptions {
 
 void React() {
+    static Utilities::GLogger<Utilities::ConsoleTimeSpanLoggerInstance> logger;
     try {
         throw;
     } catch (...) {
-        Utilities::Logger::kConsoleTimeSpan.Error("Program had do stop due to reasons unrelated to invalid user input.");
+        logger.Error("Program had do stop due to reasons unrelated to invalid user input.");
     }
 }
 

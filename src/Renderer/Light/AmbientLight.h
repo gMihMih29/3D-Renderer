@@ -6,6 +6,7 @@
 #include "Color.h"
 
 namespace ThreeDRenderer {
+
 class AmbientLight {
     using ColorVector = Color;
 
@@ -18,4 +19,5 @@ public:
 private:
     ColorVector color_;
 };
+
 }  // namespace ThreeDRenderer

@@ -1,22 +1,84 @@
 #include "Logger.h"
 
+#include <cassert>
+#include <cstring>
+
 namespace Utilities {
-    
-const Logger Logger::kConsole = Utilities::Logger();
-const Logger Logger::kConsoleTimeSpan = Utilities::Logger(true);
-const Logger Logger::kLoggerFile = Utilities::Logger("../logs/" + Logger::GetCurrentDay_() + ".log", true);
 
-Logger::Logger() : write_to_file_(false), use_time_stamp_(false) {
+Logger::Logger(bool use_time_span) : log_(LogToConsole) {
+    if (use_time_span) {
+        time_span_ = CurrentTime;
+    }
 }
 
-Logger::Logger(bool use_time_stamp) : write_to_file_(false), use_time_stamp_(use_time_stamp) {
+Logger::Logger(const std::string& path) : log_(LogToFile), path_(StringContainer(path)) {
 }
 
-Logger::Logger(std::string path, bool use_time_stamp)
-    : write_to_file_(true), use_time_stamp_(use_time_stamp), path_(path) {
+Logger::Logger(const std::string& path, bool use_time_span) : log_(LogToFile), path_(StringContainer(path)) {
+    if (use_time_span) {
+        time_span_ = CurrentTime;
+    }
 }
 
-std::string Logger::GetCurrentTimeLog_() {
+void Logger::Log(const std::string& message) const {
+    assert(log_ && "Log method must be non null.");
+    log_(this, message.data(), kEmpty);
+}
+
+void Logger::Error(const std::string& message) const {
+    assert(log_ && "Log method must be non null.");
+    log_(this, message.data(), kError);
+}
+
+void Logger::Info(const std::string& message) const {
+    assert(log_ && "Log method must be non null.");
+    log_(this, message.data(), kInfo);
+}
+
+void Logger::Log(const char* message) const {
+    assert(log_ && "Log method must be non null.");
+    log_(this, message, kEmpty);
+}
+
+void Logger::Error(const char* message) const {
+    assert(log_ && "Log method must be non null.");
+    log_(this, message, kError);
+}
+
+void Logger::Info(const char* message) const {
+    assert(log_ && "Log method must be non null.");
+    log_(this, message, kInfo);
+}
+
+void Logger::LogToConsole(const Logger* logger, const char* message, const char* type) {
+    assert(logger && "Logger ptr must be non null.");
+    if (strcmp(type, "") != 0) {
+        std::cout << "[" << type << "] ";
+    }
+    std::cout << logger->time_span_() << message << std::endl;
+    std::cout.flush();
+}
+
+void Logger::LogToFile(const Logger* logger, const char* message, const char* type) {
+    assert(logger && "Logger ptr must be non null.");
+    assert(logger->path_ && "Path to file must be non null.");
+    assert(strcmp(logger->path_(), "") != 0 && "Path must lead to some file.");
+    std::ofstream fout(logger->path_(), std::ios_base::app);
+    if (!fout.is_open()) {
+        return;
+    }
+    if (strcmp(type, "") != 0) {
+        fout << "[" << type << "] ";
+    }
+    fout << logger->time_span_() << message << std::endl;
+    fout.close();
+}
+
+std::string Logger::EmptyString() {
+    return "";
+}
+
+std::string Logger::CurrentTime() {
     const int start_year = 1900;
     const int limit_for_one_char_number = 10;
     std::string res;
@@ -53,62 +115,4 @@ std::string Logger::GetCurrentTimeLog_() {
     return res;
 }
 
-std::string Logger::GetCurrentDay_() {
-    const int start_year = 1900;
-    const int limit_for_one_char_number = 10;
-    std::string res;
-    std::time_t t = std::time(0);
-    std::tm* now = std::localtime(&t);
-    res += std::to_string(now->tm_year + start_year);
-    res += '-';
-    if (now->tm_mon < limit_for_one_char_number) {
-        res += '0';
-    }
-    res += std::to_string(now->tm_mon);
-    res += '-';
-    if (now->tm_mday < limit_for_one_char_number) {
-        res += '0';
-    }
-    res += std::to_string(now->tm_mday);
-    return res;
-}
-
-void Logger::Log(const char* message) const {
-    LogWithType_(message, kEmpty);
-}
-
-void Logger::Error(const char* message) const {
-    LogWithType_(message, kError);
-}
-
-void Logger::Info(const char* message) const {
-    LogWithType_(message, kInfo);
-}
-
-void Logger::LogWithType_(const char* message, const std::string& type) const {
-    if (write_to_file_) {
-        std::ofstream fout(path_, std::ios_base::app);
-        if (!fout.is_open()) {
-            return;
-        }
-        if (!type.empty()) {
-            fout << "[" << type << "] ";
-        }
-        if (use_time_stamp_) {
-            fout << GetCurrentTimeLog_();
-        }
-        fout << message << std::endl;
-        fout.close();
-    } else {
-        if (!type.empty()) {
-            std::cout << "[" << type << "] ";
-        }
-        if (use_time_stamp_) {
-            std::cout << GetCurrentTimeLog_();
-        }
-        std::cout << message << std::endl;
-        std::cout.flush();
-    }
-}
-
-}  // namespace Utilities
+};  // namespace Utilities
