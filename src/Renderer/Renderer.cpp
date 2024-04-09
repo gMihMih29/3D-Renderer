@@ -1,9 +1,10 @@
 #include "Renderer.h"
 
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 
-#include "../Utilities/Logger.h"
+#include "../Utilities/GLogger.h"
 
 namespace ThreeDRenderer {
 
@@ -44,15 +45,18 @@ void Renderer::Render(const World& w, const Camera& c, PixelScreen& buffer) {
     std::vector<std::vector<bool>> is_surface_visible(objects.size());
     Eigen::Matrix4Xd directional_lights_vectors;
     directional_lights_vectors.resize(4, directional_lights.size());
+    std::vector<std::vector<Color>> surfaces_colors_(objects.size());
 
     for (int i = 0; i < directional_lights.size(); ++i) {
         directional_lights_vectors.col(i) = directional_lights[i].GetDirection();
     }
     directional_lights_vectors = c.GetDirectionMatrix() * directional_lights_vectors;
     for (int i = 0; i < objects.size(); ++i) {
-        coordinates_of_objects[i] = m_infinite_frustrum * c.GetTransformToCameraSpaceMatrix() * objects[i].MakeVertexesGlobal();
+        coordinates_of_objects[i] =
+            m_infinite_frustrum * c.GetTransformToCameraSpaceMatrix() * objects[i].MakeVertexesGlobal();
         normals[i] = c.GetDirectionMatrix() * objects[i].MakeNormalVectorMatrix();
         is_surface_visible[i].resize(normals[i].cols(), true);
+        surfaces_colors_[i].resize(objects[i].GetSurfaces().size());
     }
     for (int i = 0; i < objects.size(); ++i) {
         for (int j = 0; j < coordinates_of_objects[i].cols(); ++j) {
@@ -67,8 +71,30 @@ void Renderer::Render(const World& w, const Camera& c, PixelScreen& buffer) {
         }
     }
 
+    for (int i = 0; i < objects.size(); ++i) {
+        for (int surf_ind = 0; surf_ind < objects[i].GetSurfaces().size(); ++surf_ind) {
+            if (!is_surface_visible[i][surf_ind]) {
+                surfaces_colors_[i][surf_ind] = ambient_light.GetColor();
+                continue;
+            }
+            Color object_color = objects[i].GetColor();
+            Color result_color(sf::Color(0, 0, 0));
+            result_color += ambient_light.GetColor() * object_color;
+            for (int dir_light_ind = 0; dir_light_ind < directional_lights_vectors.cols(); ++dir_light_ind) {
+                double product = directional_lights_vectors.col(dir_light_ind).dot(normals[i].col(surf_ind));
+                product = -product;
+                if (product <= eps) {
+                    continue;
+                }
+                result_color += product * directional_lights[dir_light_ind].GetColor() * object_color;
+            }
+            surfaces_colors_[i][surf_ind] = result_color;
+        }
+    }
+
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
+
             z_buffer_(i, j) = HUGE_VAL;
             buffer.Pixel(i, j).color = ambient_light.GetColor().ConvertToHexColor();
             double ray_x = 2 * static_cast<double>(j) / width - 1;
@@ -84,6 +110,9 @@ void Renderer::Render(const World& w, const Camera& c, PixelScreen& buffer) {
                     auto p0 = coordinates_of_objects[k].col(3 * surf_ind);
                     auto p1 = coordinates_of_objects[k].col(3 * surf_ind + 1);
                     auto p2 = coordinates_of_objects[k].col(3 * surf_ind + 2);
+                    if (!SimpleBoundingVolumeTest_(p0, p1, p2, ray_start)) {
+                        continue;
+                    }
                     Eigen::Vector4d norm = (p1 - p0).cross3(p2 - p0);
                     Eigen::Vector4d l(norm(0), norm(1), norm(2), -norm.dot(p0));
                     if (std::abs(l.dot(ray_direction)) < eps) {
@@ -104,22 +133,11 @@ void Renderer::Render(const World& w, const Camera& c, PixelScreen& buffer) {
                     Eigen::Matrix2d coef{{Q_1.dot(Q_1), Q_1.dot(Q_2)}, {Q_1.dot(Q_2), Q_2.dot(Q_2)}};
                     Eigen::Vector2d b(R.dot(Q_1), R.dot(Q_2));
                     Eigen::Vector2d weights = coef.inverse() * b;
-                    if (weights(0) < 0 || weights(1) < 0 || 1 - weights(0) - weights(1) < 0) {
+                    if (weights(0) < -eps || weights(1) < -eps || 1 - weights(0) - weights(1) < -eps) {
                         continue;
                     }
-                    Color object_color = objects[k].GetColor();
-                    Color result_color(sf::Color(0, 0, 0));
-                    result_color += ambient_light.GetColor() * object_color;
-                    for (int dir_light_ind = 0; dir_light_ind < directional_lights_vectors.cols(); ++dir_light_ind) {
-                        double product = directional_lights_vectors.col(dir_light_ind).dot(normals[k].col(surf_ind));
-                        product = -product;
-                        if (product <= eps) {
-                            continue;
-                        }
-                        result_color += product * directional_lights[dir_light_ind].GetColor() * object_color;
-                    }
                     z_buffer_(i, j) = P(2);
-                    buffer.Pixel(i, j).color = result_color.ConvertToHexColor();
+                    buffer.Pixel(i, j).color = surfaces_colors_[k][surf_ind].ConvertToHexColor();
                 }
             }
         }
@@ -151,4 +169,70 @@ bool Renderer::IsSurfaceVisible_(const TriangulatedObject::Matrix4xN& coordinate
     return cnt != 0;
 }
 
+bool Renderer::SimpleBoundingVolumeTest_(const Eigen::Vector4d point0, const Eigen::Vector4d point1,
+                                         const Eigen::Vector4d point2, const Eigen::Vector4d point_to_test) const {
+    double max_y = std::max(point0.y(), point1.y());
+    double max_x = std::max(point0.x(), point1.x());
+    double min_y = std::min(point0.y(), point1.y());
+    double min_x = std::min(point0.x(), point1.x());
+    max_y = std::max(max_y, point2.y());
+    max_x = std::max(max_x, point2.x());
+    min_y = std::min(min_y, point2.y());
+    min_x = std::min(min_x, point2.x());
+    double x = point_to_test.x();
+    double y = point_to_test.y();
+    return min_x <= x && x <= max_x && min_y <= y && y <= max_y;
+}
+
+// sf::Color Renderer::CalculateColorOfPixel_(int row, int column,
+//                                            const TriangulatedObject::Matrix4xN& coordinates_of_object,
+//                                            const AmbientLight& ambient_light,
+//                                            const std::vector<std::vector<Color>>& surfaces_color,
+//                                            const std::vector<std::vector<bool>>& is_surface_visible) {
+//     z_buffer_(row, column) = HUGE_VAL;
+//     buffer.Pixel(i, j).color = ambient_light.GetColor().ConvertToHexColor();
+//     double ray_x = 2 * static_cast<double>(j) / width - 1;
+//     double ray_y = -2 * static_cast<double>(i) / height + 1;
+//     Eigen::Vector4d ray_start(ray_x, ray_y, -1, 1);
+//     Eigen::Vector4d ray_direction(0, 0, 1, 0);
+
+//     for (int k = 0; k < objects.size(); ++k) {
+//         for (int surf_ind = 0; surf_ind < is_surface_visible[k].size(); ++surf_ind) {
+//             if (!is_surface_visible[k][surf_ind]) {
+//                 continue;
+//             }
+//             auto p0 = coordinates_of_objects[k].col(3 * surf_ind);
+//             auto p1 = coordinates_of_objects[k].col(3 * surf_ind + 1);
+//             auto p2 = coordinates_of_objects[k].col(3 * surf_ind + 2);
+//             if (!SimpleBoundingVolumeTest_(p0, p1, p2, ray_start)) {
+//                 continue;
+//             }
+//             Eigen::Vector4d norm = (p1 - p0).cross3(p2 - p0);
+//             Eigen::Vector4d l(norm(0), norm(1), norm(2), -norm.dot(p0));
+//             if (std::abs(l.dot(ray_direction)) < eps) {
+//                 continue;
+//             }
+//             double t = -l.dot(ray_start) / l.dot(ray_direction);
+
+//             auto P = ray_start + t * ray_direction;
+
+//             if (P(2) > z_buffer_(i, j)) {
+//                 continue;
+//             }
+
+//             auto R = P - p0;
+//             auto Q_1 = p1 - p0;
+//             auto Q_2 = p2 - p0;
+
+//             Eigen::Matrix2d coef{{Q_1.dot(Q_1), Q_1.dot(Q_2)}, {Q_1.dot(Q_2), Q_2.dot(Q_2)}};
+//             Eigen::Vector2d b(R.dot(Q_1), R.dot(Q_2));
+//             Eigen::Vector2d weights = coef.inverse() * b;
+//             if (weights(0) < 0 || weights(1) < 0 || 1 - weights(0) - weights(1) < 0) {
+//                 continue;
+//             }
+//             z_buffer_(i, j) = P(2);
+//             buffer.Pixel(i, j).color = surfaces_colors_[k][surf_ind].ConvertToHexColor();
+//         }
+//     }
+// }
 }  // namespace ThreeDRenderer

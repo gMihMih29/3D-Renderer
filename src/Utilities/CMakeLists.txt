@@ -1,5 +1,6 @@
 set(Utilities
     Logger.cpp
+    SimpleLogger.cpp
     Timer.cpp
     StringViewSplit.cpp
     )

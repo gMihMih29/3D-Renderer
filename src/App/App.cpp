@@ -7,10 +7,9 @@
 #include <string_view>
 #include <utility>
 
-#include "../ObjFileReader/ObjFileReader.h"
+#include "../UserDialog/AddNewObjectDialog.h"
 #include "../Utilities/StringViewSplit.h"
 #include "../Utilities/Timer.h"
-#include "ObjectParser.h"
 
 namespace ThreeDRenderer {
 
@@ -21,7 +20,9 @@ App::App(int height, int width) : App(height, width, kAppName) {
 }
 
 App::App(int height, int width, std::string name)
-    : kernel_(height, width), window_(sf::RenderWindow(sf::VideoMode(width, height), kAppName)), view_(&window_) {
+    : kernel_(height, width),
+      window_(sf::RenderWindow(sf::VideoMode(width, height), kAppName, sf::Style::Titlebar | sf::Style::Close)),
+      view_(&window_) {
 }
 
 void App::Run() {
@@ -93,52 +94,19 @@ void App::HandleKeyEvent_(const sf::Keyboard::Key& key) {
 }
 
 void App::AddNewObject_() {
-    std::string input;
-
-    Logger::kConsole.Info("Enter path to .obj file with new object:");
-    std::getline(std::cin, input);
-    if (input.substr(0, 4) == "exit") {
-        Logger::kConsole.Info("The program continues to work.");
-        return;
+    AddNewObjectDialog dialog;
+    if (dialog.ReadPathToObject() && dialog.ReadObjectColor() && dialog.ReadObjectCoordinates() &&
+        dialog.AddObjectToKernel(kernel_)) {
+        logger.Info("New object was added successfully!");
+    } else {
+        logger.Info("The program continues to work.");
     }
-    if (input.substr(input.size() - 4) != ".obj") {
-        Logger::kConsoleTimeSpan.Error("File must have .obj extention!");
-    }
-    ObjectParser parser;
-    auto response = ObjFileReader::ReadFile(input);
-    if (!response.IsSuccess()) {
-        Logger::kConsoleTimeSpan.Error(response.GetMessage());
-        return;
-    }
-
-    Logger::kConsole.Info(
-        "Enter color of new object: (format: <R> <G> <B>, where R, G, B are numbers, each number is integer and "
-        ">=0 and <255)");
-    Logger::kConsole.Info("Example: 128 0 255");
-    std::getline(std::cin, input);
-    if (input.substr(0, 4) == "exit") {
-        Logger::kConsole.Info("The program continues to work.");
-        return;
-    }
-    response.GetResultObject().SetColor(parser.ParseColor(input));
-
-    Logger::kConsole.Info("Enter position of new object: (format: <x> <y> <z>, where x, y, z are real numbers)");
-    Logger::kConsole.Info("Example: 1.5 -0.5 0");
-    std::getline(std::cin, input);
-    if (input.substr(0, 4) == "exit") {
-        Logger::kConsole.Info("The program continues to work.");
-        return;
-    }
-    response.GetResultObject().SetPosition(parser.ParsePosition(input));
-
-    kernel_.AddObject(std::move(response.GetResultObject()));
-    Logger::kConsole.Info("New object was added successfully!");
 }
 
 void App::ShowNewFrame_() {
     Utilities::Timer t;
     view_.Draw(kernel_.MakeScene());
-    Logger::kConsoleTimeSpan.Info("New frame was rendered in " + std::to_string(t.GetMilliseconds()) + " millisecond.");
+    logger.Info("New frame was rendered in " + std::to_string(t.GetMilliseconds()) + " millisecond.");
 }
 
 }  // namespace ThreeDRenderer

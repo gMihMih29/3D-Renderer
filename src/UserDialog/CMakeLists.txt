@@ -14,3 +14,6 @@ target_link_libraries(UserDialog Utilities)
 
 link_directories("../Renderer")
 target_link_libraries(UserDialog Renderer)
+
+link_directories("../ObjFileReader")
+target_link_libraries(UserDialog ObjFileReader)

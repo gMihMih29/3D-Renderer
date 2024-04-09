@@ -3,12 +3,12 @@
 
 #include "../Renderer/Primitives/TriangulatedObject.h"
 #include "FaceElement.h"
-#include "Response.h"
+#include "../Utilities/Response.h"
 
 namespace ThreeDRenderer {
 class TriangulatedObjectBuilder {
     using Vector3 = Eigen::Vector3d;
-    using Response = Response<TriangulatedObject>;
+    using Response = Utilities::Response<TriangulatedObject>;
 
 public:
     void AddVertex(Vector3&& vertex);

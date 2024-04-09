@@ -22,8 +22,6 @@ public:
     TriangulatedObject() = default;
     TriangulatedObject(std::vector<Triangle>&& surfaces, Vector3 pos = Vector3(0, 0, 0),
                        sf::Color color = sf::Color(0, 0, 0));
-    // TriangulatedObject(Vector3 pos, sf::Color color, const std::vector<Vector3>& vertexes,
-    //                    const std::vector<ConnectionVector>& connections);
 
     void SetPosition(const Vector3& pos);
     void SetColor(sf::Color color);

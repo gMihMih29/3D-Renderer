@@ -1,13 +1,9 @@
 #pragma once
 
-#include <Eigen/Dense>
 #include <string>
 #include <utility>
 
-#include "../Renderer/Primitives/TriangulatedObject.h"
-#include "FaceElement.h"
-
-namespace ThreeDRenderer {
+namespace Utilities {
 enum ResultCode {
     Ok,
     Error,

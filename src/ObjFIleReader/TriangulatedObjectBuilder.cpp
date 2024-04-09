@@ -25,8 +25,8 @@ TriangulatedObjectBuilder::Response TriangulatedObjectBuilder::Build() const {
             for (int j = 0; j < faces_[i].normals.size(); ++j) {
                 normal += normals_[faces_[i].normals[j]];
             }
-            normal.normalize();
         }
+        normal.normalize();
         for (int j = 1; j < faces_[i].points.size() - 1; ++j) {
             surfaces_.emplace_back(vertexes_[faces_[i].points[0]], vertexes_[faces_[i].points[j]],
                                    vertexes_[faces_[i].points[j + 1]], normal);
@@ -65,8 +65,11 @@ TriangulatedObjectBuilder::Vector3 TriangulatedObjectBuilder::FindNormalForPoint
             }
             int prev_point = faces_[i].points[prev];
             int cur_point = faces_[i].points[j];
+            Vector3 diff;
             if (prev_point == point_index && !vertex_is_used[cur_point]) {
-                normal += vertexes_[cur_point] - vertexes_[point_index];
+                diff = vertexes_[cur_point] - vertexes_[point_index];
+                diff.normalize();
+                normal += diff;
                 vertex_is_used[cur_point] = true;
             }
         }
@@ -76,8 +79,11 @@ TriangulatedObjectBuilder::Vector3 TriangulatedObjectBuilder::FindNormalForPoint
             int next = (j + 1) % faces_[i].points.size();
             int next_point = faces_[i].points[next];
             int cur_point = faces_[i].points[j];
+            Vector3 diff;
             if (next_point == point_index && !vertex_is_used[cur_point]) {
-                normal += vertexes_[cur_point] - vertexes_[point_index];
+                diff = vertexes_[cur_point] - vertexes_[point_index];
+                diff.normalize();
+                normal += diff;
                 vertex_is_used[cur_point] = true;
             }
         }

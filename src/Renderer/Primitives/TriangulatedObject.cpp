@@ -9,55 +9,6 @@ TriangulatedObject::TriangulatedObject(std::vector<Triangle>&& surfaces, Vector3
     : position_(pos(0), pos(1), pos(2), 0), color_(color), surfaces_(surfaces) {
 }
 
-// TriangulatedObject::TriangulatedObject(Vector3 pos, sf::Color color, const std::vector<Vector3>& vertexes,
-//                                        const std::vector<ConnectionVector>& connections)
-//     : position_(pos(0), pos(1), pos(2), 0), color_(color) {
-//     assert(vertexes.size() != 0 && "There must be some vertexes for object");
-//     assert(connections.size() != 0 && "There must be some connections for object");
-//     size_t count_vertexes = vertexes.size();
-//     std::vector<Vector3> normals(count_vertexes, Vector3(0, 0, 0));
-//     for (int i = 0; i < count_vertexes; ++i) {
-//         std::vector<bool> used(count_vertexes);
-//         for (int j = 0; j < connections.size(); ++j) {
-//             assert(connections[j].size() >= 3 && "Surfaces must contain at least 3 vertexes");
-//             for (int k = 0; k < connections[j].size(); ++k) {
-//                 if (connections[j][k] == i) {
-//                     int prev = (k - 1) % connections[j].size();
-//                     if (prev < 0) {
-//                         prev += connections[j].size();
-//                     }
-//                     assert(0 <= prev && prev < connections[j].size() && "prev has incorrect index");
-//                     int next = (k + 1) % connections[j].size();
-//                     if (!used[prev]) {
-//                         normals[i] += vertexes[connections[j][prev]] - vertexes[i];
-//                         used[prev] = true;
-//                     }
-//                     if (!used[next]) {
-//                         normals[i] += vertexes[connections[j][next]] - vertexes[i];
-//                         used[next] = true;
-//                     }
-//                 }
-//             }
-//         }
-//     }
-//     for (int i = 0; i < count_vertexes; ++i) {
-//         assert(!normals[i].isZero() && "Normal vector must be non zero");
-//         normals[i] = -normals[i];
-//     }
-//     for (int i = 0; i < connections.size(); ++i) {
-//         Vector3 surface_normal_vector;
-//         for (int j = 0; j < connections[i].size(); ++j) {
-//             surface_normal_vector += normals[connections[i][j]];
-//         }
-//         assert(!surface_normal_vector.isZero() && "Normal vector must be non zero");
-//         surface_normal_vector.normalize();
-//         for (int j = 1; j + 1 < connections[i].size(); ++j) {
-//             surfaces_.emplace_back(vertexes[connections[i][0]], vertexes[connections[i][j]],
-//                                    vertexes[connections[i][j + 1]], surface_normal_vector);
-//         }
-//     }
-// }
-
 void TriangulatedObject::SetPosition(const Vector3& pos) {
     position_(0) = pos(0);
     position_(1) = pos(1);

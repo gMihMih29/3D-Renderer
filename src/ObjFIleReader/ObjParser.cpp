@@ -8,29 +8,29 @@
 
 namespace ThreeDRenderer {
 
-Response<ObjParser::Vector3> ObjParser::ParseVector(const std::string& input) {
-    Response<Vector3> response;
+ObjParser::ResponseVector3 ObjParser::ParseVector(const std::string& input) {
+    ResponseVector3 response;
     std::string_view cmd(input);
     auto params = Utilities::StringViewSplit(cmd, ' ');
     if (params.size() != 3) {
-        return Response<Vector3>::Error("Incorrect format of file! Not enough parameters.");
+        return ResponseVector3::Error("Incorrect format of file! Not enough parameters.");
     }
     for (int i = 0; i < params.size(); ++i) {
         if (!params[i].empty() && !IsNumber_(params[i])) {
-            return Response<Vector3>::Error("Incorrect format of file! Not a number.");
+            return ResponseVector3::Error("Incorrect format of file! Not a number.");
         }
     }
     double x = std::atof(params[0].data());
     double y = std::atof(params[1].data());
     double z = std::atof(params[2].data());
-    return Response<Vector3>::Success({x, y, z});
+    return ResponseVector3::Success({x, y, z});
 }
 
-Response<FaceElement> ObjParser::ParseFaceElement(const std::string& input, int vertexes_count, int normals_count) {
+ObjParser::ResponseFaceElem ObjParser::ParseFaceElement(const std::string& input, int vertexes_count, int normals_count) {
     std::string_view cmd(input);
     auto params = Utilities::StringViewSplit(cmd, ' ');
     if (params.size() < 3) {
-        return Response<FaceElement>::Error("Incorrect format of file! Not enough parameters.");
+        return ResponseFaceElem::Error("Incorrect format of file! Not enough parameters.");
     }
     FaceElement face;
     for (int i = 0; i < params.size(); ++i) {
@@ -44,13 +44,13 @@ Response<FaceElement> ObjParser::ParseFaceElement(const std::string& input, int 
         }
     }
     if (vertexes_count == 0) {
-        return Response<FaceElement>::Error("Incorrect format of file! No vertexes were found.");
+        return ResponseFaceElem::Error("Incorrect format of file! No vertexes were found.");
     }
     if (normals_count == 0 && face.normals.size() != 0) {
-        return Response<FaceElement>::Error("Incorrect format of file! No normal vectors were found.");
+        return ResponseFaceElem::Error("Incorrect format of file! No normal vectors were found.");
     }
     if (!face.normals.empty() && face.points.size() != face.normals.size()) {
-        return Response<FaceElement>::Error(
+        return ResponseFaceElem::Error(
             "Incorrect format of file! Illegal statement. You must be consistent in the way you reference the vertex "
             "data.");
     }
@@ -61,7 +61,7 @@ Response<FaceElement> ObjParser::ParseFaceElement(const std::string& input, int 
             --face.points[i];
         }
         if (face.points[i] < 0 || vertexes_count < face.points[i]) {
-            return Response<FaceElement>::Error("Incorrect format of file! Index of vertex out of range.");
+            return ResponseFaceElem::Error("Incorrect format of file! Index of vertex out of range.");
         }
     }
     for (int i = 0; i < face.normals.size(); ++i) {
@@ -71,10 +71,10 @@ Response<FaceElement> ObjParser::ParseFaceElement(const std::string& input, int 
             --face.normals[i];
         }
         if (face.normals[i] < 0 || normals_count < face.normals[i]) {
-            return Response<FaceElement>::Error("Incorrect format of file! Index of normals out of range.");
+            return ResponseFaceElem::Error("Incorrect format of file! Index of normals out of range.");
         }
     }
-    return Response<FaceElement>::Success(std::move(face));
+    return ResponseFaceElem::Success(std::move(face));
 }
 
 bool ObjParser::IsNumber_(std::string_view str) {

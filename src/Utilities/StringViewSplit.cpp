@@ -21,4 +21,4 @@ std::vector<std::string_view> StringViewSplit(std::string_view str, char separat
     return res;
 }
 
-}
+}  // namespace Utilities
