@@ -34,4 +34,4 @@
 build/
 logs/
 .vscode/
-docs/
+# docs/
