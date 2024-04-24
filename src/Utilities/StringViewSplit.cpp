@@ -18,6 +18,13 @@ std::vector<std::string_view> StringViewSplit(std::string_view str, char separat
         s = str.substr(0, str.find(separator));
     }
     res.push_back(str);
+    for (auto i = res.begin(); i != res.end();) {
+        if (i->size() == 0) {
+            res.erase(i++);
+        } else {
+            ++i;
+        }
+    }
     return res;
 }
 

@@ -10,13 +10,12 @@ ObjFileReader::Response ObjFileReader::ReadFile(const std::string& path_to_file)
     if (!file.is_open()) {
         return Response::Error("Troubles with opening file!");
     }
-    int line_number = 0;
+    int line_number = 1;
     std::string line;
     TriangulatedObjectBuilder builder;
     while (std::getline(file, line)) {
         line = line.substr(0, line.find('#'));
         if (line.empty()) {
-            continue;
         } else if (line.size() > 2 && line[0] == 'v' && line[1] == ' ') {
             line = line.substr(line.find(' ') + 1);
             auto response = ObjParser::ParseVector(line);
@@ -46,6 +45,7 @@ ObjFileReader::Response ObjFileReader::ReadFile(const std::string& path_to_file)
                                        std::to_string(line_number));
             }
         }
+        ++line_number;
     }
     return builder.Build();
 }
