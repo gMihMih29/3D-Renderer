@@ -1,6 +1,12 @@
-#include <iostream>
+#include "App/App.h"
+#include "Exceptions/React.h"
 
 int main() {
-    std::cout << "Hello world!";
+    try {
+        ThreeDRenderer::App app;
+        app.Run();
+    } catch (...) {
+        ThreeDRendererExceptions::React();
+    }
     return 0;
 }
