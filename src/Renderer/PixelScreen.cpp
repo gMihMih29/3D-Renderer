@@ -31,7 +31,7 @@ int PixelScreen::GetWidth() const {
     return width_;
 }
 
-const PixelScreen::Pixels& PixelScreen::GetPixels() const {
+const sf::VertexArray& PixelScreen::GetPixels() const {
     return screen_;
 }
 

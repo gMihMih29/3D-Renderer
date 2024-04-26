@@ -5,8 +5,6 @@
 namespace ThreeDRenderer {
 
 class PixelScreen {
-    using Pixels = sf::VertexArray;
-
     static const int kWidth = 800;
     static const int kHeight = 600;
 
@@ -19,12 +17,12 @@ public:
 
     int GetWidth() const;
     int GetHeight() const;
-    const PixelScreen::Pixels& GetPixels() const;
+    const sf::VertexArray& GetPixels() const;
 
 private:
     int width_ = kWidth;
     int height_ = kHeight;
-    Pixels screen_;
+    sf::VertexArray screen_;
 };
 
 }  // namespace ThreeDRenderer
